@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">PingIT</string>
     <string name="action_settings">Settings</string>
+    <string name="log_verbose">PingIT Verb</string>
+    <string name="log_debug">PingIT Debug</string>
+    <string name="log_info">PingIT Info</string>
+    <string name="log_warning">PingIT Warn</string>
+    <string name="log_error">PingIT Err</string>
 </resources>
