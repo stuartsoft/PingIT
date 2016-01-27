@@ -8,9 +8,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="com.whiletrue.pingit.MainApplication">
+        android:name="edu.whiletrue.pingit.MainApplication">
         <activity
-            android:name=".MainActivity"
+            android:name="edu.whiletrue.pingit.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

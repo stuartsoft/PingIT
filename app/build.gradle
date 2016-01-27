@@ -20,7 +20,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.whiletrue.pingit"
+        applicationId "edu.whiletrue.pingit"
         minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
