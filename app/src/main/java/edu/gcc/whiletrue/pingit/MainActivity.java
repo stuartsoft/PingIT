@@ -1,4 +1,4 @@
-package edu.whiletrue.pingit;
+package edu.gcc.whiletrue.pingit;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

@@ -1,4 +1,4 @@
-package edu.whiletrue.pingit;
+package edu.gcc.whiletrue.pingit;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package edu.whiletrue.pingit;
+package edu.gcc.whiletrue.pingit;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

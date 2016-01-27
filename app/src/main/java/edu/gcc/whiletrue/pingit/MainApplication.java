@@ -1,4 +1,4 @@
-package edu.whiletrue.pingit;
+package edu.gcc.whiletrue.pingit;
 
 import android.app.Application;
 
@@ -15,6 +15,7 @@ public class MainApplication extends Application{
         super.onCreate();
         //Fabric.with(this, new Crashlytics());
         LeakCanary.install(this);
+
     }
 
 }

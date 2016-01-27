@@ -1,4 +1,4 @@
-package com.whiletrue.pingit;
+package edu.gcc.whiletrue.pingit;
 
 import org.junit.Test;
 
