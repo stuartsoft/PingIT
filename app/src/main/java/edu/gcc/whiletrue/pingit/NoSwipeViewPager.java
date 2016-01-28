@@ -15,12 +15,6 @@ public class NoSwipeViewPager extends ViewPager {
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        //return super.onInterceptTouchEvent(ev);
-        return false;
-    }
-
-    @Override
     public boolean onTouchEvent(MotionEvent ev) {
         //return super.onTouchEvent(ev);
         return false;
