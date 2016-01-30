@@ -1,5 +1,7 @@
 package edu.gcc.whiletrue.pingit;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,7 +20,23 @@ import java.util.ArrayList;
  */
 public class PingsPageFragment extends Fragment {
 
-    private ArrayAdapter<String> myAdapter;
+    public class PingArrayAdapter extends ArrayAdapter<String> {
+        Context myContext;
+
+        public PingArrayAdapter(Context context, int resource, ArrayList<String> objects) {
+            super(context, resource, objects);
+            myContext = context;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = ((Activity)myContext).getLayoutInflater();
+            View row = inflater.inflate(R.layout.ping_list_template, parent, false);
+            return row;
+        }
+    }
+
+    PingArrayAdapter pingArrayAdapter;
 
     public PingsPageFragment() {
         // Required empty public constructor
@@ -45,11 +63,10 @@ public class PingsPageFragment extends Fragment {
         pingData.add("Number two");
         pingData.add("Number three");
 
-        myAdapter = new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_list_item_1, pingData);
 
+        pingArrayAdapter = new PingArrayAdapter(getContext(), R.layout.ping_list_template, pingData);
         ListView pingsListView = (ListView) rootView.findViewById(R.id.listview_pings);
-        pingsListView.setAdapter(myAdapter);
+        pingsListView.setAdapter(PingArrayAdapter);
 
         return rootView;
     }
