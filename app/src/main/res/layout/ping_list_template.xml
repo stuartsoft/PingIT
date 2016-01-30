@@ -7,10 +7,15 @@
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Line 1"/>
+    android:id="@+id/ping_template_title"/>
 
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Line 2"/>
+    android:id="@+id/ping_template_message"/>
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/ping_template_date"/>
 </LinearLayout>

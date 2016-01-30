@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -20,18 +21,32 @@ import java.util.ArrayList;
  */
 public class PingsPageFragment extends Fragment {
 
-    public class PingArrayAdapter extends ArrayAdapter<String> {
+    public class PingArrayAdapter extends ArrayAdapter<Ping> {
         Context myContext;
+        int myResource;
+        ArrayList<Ping> myPings;
 
-        public PingArrayAdapter(Context context, int resource, ArrayList<String> objects) {
+        public PingArrayAdapter(Context context, int resource, ArrayList<Ping> objects) {
             super(context, resource, objects);
             myContext = context;
+            myResource = resource;
+            myPings = objects;
         }
 
-        @Override
+        @Override // Gets the data into a presentable form to be displayed.
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = ((Activity)myContext).getLayoutInflater();
-            View row = inflater.inflate(R.layout.ping_list_template, parent, false);
+
+            // Get references for view elements
+            View row = inflater.inflate(myResource, parent, false);
+            TextView titleLine = (TextView) row.findViewById(R.id.ping_template_title);
+            TextView messageLine = (TextView) row.findViewById(R.id.ping_template_message);
+            TextView dateLine = (TextView) row.findViewById(R.id.ping_template_date);
+
+            // Set the values from the data.
+            titleLine.setText(myPings.get(position).getTitle());
+            messageLine.setText(myPings.get(position).getMessage());
+            dateLine.setText(myPings.get(position).getDate());
             return row;
         }
     }
@@ -58,15 +73,15 @@ public class PingsPageFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_pings_page, container, false);
 
-        ArrayList<String> pingData = new ArrayList<String>();
-        pingData.add("Number one");
-        pingData.add("Number two");
-        pingData.add("Number three");
+        ArrayList<Ping> pingData = new ArrayList<Ping>();
 
+        pingData.add(new Ping());
+        pingData.add(new Ping("This is a title", "This is a message", "01/01/1970 at 12:00 AM"));
+        pingData.add(new Ping("Y2K", "We're all going to die", "12/31/1999 at 11:59 PM"));
 
         pingArrayAdapter = new PingArrayAdapter(getContext(), R.layout.ping_list_template, pingData);
         ListView pingsListView = (ListView) rootView.findViewById(R.id.listview_pings);
-        pingsListView.setAdapter(PingArrayAdapter);
+        pingsListView.setAdapter(pingArrayAdapter);
 
         return rootView;
     }
