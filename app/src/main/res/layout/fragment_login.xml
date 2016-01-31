@@ -6,10 +6,11 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="edu.gcc.whiletrue.pingit.MainActivityFragment"
-    tools:showIn="@layout/activity_main"
+    tools:context=".LoginFragment"
+    tools:showIn="@id/startup_fragment_container"
     android:orientation="vertical"
-    android:gravity="top|center">
+    android:gravity="top|center"
+    android:id="@+id/fragment_login">
 
     <TextView
         android:layout_width="wrap_content"

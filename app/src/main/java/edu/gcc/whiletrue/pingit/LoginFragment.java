@@ -11,16 +11,16 @@ import android.widget.Button;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class LoginFragment extends Fragment {
 
-    public MainActivityFragment() {
+    public LoginFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         Button btnTemp = (Button) view.findViewById(R.id.loginBtn);
         btnTemp.setOnClickListener(new View.OnClickListener(){
