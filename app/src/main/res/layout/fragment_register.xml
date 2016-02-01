@@ -90,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/registerSwitchToLoginBtn"
-            android:id="@+id/button"
+            android:id="@+id/switchToLoginBtn"
             android:layout_gravity="bottom|center_horizontal"
             android:background="@color/colorDarkGray"
             android:textColor="@android:color/white" />
