@@ -16,7 +16,7 @@ import android.widget.Button;
 
 public class RegisterFragment extends Fragment {
 
-    OnHeadlineSelectedListener mCallback;
+    private OnHeadlineSelectedListener mCallback;
 
     // Container Activity must implement this interface
     public interface OnHeadlineSelectedListener {

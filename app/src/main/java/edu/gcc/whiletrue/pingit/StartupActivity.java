@@ -8,7 +8,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class StartupActivity extends AppCompatActivity implements RegisterFragment.OnHeadlineSelectedListener {
+public class StartupActivity extends AppCompatActivity implements RegisterFragment.OnHeadlineSelectedListener, LoginFragment.OnHeadlineSelectedListener {
+
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,24 +19,27 @@ public class StartupActivity extends AppCompatActivity implements RegisterFragme
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentManager = getSupportFragmentManager();
 
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         RegisterFragment registerFrag = new RegisterFragment();
         fragmentTransaction.add(R.id.startup_fragment_container, registerFrag);
-        //LoginFragment loginfrag = new LoginFragment();
-        //fragmentTransaction.add(R.id.startup_fragment_container,loginfrag);
         fragmentTransaction.commit();
 
     }
 
+    @Override
+    public void onSwitchToRegister() {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        RegisterFragment registerFrag = new RegisterFragment();
+        fragmentTransaction.replace(R.id.startup_fragment_container,registerFrag);
+        fragmentTransaction.commit();
+    }
 
     //This will be called by the foreground fragment when the user wants to switch to the Login view
     @Override
     public void onSwitchToLogin() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
         LoginFragment loginfrag = new LoginFragment();
         fragmentTransaction.replace(R.id.startup_fragment_container,loginfrag);
         fragmentTransaction.commit();

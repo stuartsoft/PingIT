@@ -1,5 +1,6 @@
 package edu.gcc.whiletrue.pingit;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -13,7 +14,33 @@ import android.widget.Button;
  */
 public class LoginFragment extends Fragment {
 
+    private OnHeadlineSelectedListener mCallback;
+
+    // Container Activity must implement this interface
+    public interface OnHeadlineSelectedListener {
+        public void onSwitchToRegister();
+    }
+
     public LoginFragment() {
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (OnHeadlineSelectedListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -31,11 +58,15 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        Button btnSwitchToRegister = (Button) view.findViewById(R.id.switchToRegisterBtn);
+        btnSwitchToRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallback.onSwitchToRegister();
+            }
+        });
+
         return view;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 }

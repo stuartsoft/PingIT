@@ -22,4 +22,5 @@
     <string name="registerBtn">Register</string>
     <string name="registerSwitchToLoginBtn">Already have an account?</string>
     <string name="loginSwitchToRegisterBtn">Create an account</string>
+
 </resources>
