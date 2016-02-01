@@ -31,6 +31,7 @@ public class StartupActivity extends AppCompatActivity implements RegisterFragme
     @Override
     public void onSwitchToRegister() {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
         RegisterFragment registerFrag = new RegisterFragment();
         fragmentTransaction.replace(R.id.startup_fragment_container,registerFrag);
         fragmentTransaction.commit();
@@ -40,6 +41,7 @@ public class StartupActivity extends AppCompatActivity implements RegisterFragme
     @Override
     public void onSwitchToLogin() {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
         LoginFragment loginfrag = new LoginFragment();
         fragmentTransaction.replace(R.id.startup_fragment_container,loginfrag);
         fragmentTransaction.commit();
