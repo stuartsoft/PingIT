@@ -1,12 +1,17 @@
 package edu.gcc.whiletrue.pingit;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.parse.Parse;
 
 public class StartupActivity extends AppCompatActivity implements RegisterFragment.OnHeadlineSelectedListener, LoginFragment.OnHeadlineSelectedListener {
 
@@ -22,10 +27,10 @@ public class StartupActivity extends AppCompatActivity implements RegisterFragme
 
         fragmentManager = getSupportFragmentManager();
 
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        RegisterFragment registerFrag = new RegisterFragment();
-        fragmentTransaction.add(R.id.startup_fragment_container, registerFrag);
-        fragmentTransaction.commit();
+        onSwitchToRegister();
+
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this);
 
     }
 

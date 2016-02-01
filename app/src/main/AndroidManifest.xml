@@ -3,6 +3,7 @@
     package="edu.gcc.whiletrue.pingit">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".MainApplication"
@@ -26,6 +27,13 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="c088dbf4c64470af6618d1f5d69d675e0ea4287e" />
+        <!-- PARSE  -->
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="kddcodGlyJ6DmGI7FihXt8BsXyOTS09Dgpj8UA49" />
+        <meta-data
+            android:name="com.parse.CLIENT_KEY"
+            android:value="FDsmFapu4C9HFGOolnYf1yACuFGGLvHUTQs7f8EI" />
 
         <activity
             android:name=".HomeActivity"
