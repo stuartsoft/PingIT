@@ -17,6 +17,7 @@ public class StartupActivity extends AppCompatActivity implements RegisterFragme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startup);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.startupTitleRegister);
         setSupportActionBar(toolbar);
 
         fragmentManager = getSupportFragmentManager();
@@ -30,6 +31,9 @@ public class StartupActivity extends AppCompatActivity implements RegisterFragme
 
     @Override
     public void onSwitchToRegister() {
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setTitle(R.string.startupTitleRegister);
+
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
         RegisterFragment registerFrag = new RegisterFragment();
@@ -40,6 +44,9 @@ public class StartupActivity extends AppCompatActivity implements RegisterFragme
     //This will be called by the foreground fragment when the user wants to switch to the Login view
     @Override
     public void onSwitchToLogin() {
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setTitle(R.string.startupTitleLogin);
+
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
         LoginFragment loginfrag = new LoginFragment();
