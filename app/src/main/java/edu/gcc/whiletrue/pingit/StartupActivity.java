@@ -17,10 +17,15 @@ public class StartupActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        LoginFragment loginfrag = new LoginFragment();
-        fragmentTransaction.add(R.id.startup_fragment_container,loginfrag);
+
+        RegisterFragment registerFrag = new RegisterFragment();
+        fragmentTransaction.add(R.id.startup_fragment_container, registerFrag);
+        //LoginFragment loginfrag = new LoginFragment();
+        //fragmentTransaction.add(R.id.startup_fragment_container,loginfrag);
         fragmentTransaction.commit();
 
     }

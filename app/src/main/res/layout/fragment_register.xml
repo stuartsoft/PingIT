@@ -1,0 +1,82 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.gcc.whiletrue.pingit.RegisterFragment"
+    tools:showIn="@id/startup_fragment_container"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="50dp">
+
+        <ImageView
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:id="@+id/imageView"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_launcher"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/editText"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/registerNamePlaceholder" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/editText2"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/registerEmailPlaceholder" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/editText3"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/registerPasswordPlaceholder" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/editText4"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/registerPasswordPlaceholderConfirm" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="3">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/registerBtn"
+                android:id="@+id/button"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
