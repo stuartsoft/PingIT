@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.Parse;
@@ -19,11 +20,18 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import java.util.Objects;
+
 
 public class RegisterFragment extends Fragment implements View.OnClickListener {
 
     private ViewGroup fragmentContainer;
     private OnHeadlineSelectedListener mCallback;
+
+    private EditText NameTxt;
+    private EditText EmailTxt;
+    private EditText PassTxt;
+    private EditText PassConfirmTxt;
 
     // Container Activity must implement this interface
     public interface OnHeadlineSelectedListener {
@@ -62,6 +70,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         Button btnSwitchToLogin = (Button) view.findViewById(R.id.switchToLoginBtn);
         btnSwitchToLogin.setOnClickListener(this);
 
+        NameTxt = (EditText) view.findViewById(R.id.registerNameTxt);
+        EmailTxt = (EditText) view.findViewById(R.id.registerEmailTxt);
+        PassTxt = (EditText) view.findViewById(R.id.registerPasswordTxt);
+        PassConfirmTxt = (EditText) view.findViewById(R.id.registerConfirmPassword);
+
         return view;
     }
 
@@ -75,9 +88,15 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 mCallback.onSwitchToLogin();
                 break;
             case R.id.registerBtn:
+                if (!Objects.equals(PassTxt.getText().toString(), PassConfirmTxt.getText().toString())) {
+                    Toast.makeText(view.getContext(), "Passwords do not match", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 ParseUser user = new ParseUser();
-                user.setUsername("Stuart");
-                user.setPassword("memes");
+                user.setUsername(NameTxt.getText().toString());
+                user.setEmail(EmailTxt.getText().toString());
+                user.setPassword(PassTxt.getText().toString());
 
                 user.signUpInBackground(new SignUpCallback() {
                     @Override
