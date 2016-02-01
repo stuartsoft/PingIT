@@ -14,11 +14,12 @@
         android:layout_margin="50dp">
 
         <ImageView
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:id="@+id/imageView"
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginBottom="10dp" />
 
         <EditText
             android:layout_width="match_parent"
@@ -72,8 +73,10 @@
                 android:text="@string/registerBtn"
                 android:id="@+id/registerBtn"
                 android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/colorPrimary"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
@@ -86,9 +89,11 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Button"
+            android:text="@string/registerSwitchToLoginBtn"
             android:id="@+id/button"
-            android:layout_gravity="bottom|center_horizontal" />
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="@color/colorDarkGray"
+            android:textColor="@android:color/white" />
     </FrameLayout>
 
 </LinearLayout>
