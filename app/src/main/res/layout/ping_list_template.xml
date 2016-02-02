@@ -1,21 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#e0e0e0"
+    android:longClickable="false"
+    android:clickable="false"
+    android:contextClickable="false"
+    android:nestedScrollingEnabled="false">
 
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/ping_template_title"/>
+    android:id="@+id/ping_template_title"
+    android:layout_marginLeft="30dp"
+    android:nestedScrollingEnabled="false"
+    android:textStyle="bold"
+    android:textSize="18sp"
+    android:textColor="@android:color/black" />
 
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/ping_template_message"/>
+    android:id="@+id/ping_template_message"
+    android:layout_marginLeft="30dp"
+    android:textSize="16sp"
+    android:textStyle="normal"
+    android:textIsSelectable="false" />
 
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/ping_template_date"/>
+    android:id="@+id/ping_template_date"
+    android:textStyle="italic"
+    android:textSize="14sp"
+    android:layout_gravity="top|right"
+    android:layout_marginRight="5dp" />
 </LinearLayout>
