@@ -16,8 +16,8 @@
             android:name=".StartupActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +28,7 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="c088dbf4c64470af6618d1f5d69d675e0ea4287e" />
-        <!-- PARSE  -->
+        <!-- PARSE -->
         <meta-data
             android:name="com.parse.APPLICATION_ID"
             android:value="kddcodGlyJ6DmGI7FihXt8BsXyOTS09Dgpj8UA49" />
@@ -46,6 +46,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".StartupActivity" />
         </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
