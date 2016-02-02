@@ -6,8 +6,7 @@
     <string name="log_info">PingIT Info</string>
     <string name="log_warning">PingIT Warn</string>
     <string name="log_error">PingIT Err</string>
-    <string name="title_activity_home">HomeActivity</string>
-    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="titleActivityHome">HomeActivity</string>
     <string name="loginWelcomeMessage">Welcome to PingIT. Please sign in.</string>
     <string name="loginBtn">Login</string>
     <string name="faqSectionTitle">FAQ</string>
@@ -16,7 +15,6 @@
 
     <string name="startupTitleLogin">Login to PingIT</string>
     <string name="startupTitleRegister">Register with PingIT</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="registerNamePlaceholder">Name</string>
     <string name="registerEmailPlaceholder">Email</string>
     <string name="registerPasswordPlaceholder">Password</string>

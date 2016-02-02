@@ -25,8 +25,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     private ViewGroup fragmentContainer;
     private OnHeadlineSelectedListener mCallback;
 
-    private EditText EmailTxt;
-    private EditText PassTxt;
+    private EditText emailTxt;
+    private EditText passTxt;
 
     // Container Activity must implement this interface
     public interface OnHeadlineSelectedListener {
@@ -68,8 +68,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         Button btnSwitchToRegister = (Button) view.findViewById(R.id.switchToRegisterBtn);
         btnSwitchToRegister.setOnClickListener(this);
 
-        EmailTxt = (EditText) view.findViewById(R.id.loginEmailTxt);
-        PassTxt = (EditText) view.findViewById(R.id.loginPasswordTxt);
+        emailTxt = (EditText) view.findViewById(R.id.loginEmailTxt);
+        passTxt = (EditText) view.findViewById(R.id.loginPasswordTxt);
 
         return view;
     }
@@ -84,7 +84,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 mCallback.onSwitchToRegister();
                 break;
             case R.id.loginBtn:
-                ParseUser.logInInBackground(EmailTxt.getText().toString(), PassTxt.getText().toString(), new LogInCallback() {
+                ParseUser.logInInBackground(emailTxt.getText().toString(), passTxt.getText().toString(), new LogInCallback() {
                     @Override
                     public void done(ParseUser user, ParseException e) {
                         if (e == null) {

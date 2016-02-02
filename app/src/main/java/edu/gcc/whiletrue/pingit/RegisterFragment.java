@@ -28,10 +28,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     private ViewGroup fragmentContainer;
     private OnHeadlineSelectedListener mCallback;
 
-    private EditText NameTxt;
-    private EditText EmailTxt;
-    private EditText PassTxt;
-    private EditText PassConfirmTxt;
+    private EditText nameTxt;
+    private EditText emailTxt;
+    private EditText passTxt;
+    private EditText passConfirmTxt;
 
     // Container Activity must implement this interface
     public interface OnHeadlineSelectedListener {
@@ -70,10 +70,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         Button btnSwitchToLogin = (Button) view.findViewById(R.id.switchToLoginBtn);
         btnSwitchToLogin.setOnClickListener(this);
 
-        NameTxt = (EditText) view.findViewById(R.id.registerNameTxt);
-        EmailTxt = (EditText) view.findViewById(R.id.registerEmailTxt);
-        PassTxt = (EditText) view.findViewById(R.id.registerPasswordTxt);
-        PassConfirmTxt = (EditText) view.findViewById(R.id.registerConfirmPassword);
+        nameTxt = (EditText) view.findViewById(R.id.registerNameTxt);
+        emailTxt = (EditText) view.findViewById(R.id.registerEmailTxt);
+        passTxt = (EditText) view.findViewById(R.id.registerPasswordTxt);
+        passConfirmTxt = (EditText) view.findViewById(R.id.registerConfirmPassword);
 
         return view;
     }
@@ -88,15 +88,15 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 mCallback.onSwitchToLogin();
                 break;
             case R.id.registerBtn:
-                if (!Objects.equals(PassTxt.getText().toString(), PassConfirmTxt.getText().toString())) {
+                if (!Objects.equals(passTxt.getText().toString(), passConfirmTxt.getText().toString())) {
                     Toast.makeText(view.getContext(), "Passwords do not match", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 ParseUser user = new ParseUser();
-                user.setUsername(NameTxt.getText().toString());
-                user.setEmail(EmailTxt.getText().toString());
-                user.setPassword(PassTxt.getText().toString());
+                user.setUsername(nameTxt.getText().toString());
+                user.setEmail(emailTxt.getText().toString());
+                user.setPassword(passTxt.getText().toString());
 
                 user.signUpInBackground(new SignUpCallback() {
                     @Override

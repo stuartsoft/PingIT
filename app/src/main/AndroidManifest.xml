@@ -38,7 +38,7 @@
 
         <activity
             android:name=".HomeActivity"
-            android:label="@string/title_activity_home"
+            android:label="@string/titleActivityHome"
             android:parentActivityName=".StartupActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">

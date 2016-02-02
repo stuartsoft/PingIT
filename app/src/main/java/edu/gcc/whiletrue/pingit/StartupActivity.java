@@ -34,6 +34,8 @@ public class StartupActivity extends AppCompatActivity implements RegisterFragme
 
     }
 
+    //This will be called by the foreground fragment when the user wants to switch to the Register view
+    //The current fragment is replaced by the register fragment
     @Override
     public void onSwitchToRegister() {
         assert getSupportActionBar() != null;
@@ -47,6 +49,7 @@ public class StartupActivity extends AppCompatActivity implements RegisterFragme
     }
 
     //This will be called by the foreground fragment when the user wants to switch to the Login view
+    //The current fragment is replaced by the login fragment
     @Override
     public void onSwitchToLogin() {
         assert getSupportActionBar() != null;
