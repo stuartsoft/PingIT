@@ -26,7 +26,7 @@
         android:key="display_name"
         android:title="Display Name"
         android:summary="Should display current name" />
-    <DialogPreference
+    <edu.gcc.whiletrue.pingit.ClearPingsDialogPreference
         android:key="clear_pings"
         android:title="Clear Archived Pings"
         android:summary="Erase all ping history."

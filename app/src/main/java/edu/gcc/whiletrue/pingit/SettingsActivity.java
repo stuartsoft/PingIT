@@ -15,6 +15,12 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Display the fragment as the main content.
+        getFragmentManager().beginTransaction()
+                .replace(R.id.settingsFragmentContainer, new SettingsActivityFragment())
+                .commit();
+
     }
 
 }
