@@ -5,9 +5,13 @@
     tools:context="edu.gcc.whiletrue.pingit.PingsPageFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Pings page. Please remove this textview" />
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listview_pings"
+        android:dividerHeight="3dp"
+        android:divider="@android:color/white"
+        android:clickable="false" />
+
 
 </FrameLayout>
