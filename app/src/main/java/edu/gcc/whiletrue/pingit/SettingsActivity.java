@@ -16,11 +16,12 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Display the fragment as the main content.
+        // Display the preferences fragment in the specified fragment container
         getFragmentManager().beginTransaction()
                 .replace(R.id.settingsFragmentContainer, new SettingsActivityFragment())
                 .commit();
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 }
