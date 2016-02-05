@@ -51,6 +51,7 @@
             android:name=".SettingsActivity"
             android:label="@string/titleActivitySettings"
             android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
             android:parentActivityName="edu.gcc.whiletrue.pingit.HomeActivity">
         </activity>
     </application>
