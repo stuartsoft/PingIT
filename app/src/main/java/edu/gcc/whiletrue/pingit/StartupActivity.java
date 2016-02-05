@@ -1,6 +1,7 @@
 package edu.gcc.whiletrue.pingit;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -28,6 +29,12 @@ public class StartupActivity extends AppCompatActivity implements RegisterFragme
         fragmentManager = getSupportFragmentManager();
 
         onSwitchToRegister();
+
+        //this intent call will skip the login activity for convenience
+        //TODO remove this before production
+        //Intent intent = new Intent(this, HomeActivity.class);
+        //startActivity(intent);
+        //finish();
 
         Parse.enableLocalDatastore(this);
         Parse.initialize(this);
