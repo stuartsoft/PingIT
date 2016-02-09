@@ -8,13 +8,21 @@ public class Ping {
     private String message;
     private String date;
 
-    public Ping() {
-        title = "TLC Helpdesk";
-        message = "Your computer is ready to be picked up!";
-        date = "01/30/16 at 6:00 PM";
+    /*The following strings are defined outside of strings.xml only because the Pings class
+    is designed to function independently of the Android frameworks. This allows
+    us to run standard JUnit tests on the class and more accurately validate
+    the class's reliability in isolation, independently of any Android dependencies.*/
+    public final static String titleDefault = "TLC Helpdesk";
+    public final static String messageDefault = "Your computer is ready for pickup.";
+    public final static String dateDefault = "01/01/70 at 12:00:00 AM";
+
+    public Ping() {//default constructor
+        title = titleDefault;
+        message = messageDefault;
+        date = dateDefault;
     }
 
-    public Ping(String title, String message, String date) {
+    public Ping(String title, String message, String date) {//constructor for custom pings
         this.title = title;
         this.message = message;
         this.date = date;
