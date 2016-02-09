@@ -1,5 +1,7 @@
 package edu.gcc.whiletrue.pingit;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.lang.String;
@@ -12,6 +14,17 @@ import static org.junit.Assert.*;
 public class PingTest {
 
     private Ping testPing;
+
+    @BeforeClass
+    public static void onBeforeClass() throws Exception{
+        /*This method will be called only once ever, before the start of the first test.
+        Resources that will be shared by all tests should be initialized here.*/
+    }
+
+    @Before
+    public void onBefore() throws Exception{
+        //This method will be called before the start of each and every test
+    }
 
     @Test
     public void setupDefaultPing() throws Exception {
