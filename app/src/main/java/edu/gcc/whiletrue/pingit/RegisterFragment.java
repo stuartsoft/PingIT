@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +95,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 }
 
                 ParseUser user = new ParseUser();
-                user.setUsername(nameTxt.getText().toString());
+                user.setUsername(emailTxt.getText().toString().toLowerCase());
                 user.setEmail(emailTxt.getText().toString());
                 user.setPassword(passTxt.getText().toString());
 
