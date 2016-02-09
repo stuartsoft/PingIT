@@ -107,6 +107,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                                     "Registration successful!", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(view.getContext(), HomeActivity.class);
                             startActivity(intent);
+
                         }
                         else
                         Toast.makeText(fragmentContainer.getContext(),
