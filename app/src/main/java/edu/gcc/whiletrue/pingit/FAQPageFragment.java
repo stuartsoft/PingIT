@@ -5,16 +5,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.support.v4.app.FragmentTransaction;
 
 import com.parse.Parse;
-import com.parse.ParseACL;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
@@ -25,6 +25,8 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class FAQPageFragment extends Fragment {
+
+    private FragmentManager fragmentManager;
 
     public class FAQArrayAdapter extends ArrayAdapter<FAQ> {
         Context myContext;
@@ -89,6 +91,14 @@ public class FAQPageFragment extends Fragment {
 
 
         return rootView;
+    }
+
+    public void onCategoryClick() {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
+        FAQPageFragment faqFrag = new FAQPageFragment();
+        fragmentTransaction.add(R.id.startup_fragment_container,faqFrag);
+        fragmentTransaction.commit();
     }
 
 }
