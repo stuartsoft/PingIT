@@ -1,5 +1,7 @@
 # PingIT
+
 **A simple Android app to streamline helpdesk interactions**
+
 ![Status](https://www.dropbox.com/s/vmmlgcykl2wvbim/pingitstatus.png?dl=1)
 
 Built from the ground up, this project aims to better connect students and helpdesk staff, providing a 1-on-1 chat service, equipment repair notifications, and FAQ database.
