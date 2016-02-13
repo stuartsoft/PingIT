@@ -6,7 +6,7 @@
 
 Built from the ground up, this project aims to better connect students and helpdesk staff, providing a 1-on-1 chat service, equipment repair notifications, and FAQ database.
 
-<p align="center"><img title="" src="https://github.com/stuartsoft/PingIT/raw/master/sample.png" height="250"/>&nbsp;&nbsp;<img title="" src="https://github.com/stuartsoft/PingIT/raw/master/sample2.png" height="250"/></p>
+<p align="center"><img title="" src="https://github.com/stuartsoft/PingIT/raw/master/sample.png" height="300"/>&nbsp;&nbsp;<img title="" src="https://github.com/stuartsoft/PingIT/raw/master/sample2.png" height="300"/></p>
 
 ###Development Prerequisites
 * JDK 1.7+
