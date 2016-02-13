@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <RingtonePreference
+        android:key="notification_sound_preference"
+        android:title="Notification Sound"
+        android:summary="Tap to select…"
+        android:ringtoneType="notification"
+        android:showSilent="true"
+        android:showDefault="true" />
+    <SwitchPreference
+        android:key="notification_resend_toggle"
+        android:title="Notification Resend"
+        android:summaryOff="Notification will only be sent once."
+        android:summaryOn="Repeat notification if not dismissed."
+        android:defaultValue="true"
+        android:disableDependentsState="false" />
+    <ListPreference
+        android:key="notification_resend_delay"
+        android:title="Notification Resend Delay"
+        android:summary="%s"
+        android:entries="@array/resendDelayValues"
+        android:entryValues="@array/resendDelayValues"
+        android:defaultValue="3"
+        android:dependency="notification_resend_toggle" />
+    <EditTextPreference
+        android:key="display_name"
+        android:title="Display Name"
+        android:summary="Should display current name" />
+    <edu.gcc.whiletrue.pingit.ClearPingsDialogPreference
+        android:key="clear_pings"
+        android:title="Clear Archived Pings"
+        android:summary="Erase all ping history."
+        android:dialogTitle="Are You Sure?"
+        android:dialogMessage="This will clear all of your pings and cannot be undone.
+                               Are you sure you want to proceed?"
+        android:positiveButtonText="Yes, erase my pings."
+        android:negativeButtonText="No, cancel." />
+</PreferenceScreen>

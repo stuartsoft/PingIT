@@ -1,0 +1,106 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.gcc.whiletrue.pingit.RegisterFragment"
+    tools:showIn="@id/startup_fragment_container"
+    android:orientation="vertical">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_margin="50dp"
+        android:fillViewport="false">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/imageView"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/ic_launcher"
+                android:layout_marginBottom="10dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/registerNameTxt"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/registerNamePlaceholder" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:id="@+id/registerEmailTxt"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/registerEmailPlaceholder" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/registerPasswordTxt"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/registerPasswordPlaceholder" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/registerConfirmPassword"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/registerPasswordPlaceholderConfirm" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="3">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/registerBtn"
+                    android:id="@+id/registerBtn"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/colorPrimary"
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/registerSwitchToLoginBtn"
+            android:id="@+id/switchToLoginBtn"
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="@color/colorDarkGray"
+            android:textColor="@android:color/white" />
+    </FrameLayout>
+
+</LinearLayout>
