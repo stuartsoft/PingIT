@@ -32,9 +32,9 @@ public class StartupActivity extends AppCompatActivity implements RegisterFragme
 
         //this intent call will skip the login activity for convenience
         //TODO remove this before production
-        //Intent intent = new Intent(this, HomeActivity.class);
-        //startActivity(intent);
-        //finish();
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+        finish();
 
         Parse.enableLocalDatastore(this);
         Parse.initialize(this);

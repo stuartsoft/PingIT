@@ -17,10 +17,10 @@
     <ListPreference
         android:key="notification_resend_delay"
         android:title="Notification Resend Delay"
+        android:defaultValue="3"
         android:summary="%s"
         android:entries="@array/resendDelayValues"
         android:entryValues="@array/resendDelayValues"
-        android:defaultValue="3"
         android:dependency="notification_resend_toggle" />
     <EditTextPreference
         android:key="display_name"
@@ -31,8 +31,7 @@
         android:title="Clear Archived Pings"
         android:summary="Erase all ping history."
         android:dialogTitle="Are You Sure?"
-        android:dialogMessage="This will clear all of your pings and cannot be undone.
-                               Are you sure you want to proceed?"
+        android:dialogMessage="This will clear all of your pings and cannot be undone. Are you sure you want to proceed?"
         android:positiveButtonText="Yes, erase my pings."
         android:negativeButtonText="No, cancel." />
 </PreferenceScreen>
