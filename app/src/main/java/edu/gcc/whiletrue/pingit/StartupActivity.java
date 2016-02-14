@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.parse.Parse;
+import com.parse.ParseUser;
 
 public class StartupActivity extends AppCompatActivity implements RegisterFragment.OnHeadlineSelectedListener, LoginFragment.OnHeadlineSelectedListener {
 

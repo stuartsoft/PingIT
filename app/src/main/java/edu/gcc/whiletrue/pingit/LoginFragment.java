@@ -84,6 +84,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 mCallback.onSwitchToRegister();
                 break;
             case R.id.loginBtn:
+                ParseUser.logOut();//make sure the user is logged out first
+
                 ParseUser.logInInBackground(emailTxt.getText().toString().toLowerCase(), passTxt.getText().toString(), new LogInCallback() {
                     @Override
                     public void done(ParseUser user, ParseException e) {

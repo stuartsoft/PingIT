@@ -94,7 +94,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                     return;
                 }
 
+                ParseUser.logOut();//make sure the user is logged out first
+
                 ParseUser user = new ParseUser();
+                user.put("friendlyName",nameTxt.getText().toString());
                 user.setUsername(emailTxt.getText().toString().toLowerCase());
                 user.setEmail(emailTxt.getText().toString());
                 user.setPassword(passTxt.getText().toString());
