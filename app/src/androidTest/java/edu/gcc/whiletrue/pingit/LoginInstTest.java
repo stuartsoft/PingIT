@@ -38,7 +38,6 @@ public class LoginInstTest {
         onView(withId(R.id.loginPasswordTxt))
                 .perform(typeText(pass), closeSoftKeyboard());
 
-        onView(withId(R.id.registerBtn)).perform(click());
         //pressBack();
         //pressBack();
     }
