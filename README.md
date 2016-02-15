@@ -57,6 +57,18 @@ Built from the ground up, this project aims to better connect students and helpd
   ```
   env.ANDROID_HOME = Path to Android/SDK
   ```
-  
+  **Build Steps**
+  ```
+  Gradle
+      clean build - use wrapper
+  Instrumented tests
+      #Unlock device
+      adb shell input keyevent 82
+      #run connected Android Tests
+      chmod +x ./gradlew
+      ./gradlew cAT
+  Mirror Build Status Badge
+      ~/.BuildServer/MirrorBuildStatusWrapper.sh
+  ```
 ###License
   MIT

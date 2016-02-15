@@ -37,9 +37,6 @@ public class StartupActivity extends AppCompatActivity implements RegisterFragme
         //startActivity(intent);
         //finish();
 
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this);
-
     }
 
     //This will be called by the foreground fragment when the user wants to switch to the Register view
