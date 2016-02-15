@@ -20,29 +20,25 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
  */
 
 @RunWith(AndroidJUnit4.class)
-public class RegisterInstTest {
+public class LoginUITest {
+
+    String email = "unittest@gmail.com";
+    String pass = "justinrocks";
 
     @Rule//startup activity to test
     public ActivityTestRule<StartupActivity> mActivityRule = new ActivityTestRule<>(
             StartupActivity.class);
 
     @Test
-    public void test1() {
+    public void testLoginUI() {
         // Click buttons and do crap
-        String name = "John Doe";
-        String email = "unittest@gmail.com";
-        String pass = "justinrocks";
 
-        onView(withId(R.id.registerNameTxt))
-            .perform(typeText(name), closeSoftKeyboard());
-        onView(withId(R.id.registerEmailTxt))
+        onView(withId(R.id.switchToLoginBtn)).perform(click());
+        onView(withId(R.id.loginEmailTxt))
                 .perform(typeText(email), closeSoftKeyboard());
-        onView(withId(R.id.registerPasswordTxt))
-                .perform(typeText(pass), closeSoftKeyboard());
-        onView(withId(R.id.registerConfirmPassword))
+        onView(withId(R.id.loginPasswordTxt))
                 .perform(typeText(pass), closeSoftKeyboard());
 
-        onView(withId(R.id.registerBtn)).perform(click());
         //pressBack();
         //pressBack();
     }
