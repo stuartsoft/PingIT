@@ -18,6 +18,12 @@ public class ParseInstTest {
     String email = "unittest@gmail.com";
     String pass = "justinrocks";
 
+    @Before
+    public void onBefore(){
+        /*Don't need to instantiate parse. Since this is an instrumented test, parse initialization
+        will be handled by the regular MainApplication class*/
+    }
+
     @Test
     public void testLogin() throws Exception{
         ParseUser.logOut();//log out first to make sure no one is logged in
