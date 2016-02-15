@@ -20,7 +20,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
  */
 
 @RunWith(AndroidJUnit4.class)
-public class ExampleInstrumentedTest {
+public class RegisterInstTest {
 
     @Rule//startup activity to test
     public ActivityTestRule<StartupActivity> mActivityRule = new ActivityTestRule<>(
@@ -40,7 +40,7 @@ public class ExampleInstrumentedTest {
                 .perform(typeText(pass), closeSoftKeyboard());
 
         onView(withId(R.id.loginBtn)).perform(click());
-        pressBack();
-        pressBack();
+        //pressBack();
+        //pressBack();
     }
 }
