@@ -31,7 +31,7 @@ public class RegisterUITest {
             StartupActivity.class);
 
     @Test
-    public void test1() {
+    public void testRegisterUI() {
         // Click buttons and do crap
 
         onView(withId(R.id.registerNameTxt))

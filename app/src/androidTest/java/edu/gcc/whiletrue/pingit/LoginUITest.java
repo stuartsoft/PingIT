@@ -22,15 +22,16 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 @RunWith(AndroidJUnit4.class)
 public class LoginUITest {
 
+    String email = "unittest@gmail.com";
+    String pass = "justinrocks";
+
     @Rule//startup activity to test
     public ActivityTestRule<StartupActivity> mActivityRule = new ActivityTestRule<>(
             StartupActivity.class);
 
     @Test
-    public void test2() {
+    public void testLoginUI() {
         // Click buttons and do crap
-        String email = "unittest@gmail.com";
-        String pass = "justinrocks";
 
         onView(withId(R.id.switchToLoginBtn)).perform(click());
         onView(withId(R.id.loginEmailTxt))
