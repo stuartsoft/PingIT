@@ -2,6 +2,7 @@ package edu.gcc.whiletrue.pingit;
 
 import android.app.Application;
 
+import com.parse.Parse;
 import com.parse.ParseUser;
 import com.squareup.leakcanary.LeakCanary;
 import com.crashlytics.android.Crashlytics;
@@ -17,6 +18,8 @@ public class MainApplication extends Application{
         //Fabric.with(this, new Crashlytics());
         LeakCanary.install(this);
 
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this);
     }
 
     @Override
