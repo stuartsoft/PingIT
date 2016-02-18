@@ -2,7 +2,9 @@ package edu.gcc.whiletrue.pingit;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -28,6 +30,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
     private EditText emailTxt;
     private EditText passTxt;
+    private AlertDialog signInDialog;
+    private SignInTask signInTask;
 
     // Container Activity must implement this interface
     public interface OnHeadlineSelectedListener {
@@ -74,6 +78,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         emailTxt = (EditText) view.findViewById(R.id.loginEmailTxt);
         passTxt = (EditText) view.findViewById(R.id.loginPasswordTxt);
 
+        //create the login dialog now for use later when the user presses login
+        AlertDialog.Builder builder = new AlertDialog.Builder(fragmentContainer.getContext());
+        builder.setTitle(R.string.app_name);
+        builder.setView(inflater.inflate(R.layout.dialog_signin, null));
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                signInTask.cancel(true);}
+        });
+        signInDialog = builder.create();
+
         return view;
     }
 
@@ -86,52 +101,77 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 mCallback.onSwitchToRegister();
                 break;
             case R.id.loginBtn:
-                ParseUser.logOut();//make sure the user is logged out first
-
-                if (!mCallback.checkNetworkStatus()){
-                    Toast.makeText(fragmentContainer.getContext(),
-                            getString(R.string.noNetworkConnectionMsg), Toast.LENGTH_SHORT).show();
-                    break;
-                }
-
-                loginUser(emailTxt.getText().toString().toLowerCase(), passTxt.getText().toString(),view);
-
+                signInTask = new SignInTask(emailTxt.getText().toString().toLowerCase(), passTxt.getText().toString(), view,fragmentContainer.getContext());
+                signInTask.execute();
                 break;
             default:
                 break;
         }
     }
 
-    private void loginUser(String email, String pass, final View view){
+    private class SignInTask extends AsyncTask<String, Void, Integer> {
+        String email;
+        String pass;
+        final View view;
+        Context context;
 
-        ParseUser.logInInBackground(emailTxt.getText().toString().toLowerCase(), passTxt.getText().toString(), new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException e) {
-                if (e == null) {
-                    Toast.makeText(fragmentContainer.getContext(), "Login Successful!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(view.getContext(), HomeActivity.class);
-                    startActivity(intent);
-                } else{
+        SignInTask(String email, String pass, View view, Context context){
+            this.email = email;
+            this.pass = pass;
+            this.view = view;
+            this.context = context;
+        }
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(fragmentContainer.getContext());
-                    builder.setTitle(R.string.app_name);
-                    builder.setPositiveButton("Okay", null);
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //show login dialog with progress spinner while parse executes in the background
+            signInDialog.show();
+        }
 
-                    switch(e.getCode()){
-                        case 101://Invalid login credentials
-                            builder.setMessage("Username or password are incorrect. Please try again.");
-                            break;
-                        default://handles all other parse exceptions
-                            builder.setMessage("Error (" + e.getCode() + ") " + e.getMessage());
-                            break;
-                    }
+        @Override
+        protected Integer doInBackground(String... params) {
+            if (!mCallback.checkNetworkStatus())
+                return -1;//no internet, couldn't even attempt to login
 
-                    //build and display alert dialog for the user
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+            ParseUser.logOut();//make sure the user is logged out first
 
+            try {ParseUser.logIn(email,pass);
+            } catch (ParseException e) {return e.getCode();}//return exception code
+            return 0;//no issues
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+            signInDialog.dismiss();
+
+            if (integer == 0){//login succeeded! Open home activity!
+                Toast.makeText(fragmentContainer.getContext(), "Login Successful!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(view.getContext(), HomeActivity.class);
+                startActivity(intent);
+            }else{//handle the exception
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(fragmentContainer.getContext());
+                builder.setTitle(R.string.app_name);
+                builder.setPositiveButton("Okay", null);
+
+                switch (integer){
+                    case -1://no internet connection
+                        builder.setMessage(R.string.noNetworkConnectionMsg);
+                        break;
+                    case 101://login credentials issue
+                        builder.setMessage("Username or password are incorrect. Please try again.");
+                        break;
+                    default://handles all other parse exceptions
+                        builder.setMessage("Error (" + integer + ") ");
+                        break;
                 }
+
+                //build and display alert dialog for the user
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
-        });
+        }
     }
 }
