@@ -84,7 +84,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        final View view = v; //creating an intent requires a view casted as 'final'
+        final View view = v; //creating an Intent or Toast requires a view casted as 'final'
 
         switch (v.getId()){//identify what item was pressed
 
@@ -123,6 +123,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     }
 
     private void registerUser(final ParseUser user, final View view){
+        //singUpInBackground is handled in a parallel background thread, separate from UI thread (duh)
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
