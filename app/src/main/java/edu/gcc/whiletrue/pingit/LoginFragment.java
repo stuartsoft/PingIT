@@ -1,5 +1,6 @@
 package edu.gcc.whiletrue.pingit;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -78,8 +79,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        final View view;
-        view = v;//final reference to the view that called onClick
+        final View view = v;//final reference to the view that called onClick
 
         switch (v.getId()){
             case R.id.switchToRegisterBtn:
@@ -94,20 +94,44 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                     break;
                 }
 
-                ParseUser.logInInBackground(emailTxt.getText().toString().toLowerCase(), passTxt.getText().toString(), new LogInCallback() {
-                    @Override
-                    public void done(ParseUser user, ParseException e) {
-                        if (e == null) {
-                            Toast.makeText(fragmentContainer.getContext(), "Login Successful!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(view.getContext(), HomeActivity.class);
-                            startActivity(intent);
-                        } else
-                            Toast.makeText(fragmentContainer.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                loginUser(emailTxt.getText().toString().toLowerCase(), passTxt.getText().toString(),view);
+
                 break;
             default:
                 break;
         }
+    }
+
+    private void loginUser(String email, String pass, final View view){
+
+        ParseUser.logInInBackground(emailTxt.getText().toString().toLowerCase(), passTxt.getText().toString(), new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if (e == null) {
+                    Toast.makeText(fragmentContainer.getContext(), "Login Successful!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(view.getContext(), HomeActivity.class);
+                    startActivity(intent);
+                } else{
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(fragmentContainer.getContext());
+                    builder.setTitle(R.string.app_name);
+                    builder.setPositiveButton("Okay", null);
+
+                    switch(e.getCode()){
+                        case 101://Invalid login credentials
+                            builder.setMessage("Username or password are incorrect. Please try again.");
+                            break;
+                        default://handles all other parse exceptions
+                            builder.setMessage("Error (" + e.getCode() + ") " + e.getMessage());
+                            break;
+                    }
+
+                    //build and display alert dialog for the user
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                }
+            }
+        });
     }
 }
