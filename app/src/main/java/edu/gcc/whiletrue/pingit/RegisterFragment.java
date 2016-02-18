@@ -2,6 +2,7 @@ package edu.gcc.whiletrue.pingit;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -82,10 +83,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        final View view;
-        view = v;
 
-        switch (v.getId()){
+        final View view = v; //creating an intent requires a view casted as 'final'
+
+        switch (v.getId()){//identify what item was pressed
+
             case R.id.switchToLoginBtn:
                 mCallback.onSwitchToLogin();
                 break;
@@ -97,36 +99,65 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
                 ParseUser.logOut();//make sure the user is logged out first
 
+                //create a ParseUser with the provided credentials
                 ParseUser user = new ParseUser();
                 user.put("friendlyName", nameTxt.getText().toString());
                 user.setUsername(emailTxt.getText().toString().toLowerCase());
                 user.setEmail(emailTxt.getText().toString());
                 user.setPassword(passTxt.getText().toString());
 
+                //check for network connection before attempting to register
                 if (!mCallback.checkNetworkStatus()){
                     Toast.makeText(fragmentContainer.getContext(),
                             getString(R.string.noNetworkConnectionMsg), Toast.LENGTH_SHORT).show();
                     break;
                 }
 
-                user.signUpInBackground(new SignUpCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            Toast.makeText(fragmentContainer.getContext(),
-                                    getString(R.string.registerSuccessMsg), Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(view.getContext(), HomeActivity.class);
-                            startActivity(intent);
-
-                        } else
-                            Toast.makeText(fragmentContainer.getContext(),
-                                    e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                //attempt to actually register the user
+                registerUser(user,view);
 
                 break;
             default:
                 break;
         }
+    }
+
+    private void registerUser(final ParseUser user, final View view){
+        user.signUpInBackground(new SignUpCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {//Sign up was successful! Open the home activity
+                    Toast.makeText(fragmentContainer.getContext(),
+                            getString(R.string.registerSuccessMsg), Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(view.getContext(), HomeActivity.class));
+                }
+                else{//user could not be signed up
+                    //begin building alert dialog for the exception
+                    AlertDialog.Builder builder = new AlertDialog.Builder(fragmentContainer.getContext());
+                    builder.setTitle(R.string.app_name);
+                    builder.setPositiveButton("Okay", null);
+
+                    switch (e.getCode()){//handle various exceptions
+                        case ParseException.EMAIL_TAKEN:
+                        case ParseException.USERNAME_TAKEN:
+                            builder.setMessage(user.getEmail() +
+                                    " is already in use. Please enter a different email.");
+                            break;
+                        case ParseException.INVALID_EMAIL_ADDRESS:
+                            builder.setMessage("\""+user.getEmail() + "\"" +
+                                    " is not a valid email. Please enter a valid email.");
+                            break;
+                        default://handles all other parse exceptions
+                            builder.setMessage("Error (" + e.getCode() + ") " + e.getMessage());
+                            break;
+                    }
+
+                    //build and display alert dialog for the user
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            }
+
+        });
     }
 }
