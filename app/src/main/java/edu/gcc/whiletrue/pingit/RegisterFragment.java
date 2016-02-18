@@ -37,6 +37,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     // Container Activity must implement this interface
     public interface OnHeadlineSelectedListener {
         public void onSwitchToLogin();
+        public boolean checkNetworkStatus();
     }
 
     public RegisterFragment() {
@@ -97,24 +98,29 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 ParseUser.logOut();//make sure the user is logged out first
 
                 ParseUser user = new ParseUser();
-                user.put("friendlyName",nameTxt.getText().toString());
+                user.put("friendlyName", nameTxt.getText().toString());
                 user.setUsername(emailTxt.getText().toString().toLowerCase());
                 user.setEmail(emailTxt.getText().toString());
                 user.setPassword(passTxt.getText().toString());
+
+                if (!mCallback.checkNetworkStatus()){
+                    Toast.makeText(fragmentContainer.getContext(),
+                            getString(R.string.noNetworkConnectionMsg), Toast.LENGTH_SHORT).show();
+                    break;
+                }
 
                 user.signUpInBackground(new SignUpCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
                             Toast.makeText(fragmentContainer.getContext(),
-                                    "Registration successful!", Toast.LENGTH_SHORT).show();
+                                    getString(R.string.registerSuccessMsg), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(view.getContext(), HomeActivity.class);
                             startActivity(intent);
 
-                        }
-                        else
-                        Toast.makeText(fragmentContainer.getContext(),
-                                e.getMessage(), Toast.LENGTH_SHORT).show();
+                        } else
+                            Toast.makeText(fragmentContainer.getContext(),
+                                    e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 

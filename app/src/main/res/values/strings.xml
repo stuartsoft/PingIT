@@ -13,6 +13,8 @@
     <string name="chatSectionTitle">Chat</string>
     <string name="notificationSectionTitle">Pings</string>
 
+    <string name="noNetworkConnectionMsg">Unable to connect to PingIT server. Please check network settings</string>
+
     <string name="startupTitleLogin">Login to PingIT</string>
     <string name="startupTitleRegister">Register with PingIT</string>
     <string name="registerNamePlaceholder">Name</string>
@@ -21,6 +23,7 @@
     <string name="registerPasswordPlaceholderConfirm">Confirm Password</string>
     <string name="registerBtn">Register</string>
     <string name="registerSwitchToLoginBtn">Already have an account?</string>
+    <string name="registerSuccessMsg">Registration Successful!"</string>
     <string name="loginSwitchToRegisterBtn">Create an account</string>
     <string name="titleActivitySettings">Settings</string>
 

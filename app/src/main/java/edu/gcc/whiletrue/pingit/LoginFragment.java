@@ -31,6 +31,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     // Container Activity must implement this interface
     public interface OnHeadlineSelectedListener {
         public void onSwitchToRegister();
+        public boolean checkNetworkStatus();
+
     }
 
     public LoginFragment() {
@@ -85,6 +87,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.loginBtn:
                 ParseUser.logOut();//make sure the user is logged out first
+
+                if (!mCallback.checkNetworkStatus()){
+                    Toast.makeText(fragmentContainer.getContext(),
+                            getString(R.string.noNetworkConnectionMsg), Toast.LENGTH_SHORT).show();
+                    break;
+                }
 
                 ParseUser.logInInBackground(emailTxt.getText().toString().toLowerCase(), passTxt.getText().toString(), new LogInCallback() {
                     @Override
