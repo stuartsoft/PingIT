@@ -4,7 +4,9 @@ package edu.gcc.whiletrue.pingit;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -34,6 +36,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     private EditText emailTxt;
     private EditText passTxt;
     private EditText passConfirmTxt;
+    private SignUpTask signUpTask;
+    private AlertDialog signUpDialog;
 
     // Container Activity must implement this interface
     public interface OnHeadlineSelectedListener {
@@ -78,6 +82,18 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         passTxt = (EditText) view.findViewById(R.id.registerPasswordTxt);
         passConfirmTxt = (EditText) view.findViewById(R.id.registerConfirmPassword);
 
+        //create the register dialog now for use later when the user presses Register
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(fragmentContainer.getContext());
+        builder.setTitle(R.string.app_name);
+        builder.setView(inflater.inflate(R.layout.dialog_signin, null));
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                signUpTask.cancel(true);}
+        });
+        signUpDialog = builder.create();
+
         return view;
     }
 
@@ -93,11 +109,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.registerBtn:
                 if (!Objects.equals(passTxt.getText().toString(), passConfirmTxt.getText().toString())) {
-                    Toast.makeText(view.getContext(), "Passwords do not match", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), R.string.passwordsDontMatch, Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-                ParseUser.logOut();//make sure the user is logged out first
 
                 //create a ParseUser with the provided credentials
                 ParseUser user = new ParseUser();
@@ -106,15 +120,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 user.setEmail(emailTxt.getText().toString());
                 user.setPassword(passTxt.getText().toString());
 
-                //check for network connection before attempting to register
-                if (!mCallback.checkNetworkStatus()){
-                    Toast.makeText(fragmentContainer.getContext(),
-                            getString(R.string.noNetworkConnectionMsg), Toast.LENGTH_SHORT).show();
-                    break;
-                }
-
-                //attempt to actually register the user
-                registerUser(user,view);
+                signUpTask = new SignUpTask(user, view,fragmentContainer.getContext());
+                signUpTask.execute();
 
                 break;
             default:
@@ -122,43 +129,74 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void registerUser(final ParseUser user, final View view){
-        //singUpInBackground is handled in a parallel background thread, separate from UI thread (duh)
-        user.signUpInBackground(new SignUpCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {//Sign up was successful! Open the home activity
-                    Toast.makeText(fragmentContainer.getContext(),
-                            getString(R.string.registerSuccessMsg), Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(view.getContext(), HomeActivity.class));
-                }
-                else{//user could not be signed up
-                    //begin building alert dialog for the exception
-                    AlertDialog.Builder builder = new AlertDialog.Builder(fragmentContainer.getContext());
-                    builder.setTitle(R.string.app_name);
-                    builder.setPositiveButton("Okay", null);
+    private class SignUpTask extends AsyncTask<String, Void, Integer> {
+        ParseUser user;
+        final View view;
+        Context context;
 
-                    switch (e.getCode()){//handle various exceptions
-                        case ParseException.EMAIL_TAKEN:
-                        case ParseException.USERNAME_TAKEN:
-                            builder.setMessage(user.getEmail() +
-                                    " is already in use. Please enter a different email.");
-                            break;
-                        case ParseException.INVALID_EMAIL_ADDRESS:
-                            builder.setMessage("\""+user.getEmail() + "\"" +
-                                    " is not a valid email. Please enter a valid email.");
-                            break;
-                        default://handles all other parse exceptions
-                            builder.setMessage("Error (" + e.getCode() + ") " + e.getMessage());
-                            break;
-                    }
+        public SignUpTask(ParseUser user, View view, Context context) {
+            this.user = user;
+            this.view = view;
+            this.context = context;
+        }
 
-                    //build and display alert dialog for the user
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            signUpDialog.show();
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            if (!mCallback.checkNetworkStatus())
+                return -1;//no internet, couldn't even attempt to login
+
+            ParseUser.logOut();//make sure the user is logged out first
+
+            try {user.signUp();
+            } catch (ParseException e) {return e.getCode();}//return exception code
+            return 0;//no issues
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+            signUpDialog.dismiss();
+
+            if (integer == 0){//login succeeded! Open home activity!
+                Toast.makeText(fragmentContainer.getContext(), R.string.registerSuccessMsg, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(view.getContext(), HomeActivity.class);
+                startActivity(intent);
+            }else{//handle the exception
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(fragmentContainer.getContext());
+                builder.setTitle(R.string.app_name);
+                builder.setPositiveButton("Okay", null);
+
+                switch (integer){
+                    case -1://no internet connection
+                        builder.setMessage(R.string.noNetworkConnectionMsg);
+                        break;
+                    case ParseException.EMAIL_TAKEN:
+                    case ParseException.USERNAME_TAKEN:
+                        builder.setMessage(user.getEmail() + context.getString(R.string.emailAlreadyInUse));
+                        break;
+                    case ParseException.INVALID_EMAIL_ADDRESS:
+                        builder.setMessage("\"" + user.getEmail() + "\"" +
+                                context.getString(R.string.emailNotValid));
+                        break;
+                    default://handles all other parse exceptions
+                        builder.setMessage("Error (" + integer + ") ");
+                        break;
                 }
+
+                //build and display alert dialog for the user
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
-
-        });
+        }
     }
-}
+
+
+
+    }

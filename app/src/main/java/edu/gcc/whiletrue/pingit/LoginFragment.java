@@ -147,21 +147,21 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             signInDialog.dismiss();
 
             if (integer == 0){//login succeeded! Open home activity!
-                Toast.makeText(fragmentContainer.getContext(), "Login Successful!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(fragmentContainer.getContext(), R.string.loginSuccessMsg, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), HomeActivity.class);
                 startActivity(intent);
             }else{//handle the exception
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(fragmentContainer.getContext());
                 builder.setTitle(R.string.app_name);
-                builder.setPositiveButton("Okay", null);
+                builder.setPositiveButton(R.string.dialogConfirm, null);
 
                 switch (integer){
                     case -1://no internet connection
                         builder.setMessage(R.string.noNetworkConnectionMsg);
                         break;
                     case 101://login credentials issue
-                        builder.setMessage("Username or password are incorrect. Please try again.");
+                        builder.setMessage(R.string.invalidCredentials);
                         break;
                     default://handles all other parse exceptions
                         builder.setMessage("Error (" + integer + ") ");
