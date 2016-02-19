@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -82,21 +83,22 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         passTxt = (EditText) view.findViewById(R.id.registerPasswordTxt);
         passConfirmTxt = (EditText) view.findViewById(R.id.registerConfirmPassword);
 
-        //create the register dialog now for use later when the user presses Register
-
+        //create the signup dialog to display while the signup thread is running later
         AlertDialog.Builder builder = new AlertDialog.Builder(fragmentContainer.getContext());
         builder.setTitle(R.string.app_name);
         builder.setView(inflater.inflate(R.layout.dialog_signin, null));
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.dialogCancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                signUpTask.cancel(true);}
+                signUpTask.cancel(true);//cancel the signup background thread
+            }
         });
         signUpDialog = builder.create();
 
         return view;
     }
 
+    //handles all onClicke events for this fragment
     @Override
     public void onClick(View v) {
 
@@ -108,6 +110,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 mCallback.onSwitchToLogin();
                 break;
             case R.id.registerBtn:
+                //check that passwords match first
                 if (!Objects.equals(passTxt.getText().toString(), passConfirmTxt.getText().toString())) {
                     Toast.makeText(view.getContext(), R.string.passwordsDontMatch, Toast.LENGTH_SHORT).show();
                     return;
@@ -120,8 +123,14 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 user.setEmail(emailTxt.getText().toString());
                 user.setPassword(passTxt.getText().toString());
 
+                InputMethodManager imm = (InputMethodManager)getActivity()
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+                //show register dialog with progress spinner while Parse executes in the background
+                signUpDialog.show();
                 signUpTask = new SignUpTask(user, view,fragmentContainer.getContext());
-                signUpTask.execute();
+                signUpTask.execute();//attempt to signup in the background
 
                 break;
             default:
@@ -140,14 +149,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             this.context = context;
         }
 
-        //run on UI thread before background thread starts
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            signUpDialog.show();
-        }
-
-        //this is what the actual background process will be doing
+        //this is the actual background process
         @Override
         protected Integer doInBackground(String... params) {
             if (!mCallback.checkNetworkStatus())
@@ -160,23 +162,24 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             return 0;//no issues
         }
 
-        //run on UI thread after background thread completes
+        //this is run on UI thread after the background thread completes
         @Override
-        protected void onPostExecute(Integer integer) {
-            super.onPostExecute(integer);
+        protected void onPostExecute(Integer errorCode) {
+            super.onPostExecute(errorCode);
             signUpDialog.dismiss();
 
-            if (integer == 0){//login succeeded! Open home activity!
+            if (errorCode == 0){//Registration succeeded! Open home activity!
                 Toast.makeText(fragmentContainer.getContext(), R.string.registerSuccessMsg, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), HomeActivity.class);
                 startActivity(intent);
-            }else{//handle the exception
+            }else{
+                //Something went wrong, display a new dialog explaining what happened
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(fragmentContainer.getContext());
                 builder.setTitle(R.string.app_name);
-                builder.setPositiveButton("Okay", null);
+                builder.setPositiveButton(R.string.dialogConfirm, null);
 
-                switch (integer){
+                switch (errorCode){
                     case -1://no internet connection
                         builder.setMessage(R.string.noNetworkConnectionMsg);
                         break;
@@ -189,13 +192,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                                 context.getString(R.string.emailNotValid));
                         break;
                     default://handles all other parse exceptions
-                        builder.setMessage("Error (" + integer + ") ");
+                        builder.setMessage("Error (" + errorCode + ") ");
                         break;
                 }
 
                 //build and display alert dialog for the user
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                AlertDialog errorDialog = builder.create();
+                errorDialog.show();
             }
         }
     }

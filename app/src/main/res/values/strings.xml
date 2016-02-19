@@ -13,7 +13,7 @@
     <string name="chatSectionTitle">Chat</string>
     <string name="notificationSectionTitle">Pings</string>
 
-    <string name="noNetworkConnectionMsg">Unable to connect to PingIT server. Please check network settings</string>
+    <string name="noNetworkConnectionMsg">Unable to connect to PingIT server. Please check network settings.</string>
 
     <string name="startupTitleLogin">Login to PingIT</string>
     <string name="startupTitleRegister">Register with PingIT</string>
@@ -33,6 +33,7 @@
     <string name="dialogConfirm">Okay</string>
     <string name="loginSuccessMsg">Login Successful!</string>
     <string name="signingInDialogMsg">Signing into PingIT…</string>
+    <string name="dialogCancel">Cancel</string>
 
 
 </resources>
