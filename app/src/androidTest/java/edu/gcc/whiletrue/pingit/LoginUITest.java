@@ -38,6 +38,8 @@ public class LoginUITest {
                 .perform(typeText(email), closeSoftKeyboard());
         onView(withId(R.id.loginPasswordTxt))
                 .perform(typeText(pass), closeSoftKeyboard());
+        onView(withId(R.id.loginBtn))
+                .perform(click());
 
         //pressBack();
         //pressBack();
