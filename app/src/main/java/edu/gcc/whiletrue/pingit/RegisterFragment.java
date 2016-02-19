@@ -140,12 +140,14 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             this.context = context;
         }
 
+        //run on UI thread before background thread starts
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             signUpDialog.show();
         }
 
+        //this is what the actual background process will be doing
         @Override
         protected Integer doInBackground(String... params) {
             if (!mCallback.checkNetworkStatus())
@@ -158,6 +160,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             return 0;//no issues
         }
 
+        //run on UI thread after background thread completes
         @Override
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
