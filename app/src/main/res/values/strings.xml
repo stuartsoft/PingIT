@@ -32,6 +32,7 @@
     <string name="invalidCredentials">Username or password are incorrect. Please try again.</string>
     <string name="dialogConfirm">Okay</string>
     <string name="loginSuccessMsg">Login Successful!</string>
+    <string name="signingInDialogMsg">Signing into PingIT…</string>
 
 
 </resources>
