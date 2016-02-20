@@ -68,4 +68,22 @@ public class RegisterUITest {
         //wait for dialog to appear, then dismiss it
         onView(withText(R.string.nameNotValid)).perform(ViewActions.pressBack());
     }
+
+    //test that the registration page warns if the passwords don't match
+    @Test
+    public void test8(){
+        onView(withId(R.id.registerNameTxt))
+                .perform(typeText(name), closeSoftKeyboard());
+        onView(withId(R.id.registerEmailTxt))
+                .perform(typeText(email), closeSoftKeyboard());
+        onView(withId(R.id.registerPasswordTxt))
+                .perform(typeText(pass), closeSoftKeyboard());
+        onView(withId(R.id.registerConfirmPassword))
+                .perform(typeText(pass+"1"), closeSoftKeyboard());
+
+        onView(withId(R.id.registerBtn)).perform(click());
+
+        //wait for dialog to appear, then dismiss it
+        onView(withText(R.string.passwordsDontMatch)).perform(ViewActions.pressBack());
+    }
 }
