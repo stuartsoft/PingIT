@@ -17,6 +17,7 @@ public class MainApplication extends Application{
         super.onCreate();
         //Fabric.with(this, new Crashlytics());
         //LeakCanary.install(this);
+
         Parse.enableLocalDatastore(this);
         Parse.initialize(this);
     }
