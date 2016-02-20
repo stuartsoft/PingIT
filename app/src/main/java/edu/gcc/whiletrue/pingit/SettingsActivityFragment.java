@@ -1,6 +1,5 @@
 package edu.gcc.whiletrue.pingit;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Ringtone;
@@ -10,7 +9,6 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.RingtonePreference;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -81,10 +79,13 @@ public class SettingsActivityFragment extends PreferenceFragment
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         LinearLayout view = (LinearLayout)super.onCreateView(inflater, container, savedInstanceState);
-        FrameLayout footerView = (FrameLayout)inflater.inflate(R.layout.logout_btn, null);
+
+        //append the footerview below the settings, like the logout button
+        FrameLayout footerView = (FrameLayout)inflater.inflate(R.layout.footer_settings, null);
         Button logoutBtn = (Button)footerView.findViewById(R.id.logoutBtn);
         logoutBtn.setOnClickListener(this);
-        view.addView(footerView);
+        view.addView(footerView);//add footer to the linearlayout hierarchy
+
         return view;
     }
 

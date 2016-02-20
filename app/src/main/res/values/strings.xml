@@ -9,6 +9,7 @@
     <string name="titleActivityHome">PingIT</string>
     <string name="loginWelcomeMessage">Welcome to PingIT. Please sign in.</string>
     <string name="loginBtn">Login</string>
+    <string name="logoutBtn">Logout</string>
     <string name="faqSectionTitle">FAQ</string>
     <string name="chatSectionTitle">Chat</string>
     <string name="notificationSectionTitle">Pings</string>

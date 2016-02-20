@@ -5,7 +5,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Logout"
+        android:text="@string/logoutBtn"
         android:id="@+id/logoutBtn"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
