@@ -110,12 +110,14 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 mCallback.onSwitchToLogin();
                 break;
             case R.id.registerBtn:
+                //start building an alert dialog incase there was an issue with registration credentials
                 AlertDialog.Builder builder = new AlertDialog.Builder(fragmentContainer.getContext());
                 builder.setTitle(R.string.app_name);
                 builder.setPositiveButton(R.string.dialogConfirm, null);
 
+                //sanitize and validate registration credentials before sending to parse
                 if (Objects.equals(nameTxt.getText().toString(), "")) {
-                    builder.setMessage("Please enter a valid name.");
+                    builder.setMessage(R.string.nameNotValid);
                     AlertDialog errorDialog = builder.create();
                     errorDialog.show();
                     return;
@@ -135,6 +137,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 user.setEmail(emailTxt.getText().toString());
                 user.setPassword(passTxt.getText().toString());
 
+                //dismiss keyboard
                 InputMethodManager imm = (InputMethodManager)getActivity()
                         .getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);

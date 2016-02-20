@@ -1,5 +1,6 @@
 package edu.gcc.whiletrue.pingit;
 
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -14,6 +15,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
  * Created by BOWMANRS1 on 2/12/2016.
@@ -46,5 +48,24 @@ public class RegisterUITest {
         onView(withId(R.id.registerBtn)).perform(click());
         //pressBack();
         //pressBack();
+    }
+
+
+    //test that the registration page warns if the user didn't enter their name
+    @Test
+    public void test3(){
+        //onView(withId(R.id.registerNameTxt))
+        //        .perform(typeText(name), closeSoftKeyboard());
+        onView(withId(R.id.registerEmailTxt))
+                .perform(typeText(email), closeSoftKeyboard());
+        onView(withId(R.id.registerPasswordTxt))
+                .perform(typeText(pass), closeSoftKeyboard());
+        onView(withId(R.id.registerConfirmPassword))
+                .perform(typeText(pass), closeSoftKeyboard());
+
+        onView(withId(R.id.registerBtn)).perform(click());
+
+        //wait for dialog to appear, then dismiss it
+        onView(withText(R.string.nameNotValid)).perform(ViewActions.pressBack());
     }
 }
