@@ -21,6 +21,8 @@ import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import java.util.Objects;
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -103,6 +105,19 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 mCallback.onSwitchToRegister();
                 break;
             case R.id.loginBtn:
+                //start building an alert dialog incase there was an issue with registration credentials
+                AlertDialog.Builder builder = new AlertDialog.Builder(fragmentContainer.getContext());
+                builder.setTitle(R.string.app_name);
+                builder.setPositiveButton(R.string.dialogConfirm, null);
+
+                //sanitize and validate registration credentials before sending to parse
+                if (Objects.equals(emailTxt.getText().toString(), "")){
+                    builder.setMessage(R.string.emailNotValid);
+                    AlertDialog errorDialog = builder.create();
+                    errorDialog.show();
+                    return;
+                }
+
                 InputMethodManager imm = (InputMethodManager)getActivity()
                         .getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);

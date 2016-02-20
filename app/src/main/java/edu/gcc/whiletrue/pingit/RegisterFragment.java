@@ -204,7 +204,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                         break;
                     case ParseException.INVALID_EMAIL_ADDRESS:
                         builder.setMessage("\"" + user.getEmail() + "\"" +
-                                context.getString(R.string.emailNotValid));
+                                context.getString(R.string.isNotAValidEmail));
                         break;
                     default://handles all other parse exceptions
                         builder.setMessage("Error (" + errorCode + ") ");

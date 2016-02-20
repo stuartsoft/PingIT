@@ -30,7 +30,8 @@
     <string name="passwordsDontMatch">Passwords do not match</string>
     <string name="nameNotValid">Please enter a valid name.</string>
     <string name="emailAlreadyInUse">" is already in use. Please enter a different email."</string>
-    <string name="emailNotValid">" is not a valid email. Please enter a valid email."</string>
+    <string name="isNotAValidEmail">" is not a valid email. Please enter a valid email."</string>
+    <string name="emailNotValid">Please enter a valid email.</string>
     <string name="invalidCredentials">Username or password are incorrect. Please try again.</string>
     <string name="dialogConfirm">Okay</string>
     <string name="loginSuccessMsg">Login Successful!</string>
