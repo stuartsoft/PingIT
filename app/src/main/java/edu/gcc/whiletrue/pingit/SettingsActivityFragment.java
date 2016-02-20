@@ -37,6 +37,7 @@ public class SettingsActivityFragment extends PreferenceFragment
         implements SharedPreferences.OnSharedPreferenceChangeListener, View.OnClickListener {
 
     private SignOutTask signOutTask;
+    private AlertDialog confirmSignOutDialog;
     private AlertDialog signOutDialog;
 
     public SettingsActivityFragment() {
@@ -109,6 +110,22 @@ public class SettingsActivityFragment extends PreferenceFragment
         });
         signOutDialog = builder.create();//finalize and create the alert dialog for use later
 
+        //create signout confirmation dialog for use later
+        builder = new AlertDialog.Builder(inflater.getContext());
+        builder.setTitle(R.string.app_name);
+        builder.setMessage(R.string.confirmLogoutMsg);
+        builder.setPositiveButton(R.string.dialogYes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //show signout dialog with progress spinner while Parse executes in the background
+                signOutDialog.show();
+                signOutTask = new SignOutTask();
+                signOutTask.execute();//attempt to signout in the background
+            }
+        });
+        builder.setNegativeButton(R.string.dialogNo, null);
+        confirmSignOutDialog = builder.create();
+
         return view;
     }
 
@@ -119,10 +136,7 @@ public class SettingsActivityFragment extends PreferenceFragment
 
         switch (v.getId()){
             case R.id.logoutBtn:
-                //show signout dialog with progress spinner while Parse executes in the background
-                signOutDialog.show();
-                signOutTask = new SignOutTask();
-                signOutTask.execute();//attempt to signout in the background
+                confirmSignOutDialog.show();
                 break;
             default:
                 break;

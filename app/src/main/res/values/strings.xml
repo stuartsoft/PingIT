@@ -34,10 +34,13 @@
     <string name="emailNotValid">Please enter a valid email.</string>
     <string name="invalidCredentials">Username or password are incorrect. Please try again.</string>
     <string name="dialogConfirm">Okay</string>
+    <string name="dialogYes">Yes</string>
+    <string name="dialogNo">No</string>
     <string name="loginSuccessMsg">Login Successful!</string>
     <string name="signingInDialogMsg">Signing into PingIT…</string>
     <string name="signingOutDialogMsg">Signing out…</string>
     <string name="dialogCancel">Cancel</string>
+    <string name="confirmLogoutMsg">Are you sure you would like to log out?</string>
 
 
 </resources>
