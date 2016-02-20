@@ -38,7 +38,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     public interface OnHeadlineSelectedListener {
         public void onSwitchToRegister();
         public boolean checkNetworkStatus();
-
     }
 
     public LoginFragment() {

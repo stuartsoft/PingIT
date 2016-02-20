@@ -110,9 +110,21 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 mCallback.onSwitchToLogin();
                 break;
             case R.id.registerBtn:
-                //check that passwords match first
-                if (!Objects.equals(passTxt.getText().toString(), passConfirmTxt.getText().toString())) {
-                    Toast.makeText(view.getContext(), R.string.passwordsDontMatch, Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(fragmentContainer.getContext());
+                builder.setTitle(R.string.app_name);
+                builder.setPositiveButton(R.string.dialogConfirm, null);
+
+                if (Objects.equals(nameTxt.getText().toString(), "")) {
+                    builder.setMessage("Please enter a valid name.");
+                    AlertDialog errorDialog = builder.create();
+                    errorDialog.show();
+                    return;
+                }
+                //check that passwords match
+                else if (!Objects.equals(passTxt.getText().toString(), passConfirmTxt.getText().toString())) {
+                    builder.setMessage(R.string.passwordsDontMatch);
+                    AlertDialog errorDialog = builder.create();
+                    errorDialog.show();
                     return;
                 }
 
