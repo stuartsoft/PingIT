@@ -141,6 +141,8 @@ public class SettingsActivityFragment extends PreferenceFragment
             super.onPostExecute(integer);
 
             Intent intent = new Intent(getContext(), StartupActivity.class);
+            //add an extra to indicate to the startup activity to show the login screen first
+            intent.putExtra("startFragment", 1);
             startActivity(intent);//start the login/registration activity
             finishAffinity(getActivity());//finishes all activities in the stack
         }

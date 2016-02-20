@@ -14,6 +14,7 @@ public class StartupActivity extends AppCompatActivity implements
         RegisterFragment.OnHeadlineSelectedListener, LoginFragment.OnHeadlineSelectedListener {
 
     private FragmentManager fragmentManager;
+    private int startFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,12 @@ public class StartupActivity extends AppCompatActivity implements
 
         fragmentManager = getSupportFragmentManager();
 
-        onSwitchToRegister();
+        //Read extra indicating which fragment to show first. Default will show register first
+        startFragment = getIntent().getIntExtra("startFragment", 0);
+        if (startFragment == 1)
+            onSwitchToLogin();
+        else
+            onSwitchToRegister();
 
         //this intent call will skip the login activity for convenience
         //TODO remove this before production
