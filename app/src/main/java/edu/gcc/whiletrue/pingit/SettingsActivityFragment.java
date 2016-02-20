@@ -1,10 +1,13 @@
 package edu.gcc.whiletrue.pingit;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -17,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.LogOutCallback;
@@ -31,6 +35,9 @@ import static android.support.v4.app.ActivityCompat.finishAffinity;
 
 public class SettingsActivityFragment extends PreferenceFragment
         implements SharedPreferences.OnSharedPreferenceChangeListener, View.OnClickListener {
+
+    private SignOutTask signOutTask;
+    private AlertDialog signOutDialog;
 
     public SettingsActivityFragment() {
     }
@@ -86,6 +93,22 @@ public class SettingsActivityFragment extends PreferenceFragment
         logoutBtn.setOnClickListener(this);
         view.addView(footerView);//add footer to the linearlayout hierarchy
 
+        //create the signout dialog to display while the signout thread is running later
+        AlertDialog.Builder builder = new AlertDialog.Builder(inflater.getContext());
+        builder.setTitle(R.string.app_name);
+        LinearLayout dialogView = (LinearLayout)inflater.inflate(R.layout.dialog_signin, null);
+        TextView t = (TextView)dialogView.findViewById(R.id.signInDialogText);
+        t.setText("Signing out...");
+        builder.setView(dialogView);
+
+        builder.setNegativeButton(R.string.dialogCancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                signOutTask.cancel(true);//cancel the signup background thread
+            }
+        });
+        signOutDialog = builder.create();
+
         return view;
     }
 
@@ -96,30 +119,37 @@ public class SettingsActivityFragment extends PreferenceFragment
 
         switch (v.getId()){
             case R.id.logoutBtn:
-                ParseUser.logOutInBackground(new LogOutCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null){
-                            Intent intent = new Intent(view.getContext(), StartupActivity.class);
-                            startActivity(intent);//start the login/registration activity
-                            finishAffinity(getActivity());//finishes all activities in the stack
-                        }
-                        else{
-                            Toast.makeText(view.getContext().getApplicationContext(),
-                                    "Error (" + e.getMessage() + ")", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                //show register dialog with progress spinner while Parse executes in the background
+                signOutDialog.show();
+                signOutTask = new SignOutTask();
+                signOutTask.execute();//attempt to signup in the background
                 break;
             default:
                 break;
         }
     }
 
+    private class SignOutTask extends AsyncTask<String, Void, Integer>{
+        @Override
+        protected Integer doInBackground(String... params) {
+            ParseUser.logOut();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+
+            Intent intent = new Intent(getContext(), StartupActivity.class);
+            startActivity(intent);//start the login/registration activity
+            finishAffinity(getActivity());//finishes all activities in the stack
+        }
+    }
+
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Preference pref = findPreference(key);
 
-        Log.w(getString(R.string.log_warning), "onSharedPreferenceChanged: Any change!");
+        //Log.w(getString(R.string.log_warning), "onSharedPreferenceChanged: Any change!");
 
         if (pref instanceof EditTextPreference) {
             EditTextPreference textPref = (EditTextPreference) pref;
@@ -127,7 +157,7 @@ public class SettingsActivityFragment extends PreferenceFragment
         }
 
         else if (pref instanceof RingtonePreference) {
-            Log.w(getString(R.string.log_warning), "onSharedPreferenceChanged: Tone change!");
+            //Log.w(getString(R.string.log_warning), "onSharedPreferenceChanged: Tone change!");
             Uri ringtoneUri = Uri.parse(sharedPreferences.getString(key, ""));
             Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), ringtoneUri);
             String name = ringtone.getTitle(getActivity());
