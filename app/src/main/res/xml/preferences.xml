@@ -34,4 +34,5 @@
         android:dialogMessage="This will clear all of your pings and cannot be undone. Are you sure you want to proceed?"
         android:positiveButtonText="Yes, erase my pings."
         android:negativeButtonText="No, cancel." />
+
 </PreferenceScreen>

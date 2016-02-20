@@ -14,6 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 /**
@@ -61,6 +64,14 @@ public class SettingsActivityFragment extends PreferenceFragment
         RingtonePreference ringtonePref = (RingtonePreference)
                 findPreference("notification_sound_preference");
         ringtonePref.setSummary(name);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        LinearLayout view = (LinearLayout)super.onCreateView(inflater, container, savedInstanceState);
+        FrameLayout footerView = (FrameLayout)inflater.inflate(R.layout.logout_btn,null);
+        view.addView(footerView);
+        return view;
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
