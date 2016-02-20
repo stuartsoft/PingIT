@@ -1,5 +1,7 @@
 package edu.gcc.whiletrue.pingit;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -19,12 +21,18 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+
+import static android.support.v4.app.ActivityCompat.finishAffinity;
+
 /**
  * A placeholder fragment containing a simple view.
  */
 
 public class SettingsActivityFragment extends PreferenceFragment
-        implements SharedPreferences.OnSharedPreferenceChangeListener {
+        implements SharedPreferences.OnSharedPreferenceChangeListener, View.OnClickListener {
 
     public SettingsActivityFragment() {
     }
@@ -67,11 +75,29 @@ public class SettingsActivityFragment extends PreferenceFragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         LinearLayout view = (LinearLayout)super.onCreateView(inflater, container, savedInstanceState);
-        FrameLayout footerView = (FrameLayout)inflater.inflate(R.layout.logout_btn,null);
+        FrameLayout footerView = (FrameLayout)inflater.inflate(R.layout.logout_btn, null);
+        Button logoutBtn = (Button)footerView.findViewById(R.id.logoutBtn);
+        logoutBtn.setOnClickListener(this);
         view.addView(footerView);
         return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        final View view;
+        view = v;//final reference to the view that called onClick
+
+        switch (v.getId()){
+            case R.id.logoutBtn:
+                Intent intent = new Intent(view.getContext(), StartupActivity.class);
+                startActivity(intent);//start the login/registration activity
+                finishAffinity(getActivity());//finishes all activities in the stack
+                break;
+            default:
+                break;
+        }
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {

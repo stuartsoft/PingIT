@@ -84,7 +84,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 mCallback.onSwitchToRegister();
                 break;
             case R.id.loginBtn:
-                ParseUser.logInInBackground(emailTxt.getText().toString().toLowerCase(), passTxt.getText().toString(), new LogInCallback() {
+                ParseUser.logInInBackground("unittest@gmail.com", "justinrocks", new LogInCallback() {
                     @Override
                     public void done(ParseUser user, ParseException e) {
                         if (e == null) {
