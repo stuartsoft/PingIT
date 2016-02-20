@@ -91,9 +91,22 @@ public class SettingsActivityFragment extends PreferenceFragment
 
         switch (v.getId()){
             case R.id.logoutBtn:
-                Intent intent = new Intent(view.getContext(), StartupActivity.class);
-                startActivity(intent);//start the login/registration activity
-                finishAffinity(getActivity());//finishes all activities in the stack
+                ParseUser.logOutInBackground(new LogOutCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null){
+                            Toast.makeText(view.getContext().getApplicationContext(),
+                                    "Logout successful!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(view.getContext(), StartupActivity.class);
+                            startActivity(intent);//start the login/registration activity
+                            finishAffinity(getActivity());//finishes all activities in the stack
+                        }
+                        else{
+                            Toast.makeText(view.getContext().getApplicationContext(),
+                                    "Error (" + e.getMessage() + ")", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
                 break;
             default:
                 break;
