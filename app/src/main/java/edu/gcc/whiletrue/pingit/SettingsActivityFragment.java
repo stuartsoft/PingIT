@@ -64,6 +64,7 @@ public class SettingsActivityFragment extends PreferenceFragment
         EditTextPreference editTextPref = (EditTextPreference) findPreference("display_name");
         editTextPref.setSummary(sp.getString("display_name", ""));
 
+        try{
         // Set the summary of the Notification Sound preference to the tone's friendly name.
         Uri ringtoneUri = Uri.parse(sp.getString("notification_sound_preference", ""));
         Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), ringtoneUri);
@@ -72,6 +73,9 @@ public class SettingsActivityFragment extends PreferenceFragment
         RingtonePreference ringtonePref = (RingtonePreference)
                 findPreference("notification_sound_preference");
         ringtonePref.setSummary(name);
+        }
+        catch(Exception e){}
+
     }
 
     @Override
@@ -95,8 +99,6 @@ public class SettingsActivityFragment extends PreferenceFragment
                     @Override
                     public void done(ParseException e) {
                         if (e == null){
-                            Toast.makeText(view.getContext().getApplicationContext(),
-                                    "Logout successful!", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(view.getContext(), StartupActivity.class);
                             startActivity(intent);//start the login/registration activity
                             finishAffinity(getActivity());//finishes all activities in the stack
