@@ -34,6 +34,7 @@
     <string name="dialogConfirm">Okay</string>
     <string name="loginSuccessMsg">Login Successful!</string>
     <string name="signingInDialogMsg">Signing into PingIT…</string>
+    <string name="signingOutDialogMsg">Signing out…</string>
     <string name="dialogCancel">Cancel</string>
 
 

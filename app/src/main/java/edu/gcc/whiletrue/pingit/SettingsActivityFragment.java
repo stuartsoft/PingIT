@@ -97,17 +97,17 @@ public class SettingsActivityFragment extends PreferenceFragment
         AlertDialog.Builder builder = new AlertDialog.Builder(inflater.getContext());
         builder.setTitle(R.string.app_name);
         LinearLayout dialogView = (LinearLayout)inflater.inflate(R.layout.dialog_signin, null);
+        //change dialog message for logout...
         TextView t = (TextView)dialogView.findViewById(R.id.signInDialogText);
-        t.setText("Signing out...");
-        builder.setView(dialogView);
-
+        t.setText(R.string.signingOutDialogMsg);
+        builder.setView(dialogView);//assign the modified view to the alert dialog
         builder.setNegativeButton(R.string.dialogCancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                signOutTask.cancel(true);//cancel the signup background thread
+                signOutTask.cancel(true);//cancel the signout background thread
             }
         });
-        signOutDialog = builder.create();
+        signOutDialog = builder.create();//finalize and create the alert dialog for use later
 
         return view;
     }
@@ -119,10 +119,10 @@ public class SettingsActivityFragment extends PreferenceFragment
 
         switch (v.getId()){
             case R.id.logoutBtn:
-                //show register dialog with progress spinner while Parse executes in the background
+                //show signout dialog with progress spinner while Parse executes in the background
                 signOutDialog.show();
                 signOutTask = new SignOutTask();
-                signOutTask.execute();//attempt to signup in the background
+                signOutTask.execute();//attempt to signout in the background
                 break;
             default:
                 break;
