@@ -41,6 +41,7 @@
     <string name="signingOutDialogMsg">Signing out…</string>
     <string name="dialogCancel">Cancel</string>
     <string name="confirmLogoutMsg">Are you sure you would like to log out?</string>
+    <string name="passwordTooShort">Please enter a password of at least 6 characters</string>
 
 
 </resources>
