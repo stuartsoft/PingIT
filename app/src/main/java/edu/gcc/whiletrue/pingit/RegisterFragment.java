@@ -118,28 +118,22 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 String dialogMsg = "";
 
                 //sanitize and validate registration credentials before sending to parse
-                if (Objects.equals(nameTxt.getText().toString(), "")) {
+
+                if (Objects.equals(nameTxt.getText().toString(), ""))
                     dialogMsg = getString(R.string.nameNotValid);
-                }
-                //blank email field
-                else if (Objects.equals(emailTxt.getText().toString(),"")){
+                else if (Objects.equals(emailTxt.getText().toString(),""))
                     dialogMsg = getString(R.string.emailNotValid);
-                }
-                //check that passwords match
-                else if (!Objects.equals(passTxt.getText().toString(), passConfirmTxt.getText().toString())) {
+                else if (!Objects.equals(passTxt.getText().toString(), passConfirmTxt.getText().toString()))
                     dialogMsg = getString(R.string.passwordsDontMatch);
-                }
-                //check password length
-                else if (passTxt.getText().toString().length()<6){
+                else if (passTxt.getText().toString().length()<6)
                     dialogMsg = getString(R.string.passwordTooShort);
-                }
 
                 //display dialog if there were any issues
                 if (dialogMsg != ""){
                     builder.setMessage(dialogMsg);
                     AlertDialog errorDialog = builder.create();
                     errorDialog.show();
-                    return;
+                    break;
                 }
 
                 //create a ParseUser with the provided credentials

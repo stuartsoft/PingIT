@@ -27,12 +27,12 @@
     <string name="registerSuccessMsg">Registration Successful!"</string>
     <string name="loginSwitchToRegisterBtn">Create an account</string>
     <string name="titleActivitySettings">Settings</string>
-    <string name="passwordsDontMatch">Passwords do not match</string>
+    <string name="passwordsDontMatch">Please enter matching passwords.</string>
     <string name="nameNotValid">Please enter a valid name.</string>
     <string name="emailAlreadyInUse">" is already in use. Please enter a different email."</string>
     <string name="isNotAValidEmail">" is not a valid email. Please enter a valid email."</string>
     <string name="emailNotValid">Please enter a valid email.</string>
-    <string name="invalidCredentials">Username or password are incorrect. Please try again.</string>
+    <string name="invalidCredentials">Email or password is incorrect. Please try again.</string>
     <string name="dialogConfirm">Okay</string>
     <string name="dialogYes">Yes</string>
     <string name="dialogNo">No</string>
@@ -41,7 +41,8 @@
     <string name="signingOutDialogMsg">Signing out…</string>
     <string name="dialogCancel">Cancel</string>
     <string name="confirmLogoutMsg">Are you sure you would like to log out?</string>
-    <string name="passwordTooShort">Please enter a password of at least 6 characters</string>
+    <string name="passwordTooShort">Please enter a password of at least 6 characters.</string>
+    <string name="passwordNotValid">Please enter a valid password.</string>
 
 
 </resources>
