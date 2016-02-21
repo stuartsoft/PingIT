@@ -31,8 +31,9 @@ public class LoginUITest {
     public ActivityTestRule<StartupActivity> mActivityRule = new ActivityTestRule<>(
             StartupActivity.class);
 
+    //successfully log in with a valid account
     @Test
-    public void testLoginUI() {
+    public void test11() {
         // Click buttons and do crap
 
         onView(withId(R.id.switchToLoginBtn)).perform(click());
@@ -43,8 +44,6 @@ public class LoginUITest {
         onView(withId(R.id.loginBtn))
                 .perform(click());
 
-        //pressBack();
-        //pressBack();
     }
 
     //test that the login page warns if the user didn't enter their email

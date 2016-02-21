@@ -32,8 +32,9 @@ public class RegisterUITest {
     public ActivityTestRule<StartupActivity> mActivityRule = new ActivityTestRule<>(
             StartupActivity.class);
 
+    //regular sign up
     @Test
-    public void testRegisterUI() {
+    public void test1() {
         // Click buttons and do crap
 
         onView(withId(R.id.registerNameTxt))
@@ -46,8 +47,7 @@ public class RegisterUITest {
                 .perform(typeText(pass), closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
-        //pressBack();
-        //pressBack();
+
     }
 
 
