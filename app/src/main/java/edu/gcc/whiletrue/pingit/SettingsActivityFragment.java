@@ -79,6 +79,7 @@ public class SettingsActivityFragment extends PreferenceFragment
         RingtonePreference ringtonePref = (RingtonePreference)
                 findPreference("notification_sound_preference");
         ringtonePref.setSummary(name);
+            //TODO find better solution to handling a blank ringtone
         }
         catch(Exception e){}
 
@@ -99,8 +100,8 @@ public class SettingsActivityFragment extends PreferenceFragment
         builder.setTitle(R.string.app_name);
         LinearLayout dialogView = (LinearLayout)inflater.inflate(R.layout.dialog_signin, null);
         //change dialog message for logout...
-        TextView t = (TextView)dialogView.findViewById(R.id.signInDialogText);
-        t.setText(R.string.signingOutDialogMsg);
+        TextView logoutText = (TextView)dialogView.findViewById(R.id.signInDialogText);
+        logoutText.setText(R.string.signingOutDialogMsg);
         builder.setView(dialogView);//assign the modified view to the alert dialog
         builder.setNegativeButton(R.string.dialogCancel, new DialogInterface.OnClickListener() {
             @Override
@@ -131,8 +132,6 @@ public class SettingsActivityFragment extends PreferenceFragment
 
     @Override
     public void onClick(View v) {
-        final View view;
-        view = v;//final reference to the view that called onClick
 
         switch (v.getId()){
             case R.id.logoutBtn:
@@ -165,15 +164,12 @@ public class SettingsActivityFragment extends PreferenceFragment
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Preference pref = findPreference(key);
 
-        //Log.w(getString(R.string.log_warning), "onSharedPreferenceChanged: Any change!");
-
         if (pref instanceof EditTextPreference) {
             EditTextPreference textPref = (EditTextPreference) pref;
             pref.setSummary(textPref.getText());
         }
 
         else if (pref instanceof RingtonePreference) {
-            //Log.w(getString(R.string.log_warning), "onSharedPreferenceChanged: Tone change!");
             Uri ringtoneUri = Uri.parse(sharedPreferences.getString(key, ""));
             Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), ringtoneUri);
             String name = ringtone.getTitle(getActivity());
