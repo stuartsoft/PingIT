@@ -14,6 +14,8 @@ import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -50,7 +52,13 @@ public class RegisterUITest {
 
         //TODO: Check to ensure HomeActivity launched correctly here to ensure they successfully
         //registered
+    }
 
+    //Test that tapping the button at the bottom of the screen switches to the Login screen
+    @Test
+    public void test02() {
+        onView(withId(R.id.switchToLoginBtn)).perform(click());
+        onView(withText("Login to PingIT")).check(matches(isDisplayed()));
     }
 
     //test that the registration page warns if the user didn't enter their name
