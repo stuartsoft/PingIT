@@ -34,16 +34,21 @@ public class LoginUITest {
     //successfully log in with a valid account
     @Test
     public void test11() {
-        // Click buttons and do crap
+        //Enter credentials and sign in
 
         onView(withId(R.id.switchToLoginBtn)).perform(click());
         onView(withId(R.id.loginEmailTxt))
-                .perform(typeText(email), closeSoftKeyboard());
+            .perform(typeText(email), closeSoftKeyboard());
         onView(withId(R.id.loginPasswordTxt))
-                .perform(typeText(pass), closeSoftKeyboard());
+            .perform(typeText(pass), closeSoftKeyboard());
         onView(withId(R.id.loginBtn))
-                .perform(click());
+            .perform(click());
+    }
 
+    //Test that pressing the button at the bottom of the screen switches from Register to Login
+    @Test
+    public void test12() {
+        onView(withId(R.id.switchToLoginBtn)).perform(click());
     }
 
     //test that the login page warns if the user didn't enter their email

@@ -32,36 +32,35 @@ public class RegisterUITest {
     public ActivityTestRule<StartupActivity> mActivityRule = new ActivityTestRule<>(
             StartupActivity.class);
 
-    //regular sign up
+    //Regular, successful sign up
     @Test
-    public void test1() {
-        // Click buttons and do crap
+    public void test01() {
+        // Click fields, type info, and create an account
 
         onView(withId(R.id.registerNameTxt))
             .perform(typeText(name), closeSoftKeyboard());
         onView(withId(R.id.registerEmailTxt))
-                .perform(typeText(email), closeSoftKeyboard());
+            .perform(typeText(email), closeSoftKeyboard());
         onView(withId(R.id.registerPasswordTxt))
-                .perform(typeText(pass), closeSoftKeyboard());
+            .perform(typeText(pass), closeSoftKeyboard());
         onView(withId(R.id.registerConfirmPassword))
-                .perform(typeText(pass), closeSoftKeyboard());
+            .perform(typeText(pass), closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
 
     }
 
-
     //test that the registration page warns if the user didn't enter their name
     @Test
-    public void test3(){
+    public void test03(){
         //onView(withId(R.id.registerNameTxt))
-        //        .perform(typeText(name), closeSoftKeyboard());
+        // .perform(typeText(name), closeSoftKeyboard());
         onView(withId(R.id.registerEmailTxt))
-                .perform(typeText(email), closeSoftKeyboard());
+            .perform(typeText(email), closeSoftKeyboard());
         onView(withId(R.id.registerPasswordTxt))
-                .perform(typeText(pass), closeSoftKeyboard());
+            .perform(typeText(pass), closeSoftKeyboard());
         onView(withId(R.id.registerConfirmPassword))
-                .perform(typeText(pass), closeSoftKeyboard());
+            .perform(typeText(pass), closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
 
@@ -69,9 +68,27 @@ public class RegisterUITest {
         onView(withText(R.string.nameNotValid)).perform(ViewActions.pressBack());
     }
 
+    //Test that a blank confirm password field is rejected
+    @Test
+    public void test06(){
+        onView(withId(R.id.registerNameTxt))
+            .perform(typeText(name), closeSoftKeyboard());
+        onView(withId(R.id.registerEmailTxt))
+            .perform(typeText(email), closeSoftKeyboard());
+        onView(withId(R.id.registerPasswordTxt))
+            .perform(typeText(pass), closeSoftKeyboard());
+        //onView(withId(R.id.registerConfirmPassword))
+        //  .perform(typeText(pass), closeSoftKeyboard());
+
+        onView(withId(R.id.registerBtn)).perform(click());
+
+        //wait for dialog to appear, then dismiss it
+        onView(withText(R.string.confirmPasswordInvalid)).perform(ViewActions.pressBack());
+    }
+
     //test that the registration page warns if the passwords don't match
     @Test
-    public void test8(){
+    public void test08(){
         onView(withId(R.id.registerNameTxt))
                 .perform(typeText(name), closeSoftKeyboard());
         onView(withId(R.id.registerEmailTxt))

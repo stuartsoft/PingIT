@@ -120,7 +120,7 @@ public class HomeActivity extends AppCompatActivity {
                 case 1:
                     return getString(R.string.chatSectionTitle);
                 case 2:
-                    return getString(R.string.notificationSectionTitle);
+                    return getString(R.string.pingsSectionTitle);
             }
             return null;
         }
