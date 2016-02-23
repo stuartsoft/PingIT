@@ -10,14 +10,13 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView2"
-        android:layout_margin="50dp">
+        android:id="@+id/scrollView2">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            android:padding="50dp">
 
             <ImageView
                 android:layout_width="80dp"

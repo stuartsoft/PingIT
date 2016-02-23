@@ -1,5 +1,6 @@
 package edu.gcc.whiletrue.pingit;
 
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -14,6 +15,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
  * Created by BOWMANRS1 on 2/12/2016.
@@ -29,8 +31,9 @@ public class LoginUITest {
     public ActivityTestRule<StartupActivity> mActivityRule = new ActivityTestRule<>(
             StartupActivity.class);
 
+    //successfully log in with a valid account
     @Test
-    public void testLoginUI() {
+    public void test11() {
         // Click buttons and do crap
 
         onView(withId(R.id.switchToLoginBtn)).perform(click());
@@ -38,8 +41,22 @@ public class LoginUITest {
                 .perform(typeText(email), closeSoftKeyboard());
         onView(withId(R.id.loginPasswordTxt))
                 .perform(typeText(pass), closeSoftKeyboard());
+        onView(withId(R.id.loginBtn))
+                .perform(click());
 
-        //pressBack();
-        //pressBack();
+    }
+
+    //test that the login page warns if the user didn't enter their email
+    @Test
+    public void test13(){
+        onView(withId(R.id.switchToLoginBtn)).perform(click());
+        //onView(withId(R.id.loginEmailTxt))
+        //        .perform(typeText(email), closeSoftKeyboard());
+        onView(withId(R.id.loginPasswordTxt))
+                .perform(typeText(pass), closeSoftKeyboard());
+        onView(withId(R.id.loginBtn))
+                .perform(click());
+        //wait for dialog to appear, then dismiss it
+        onView(withText(R.string.emailNotValid)).perform(ViewActions.pressBack());
     }
 }

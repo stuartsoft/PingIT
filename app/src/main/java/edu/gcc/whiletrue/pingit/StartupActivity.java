@@ -1,23 +1,20 @@
 package edu.gcc.whiletrue.pingit;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 
-import com.parse.Parse;
-import com.parse.ParseUser;
-
-public class StartupActivity extends AppCompatActivity implements RegisterFragment.OnHeadlineSelectedListener, LoginFragment.OnHeadlineSelectedListener {
+public class StartupActivity extends AppCompatActivity implements
+        RegisterFragment.OnHeadlineSelectedListener, LoginFragment.OnHeadlineSelectedListener {
 
     private FragmentManager fragmentManager;
+    private int startFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,14 +26,26 @@ public class StartupActivity extends AppCompatActivity implements RegisterFragme
 
         fragmentManager = getSupportFragmentManager();
 
-        onSwitchToRegister();
+        //Read extra indicating which fragment to show first. Default will show register first
+        startFragment = getIntent().getIntExtra("startFragment", 0);
+        if (startFragment == 1)
+            onSwitchToLogin();
+        else
+            onSwitchToRegister();
 
         //this intent call will skip the login activity for convenience
         //TODO remove this before production
         //Intent intent = new Intent(this, HomeActivity.class);
         //startActivity(intent);
         //finish();
+    }
 
+    //Returns true if the device has an internet connection. False otherwise.
+    @Override
+    public boolean checkNetworkStatus(){
+        ConnectivityManager cm = (ConnectivityManager)getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
     }
 
     //This will be called by the foreground fragment when the user wants to switch to the Register view

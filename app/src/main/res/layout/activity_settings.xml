@@ -27,8 +27,9 @@
         android:id="@+id/settingsFragmentContainer"
         android:name="edu.gcc.whiletrue.pingit.SettingsActivityFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         />
+
 
 </android.support.design.widget.CoordinatorLayout>
