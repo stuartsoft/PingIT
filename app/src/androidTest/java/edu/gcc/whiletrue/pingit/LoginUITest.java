@@ -1,5 +1,8 @@
 package edu.gcc.whiletrue.pingit;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -28,15 +31,23 @@ public class LoginUITest {
     String pass = "justinrocks";
 
     @Rule//startup activity to test
-    public ActivityTestRule<StartupActivity> mActivityRule = new ActivityTestRule<>(
-            StartupActivity.class);
+    public ActivityTestRule<StartupActivity> mActivityRule = new ActivityTestRule<StartupActivity>(
+            StartupActivity.class){
+        @Override
+        protected Intent getActivityIntent() {
+            Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+            Intent result = new Intent(targetContext, StartupActivity.class);
+            //add extra to indicate to the intent to start on the login screen
+            result.putExtra("startFragment", 1);
+            return result;
+        }
+    };
 
     //successfully log in with a valid account
     @Test
     public void test11() {
         //Enter credentials and sign in
 
-        onView(withId(R.id.switchToLoginBtn)).perform(click());
         onView(withId(R.id.loginEmailTxt))
             .perform(typeText(email), closeSoftKeyboard());
         onView(withId(R.id.loginPasswordTxt))
@@ -49,14 +60,12 @@ public class LoginUITest {
     //Test that pressing the button at the bottom of the screen switches from Login to Register
     @Test
     public void test12() {
-        onView(withId(R.id.switchToLoginBtn)).perform(click());
         //Wait for Stuart to implement the extra
     }
 
     //test that the login page warns if the user didn't enter their email
     @Test
     public void test13(){
-        onView(withId(R.id.switchToLoginBtn)).perform(click());
         //onView(withId(R.id.loginEmailTxt))
         //        .perform(typeText(email), closeSoftKeyboard());
         onView(withId(R.id.loginPasswordTxt))
