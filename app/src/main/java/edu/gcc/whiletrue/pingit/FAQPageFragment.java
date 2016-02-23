@@ -83,10 +83,14 @@ public class FAQPageFragment extends Fragment {
         String[][] arr = new String[2][2];
         arr[0][0]= "A question";
         arr[0][1] = "An answer";
+        arr[1][0]= "It's because... IDK";
+        arr[1][1] = "JUST DO IT";
 
         String[][] arr2 = new String[2][2];
-        arr[0][0]= "Questions for second";
-        arr[0][1] = "Another answer";
+        arr2[0][0]= "Questions for second";
+        arr2[0][1] = "Another answer";
+        arr2[1][0]= "It's because your dumb";
+        arr2[1][1] = "Stop being dumb";
 
         faqData.add(new FAQ("My computer won't turn on", arr));
         faqData.add(new FAQ("I can't connect to the World Wide Webernet", arr2));
@@ -100,17 +104,16 @@ public class FAQPageFragment extends Fragment {
             public void onItemClick(AdapterView<?> arg0, View arg1,
                                     int position, long arg3) {
                 // TODO Auto-generated method stub
-                Fragment expandedFAQ = new Fragment();
+                FAQExtendedFragment faqFrag = new FAQExtendedFragment();
                 String[][] listToSend = faqData.get(position).getQuestionArr();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("listToGet", listToSend);
-                expandedFAQ.setArguments(bundle);
+                faqFrag.setArguments(bundle);
 
-                FAQExtendedFragment faqFrag = new FAQExtendedFragment();
                 FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                 fragmentTransaction.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.add(R.id.expanded_faq_container,faqFrag);
+                fragmentTransaction.replace(R.id.faq_containter,faqFrag);
                 fragmentTransaction.commit();
                 Toast.makeText(getContext(), "I clicked on the " + position + " one!", Toast.LENGTH_SHORT).show();
             }

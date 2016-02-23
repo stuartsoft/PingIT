@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,6 +67,9 @@ public class FAQExtendedFragment extends Fragment {
         String[][] selected_list = (String[][]) bundle.getSerializable("listToGet");
         ArrayList<String[][]> arrList = new ArrayList<String[][]>();
         arrList.add(selected_list);
+
+
+        //Toast.makeText(getContext(), "I grabbed " + selected_list[0][0] + " !", Toast.LENGTH_SHORT).show();
 
         faqArrayAdapter = new FAQArrayAdapter(getContext(), R.layout.faq_list_template, arrList);
 
