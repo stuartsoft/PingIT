@@ -43,12 +43,14 @@ public class LoginUITest {
             .perform(typeText(pass), closeSoftKeyboard());
         onView(withId(R.id.loginBtn))
             .perform(click());
+        //TODO: Assert that the HomeActivity has been launched to complete the test.
     }
 
-    //Test that pressing the button at the bottom of the screen switches from Register to Login
+    //Test that pressing the button at the bottom of the screen switches from Login to Register
     @Test
     public void test12() {
         onView(withId(R.id.switchToLoginBtn)).perform(click());
+        //Wait for Stuart to implement the extra
     }
 
     //test that the login page warns if the user didn't enter their email

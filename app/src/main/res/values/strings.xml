@@ -43,7 +43,6 @@
     <string name="confirmLogoutMsg">Are you sure you would like to log out?</string>
     <string name="passwordTooShort">Please enter a password of at least 6 characters.</string>
     <string name="passwordNotValid">Please enter a valid password.</string>
-    <string name="confirmPasswordInvalid">Please confirm your password.</string>
 
 
 </resources>

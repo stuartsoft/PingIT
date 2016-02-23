@@ -48,6 +48,9 @@ public class RegisterUITest {
 
         onView(withId(R.id.registerBtn)).perform(click());
 
+        //TODO: Check to ensure HomeActivity launched correctly here to ensure they successfully
+        //registered
+
     }
 
     //test that the registration page warns if the user didn't enter their name
@@ -83,7 +86,7 @@ public class RegisterUITest {
         onView(withId(R.id.registerBtn)).perform(click());
 
         //wait for dialog to appear, then dismiss it
-        onView(withText(R.string.confirmPasswordInvalid)).perform(ViewActions.pressBack());
+        onView(withText(R.string.passwordsDontMatch)).perform(ViewActions.pressBack());
     }
 
     //test that the registration page warns if the passwords don't match
