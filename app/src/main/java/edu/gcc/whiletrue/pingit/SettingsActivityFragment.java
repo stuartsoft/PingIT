@@ -1,6 +1,7 @@
 package edu.gcc.whiletrue.pingit;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,6 +37,7 @@ import static android.support.v4.app.ActivityCompat.finishAffinity;
 public class SettingsActivityFragment extends PreferenceFragment
         implements SharedPreferences.OnSharedPreferenceChangeListener, View.OnClickListener {
 
+    private Context fragmentContext;
     private SignOutTask signOutTask;
     private AlertDialog confirmSignOutDialog;
     private AlertDialog signOutDialog;
@@ -88,6 +90,8 @@ public class SettingsActivityFragment extends PreferenceFragment
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         LinearLayout view = (LinearLayout)super.onCreateView(inflater, container, savedInstanceState);
+
+        fragmentContext = inflater.getContext();
 
         //append the footerview below the settings, like the logout button
         FrameLayout footerView = (FrameLayout)inflater.inflate(R.layout.footer_settings, null);
@@ -153,7 +157,7 @@ public class SettingsActivityFragment extends PreferenceFragment
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
 
-            Intent intent = new Intent(getContext(), StartupActivity.class);
+            Intent intent = new Intent(fragmentContext, StartupActivity.class);
             //add an extra to indicate to the startup activity to show the login screen first
             intent.putExtra("startFragment", 1);
             startActivity(intent);//start the login/registration activity
