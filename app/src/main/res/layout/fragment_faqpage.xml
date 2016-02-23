@@ -7,10 +7,11 @@
     <!-- TODO: Update blank fragment layout -->
 
     <ListView
+        android:id="@+id/listView_categories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView_categories"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:clickable="true" />
+        android:clickable="true"
+        />
 </RelativeLayout>

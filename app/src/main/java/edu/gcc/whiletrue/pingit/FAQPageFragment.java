@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.support.v4.app.FragmentTransaction;
-
-import com.parse.Parse;
-
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView;
+import android.widget.Toast;
 import java.util.ArrayList;
 
 
@@ -68,6 +69,7 @@ public class FAQPageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fragmentManager = getFragmentManager();
     }
 
     @Override
@@ -76,29 +78,52 @@ public class FAQPageFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_faqpage, container, false);
 
-        ArrayList<FAQ> faqData = new ArrayList<FAQ>();
+        final ArrayList<FAQ> faqData = new ArrayList<FAQ>();
 
         String[][] arr = new String[2][2];
         arr[0][0]= "A question";
         arr[0][1] = "An answer";
 
+        String[][] arr2 = new String[2][2];
+        arr[0][0]= "Questions for second";
+        arr[0][1] = "Another answer";
+
         faqData.add(new FAQ("My computer won't turn on", arr));
-        faqData.add(new FAQ("I can't connect to the World Wide Webernet", arr));
+        faqData.add(new FAQ("I can't connect to the World Wide Webernet", arr2));
+
+        ListView listView = (ListView) rootView.findViewById(R.id.listView_categories);
+        listView.setAdapter(faqArrayAdapter);
+
+        listView.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+                // TODO Auto-generated method stub
+                Fragment expandedFAQ = new Fragment();
+                String[][] listToSend = faqData.get(position).getQuestionArr();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("listToGet", listToSend);
+                expandedFAQ.setArguments(bundle);
+
+                FAQExtendedFragment faqFrag = new FAQExtendedFragment();
+                FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.add(R.id.expanded_faq_container,faqFrag);
+                fragmentTransaction.commit();
+                Toast.makeText(getContext(), "I clicked on the " + position + " one!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         faqArrayAdapter = new FAQArrayAdapter(getContext(), R.layout.faq_list_template, faqData);
+
         ListView faqListView = (ListView) rootView.findViewById(R.id.listView_categories);
+
         faqListView.setAdapter(faqArrayAdapter);
 
 
         return rootView;
-    }
-
-    public void onCategoryClick() {
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
-        FAQPageFragment faqFrag = new FAQPageFragment();
-        fragmentTransaction.add(R.id.startup_fragment_container,faqFrag);
-        fragmentTransaction.commit();
     }
 
 }
