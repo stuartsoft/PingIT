@@ -3,7 +3,7 @@
     <RingtonePreference
         android:key="notification_sound_preference"
         android:title="Notification Sound"
-        android:summary="Tap to select…"
+        android:summary="Should display current sound"
         android:ringtoneType="notification"
         android:showSilent="true"
         android:showDefault="true" />
@@ -12,7 +12,7 @@
         android:title="Notification Resend"
         android:summaryOff="Notification will only be sent once."
         android:summaryOn="Repeat notification if not dismissed."
-        android:defaultValue="true"
+        android:defaultValue="false"
         android:disableDependentsState="false" />
     <ListPreference
         android:key="notification_resend_delay"
