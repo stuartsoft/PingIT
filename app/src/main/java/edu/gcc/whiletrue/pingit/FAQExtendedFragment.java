@@ -1,20 +1,19 @@
 package edu.gcc.whiletrue.pingit;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-import java.util.Arrays;
+import android.widget.AdapterView;
 
 /**
  * Created by Zared on 2/22/2016.
@@ -23,29 +22,54 @@ public class FAQExtendedFragment extends Fragment {
     public FAQExtendedFragment() {
     }
 
-    public class FAQArrayAdapter extends ArrayAdapter<String[][]> {
+    FAQExtendedFragment thisFrag = this;
+
+    ArrayList<ArrayList<String>> conciseQuestions = new  ArrayList<ArrayList<String>>();
+
+    public class FAQArrayAdapter extends BaseAdapter {
         Context myContext;
         int myResource;
-        ArrayList<String[][]> questions;
+        ArrayList<ArrayList<String>> questions;
+        LayoutInflater layoutInflater;
 
-        public FAQArrayAdapter(Context context, int resource, ArrayList<String[][]> objects) {
-            super(context, resource, objects);
+        @Override
+        public long getItemId(int position) {
+
+            return position;
+        }
+
+        @Override
+        public Object getItem(int position) {
+
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+
+            return questions.size();
+        }
+
+        public FAQArrayAdapter(Context context, int resource, ArrayList<ArrayList<String>> objects) {
+            super();
             myContext = context;
             myResource = resource;
             questions = objects;
+            conciseQuestions = questions;
+            layoutInflater = LayoutInflater.from(context);
         }
 
         @Override // Gets the data into a presentable form to be displayed.
         public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater inflater = ((Activity)myContext).getLayoutInflater();
+            convertView= layoutInflater.inflate(R.layout.faq_list_template, null);
 
-            // Get references for view elements
-            View row = inflater.inflate(myResource, parent, false);
-            TextView textLine = (TextView) row.findViewById(R.id.faq_template_text);
+            TextView txt=(TextView)convertView.findViewById(R.id.faq_template_text);
 
-            // Set the values from the data.
-            textLine.setText(Arrays.deepToString(questions.get(position)));
-            return row;
+            String myString = questions.get(position).get(0).toString();
+
+            txt.setText(myString);
+
+            return convertView;
         }
     }
 
@@ -62,20 +86,49 @@ public class FAQExtendedFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_faq_expanded, container, false);
 
 
-        Bundle bundle = new Bundle();
+        Bundle bundle =this.getArguments();
 
         String[][] selected_list = (String[][]) bundle.getSerializable("listToGet");
-        ArrayList<String[][]> arrList = new ArrayList<String[][]>();
-        arrList.add(selected_list);
+        ArrayList<ArrayList<String>> arrList = new ArrayList<ArrayList<String>>();
 
-
-        //Toast.makeText(getContext(), "I grabbed " + selected_list[0][0] + " !", Toast.LENGTH_SHORT).show();
+        for(int i = 0; i< selected_list.length; i++){
+            ArrayList<String> tempList = new ArrayList<String>();
+            tempList.add(selected_list[i][0]);
+            tempList.add(selected_list[i][1]);
+            arrList.add(tempList);
+        }
 
         faqArrayAdapter = new FAQArrayAdapter(getContext(), R.layout.faq_list_template, arrList);
 
         ListView listView = (ListView) view.findViewById(R.id.concise_faq_list);
 
         listView.setAdapter(faqArrayAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+                // TODO Auto-generated method stub
+                FAQAnswerFragment faqFrag = new FAQAnswerFragment();
+                String title = conciseQuestions.get(position).get(0).toString();
+                String answer = conciseQuestions.get(position).get(1).toString();
+                Bundle bundle = new Bundle();
+                bundle.putString("sentTitle", title);
+                bundle.putString("sentAnswer", answer);
+                faqFrag.setArguments(bundle);
+
+                FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.replace(R.id.expanded_faq_container, faqFrag);
+
+                fragmentTransaction.commit();
+                fragmentTransaction.hide(thisFrag);
+            }
+        });
+
+
 
         return view;
     }
