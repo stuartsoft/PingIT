@@ -1,9 +1,12 @@
 package edu.gcc.whiletrue.pingit;
 
+import android.content.SharedPreferences;
+import android.preference.Preference;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,24 +35,26 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class SettingsUITest {
 
+    String enteredName = "Stuart Bowman";
 
     @Rule//startup activity to test
     public ActivityTestRule<SettingsActivity> mActivityRule = new ActivityTestRule<>(
             SettingsActivity.class);
 
     //Test that a user can open the Ringtone dialogue option in the Settings menu
-    /*@Test
+    @Test
     public void test40() {
         onData(withKey("notification_sound_preference")).perform(click());
 
         //wait for dialog to appear, then dismiss it
         pressBack();
-        TODO: Fix this; test freezes once dialogue is opened
-    }*/
+        //TODO: Fix this; test freezes once dialogue is opened
+    }
 
     //Ensure the switch moves from off to on when tapped. Switch starts off.
     /*@Test
     public void test42() {
+
         onData(withKey("notification_resend_toggle")).perform(click());
 
         onData(withSummaryText("Notification will only be sent once.")).check(matches(isDisplayed()));
@@ -83,6 +88,22 @@ public class SettingsUITest {
         //wait for dialog to appear, then dismiss it
         pressBack();
         //TODO: Ensure this is a thorough enough test. This also hangs quite a bit
+    }
+
+    //Open the Name box, type a new name, and hit Okay. The new name should be displayed.
+    @Test
+    public void test47(){
+        onData(withKey("display_name")).perform(click());
+        //type a name
+        onView(withText("Display Name")).perform(typeTextIntoFocusedView(enteredName),
+                closeSoftKeyboard());
+        //Submit the name
+        onView(withText("OK")).perform(click());
+
+        onData(withKey("display_name")).check(matches(isDisplayed()));
+        onData(withSummaryText(enteredName)).check(matches(isDisplayed()));
+
+        //TODO: Fix this
     }
 
     //tap logout button and make sure confirmation dialog appears
