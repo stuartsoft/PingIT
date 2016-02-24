@@ -58,7 +58,7 @@ public class RegisterUITest {
     @Test
     public void test02() {
         onView(withId(R.id.switchToLoginBtn)).perform(click());
-        onView(withText("Login to PingIT")).check(matches(isDisplayed()));
+        onView(withId(R.id.fragment_login)).check(matches(isDisplayed()));
     }
 
     //test that the registration page warns if the user didn't enter their name

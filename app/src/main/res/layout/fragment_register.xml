@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     tools:context="edu.gcc.whiletrue.pingit.RegisterFragment"
     tools:showIn="@id/startup_fragment_container"
+    android:id="@+id/fragment_register"
     android:orientation="vertical">
 
 
