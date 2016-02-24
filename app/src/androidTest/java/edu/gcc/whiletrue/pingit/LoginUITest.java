@@ -31,6 +31,8 @@ public class LoginUITest {
 
     String email = "unittest@gmail.com";
     String pass = "justinrocks";
+    String wrongEmail = "nobodyusesthisemail@stupid.com";
+    String wrongPass = "qwerty123";
 
     @Rule//startup activity to test
     public ActivityTestRule<StartupActivity> mActivityRule = new ActivityTestRule<StartupActivity>(
@@ -65,19 +67,63 @@ public class LoginUITest {
     //Test that pressing the button at the bottom of the screen switches from Login to Register
     @Test
     public void test12() {
-        //Wait for Stuart to implement the extra
+        onView(withId(R.id.switchToRegisterBtn)).perform(click());
+        onView(withId(R.id.fragment_register)).check(matches(isDisplayed()));
     }
 
     //test that the login page warns if the user didn't enter their email
     @Test
     public void test13(){
         //onView(withId(R.id.loginEmailTxt))
-        //        .perform(typeText(email), closeSoftKeyboard());
+        //  .perform(typeText(email), closeSoftKeyboard());
         onView(withId(R.id.loginPasswordTxt))
-                .perform(typeText(pass), closeSoftKeyboard());
+            .perform(typeText(pass), closeSoftKeyboard());
         onView(withId(R.id.loginBtn))
-                .perform(click());
+            .perform(click());
+
         //wait for dialog to appear, then dismiss it
         onView(withText(R.string.emailNotValid)).perform(ViewActions.pressBack());
+    }
+
+    //Test that the login page rejects a blank password field
+    @Test
+    public void test14() {
+        onView(withId(R.id.loginEmailTxt))
+            .perform(typeText(email), closeSoftKeyboard());
+        //onView(withId(R.id.loginPasswordTxt))
+        //    .perform(typeText(pass), closeSoftKeyboard());
+        onView(withId(R.id.loginBtn))
+            .perform(click());
+
+        //wait for dialog to appear, then dismiss it
+        onView(withText(R.string.passwordNotValid)).perform(ViewActions.pressBack());
+    }
+
+    //Test that the app rejects logging in with an email address not in the database
+    @Test
+    public void test15a() {
+        onView(withId(R.id.loginEmailTxt))
+            .perform(typeText(wrongEmail), closeSoftKeyboard());
+        onView(withId(R.id.loginPasswordTxt))
+            .perform(typeText(pass), closeSoftKeyboard());
+        onView(withId(R.id.loginBtn))
+            .perform(click());
+
+        //wait for dialog to appear, then dismiss it
+        onView(withText(R.string.invalidCredentials)).perform(ViewActions.pressBack());
+    }
+
+    //Test that the app rejects an incorrect password for a valid user email when logging in
+    @Test
+    public void test15b() {
+        onView(withId(R.id.loginEmailTxt))
+                .perform(typeText(email), closeSoftKeyboard());
+        onView(withId(R.id.loginPasswordTxt))
+                .perform(typeText(wrongPass), closeSoftKeyboard());
+        onView(withId(R.id.loginBtn))
+                .perform(click());
+
+        //wait for dialog to appear, then dismiss it
+        onView(withText(R.string.invalidCredentials)).perform(ViewActions.pressBack());
     }
 }
