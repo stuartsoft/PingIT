@@ -44,13 +44,44 @@ public class FAQUITest {
         onView(withId(R.id.settingsFragmentContainer)).check(matches(isDisplayed()));
     }
 
-    //Check that pressing the up button on the settings page brings us back to the previous tab on the home screen
+    //Switch to the Chat page from the FAQ page
+    @Test
+    public void test26() {
+        //tap FAQ tab
+        onView(withText(R.string.faqSectionTitle)).perform(click());
+        //assert that we are on the FAQ tab
+        onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
+
+        //tap Chat tab
+        onView(withText(R.string.chatSectionTitle)).perform(click());
+        //assert that we are on the Pings tab
+        onView(withId(R.id.fragment_chat_page)).check(matches(isDisplayed()));
+    }
+
+    //Switch to the Pings page from the FAQ page
+    @Test
+    public void test27(){
+        //tap FAQ tab
+        onView(withText(R.string.faqSectionTitle)).perform(click());
+        //assert that we are on the FAQ tab
+        onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
+
+        //tap Pings tab
+        onView(withText(R.string.pingsSectionTitle)).perform(click());
+        //assert that we are on the Pings tab
+        onView(withId(R.id.fragment_pings_page)).check(matches(isDisplayed()));
+
+    }
+
+    //Check that pressing the up button on the settings page
+    //brings us back to the previous tab on the home screen
     @Test
     public void test55(){
         //tap FAQ tab
         onView(withText(R.string.faqSectionTitle)).perform(click());
         //assert that we are on the FAQ tab
         onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
+
         //tap the Settings icon
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         onView(withText("Settings"))
@@ -61,19 +92,5 @@ public class FAQUITest {
         onView(withContentDescription("Navigate up")).perform(click());
         //assert that we are on the FAQ tab
         onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
-    }
-
-    //go from faq page to pings page
-    @Test
-    public void test27(){
-        //tap FAQ tab
-        onView(withText(R.string.faqSectionTitle)).perform(click());
-        //assert that we are on the FAQ tab
-        onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
-        //tap Pings tab
-        onView(withText(R.string.pingsSectionTitle)).perform(click());
-        //assert that we are on the Pings tab
-        onView(withId(R.id.fragment_pings_page)).check(matches(isDisplayed()));
-
     }
 }

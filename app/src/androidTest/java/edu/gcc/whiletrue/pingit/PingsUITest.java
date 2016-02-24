@@ -25,6 +25,34 @@ public class PingsUITest {
     public ActivityTestRule<HomeActivity> mActivityRule = new ActivityTestRule<>(
             HomeActivity.class);
 
+    //Switch to the FAQ page from the Pings page
+    @Test
+    public void test28() {
+        //tap Pings tab
+        onView(withText(R.string.pingsSectionTitle)).perform(click());
+        //assert that we are on the Pings tab
+        onView(withId(R.id.fragment_pings_page)).check(matches(isDisplayed()));
+
+        //tap FAQ tab
+        onView(withText(R.string.faqSectionTitle)).perform(click());
+        //assert that we are on the FAQ tab
+        onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
+    }
+
+    //Switch to the Chat page from the Pings page
+    @Test
+    public void test29() {
+        //tap Pings tab
+        onView(withText(R.string.pingsSectionTitle)).perform(click());
+        //assert that we are on the Pings tab
+        onView(withId(R.id.fragment_pings_page)).check(matches(isDisplayed()));
+
+        //tap Chat tab
+        onView(withText(R.string.chatSectionTitle)).perform(click());
+        //assert that we are on the Pings tab
+        onView(withId(R.id.fragment_chat_page)).check(matches(isDisplayed()));
+    }
+
     //Open the Settings menu from the Pings page
     @Test
     public void test30(){
