@@ -17,6 +17,8 @@ import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -54,7 +56,10 @@ public class LoginUITest {
             .perform(typeText(pass), closeSoftKeyboard());
         onView(withId(R.id.loginBtn))
             .perform(click());
+
         //TODO: Assert that the HomeActivity has been launched to complete the test.
+        onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
+        //Is this  method OK or should it not rely on the FAQ page being first?
     }
 
     //Test that pressing the button at the bottom of the screen switches from Login to Register

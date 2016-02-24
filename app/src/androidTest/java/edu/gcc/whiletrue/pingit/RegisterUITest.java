@@ -29,7 +29,8 @@ public class RegisterUITest {
     String name = "John Doe";
     String email = "unittest@gmail.com";
     String pass = "justinrocks";
-    String shortpass = "poo";
+    String shortPass = "poo";
+    String invalidEmail = "Leeroy Jenkins";
 
     @Rule//startup activity to test
     public ActivityTestRule<StartupActivity> mActivityRule = new ActivityTestRule<>(
@@ -52,6 +53,7 @@ public class RegisterUITest {
         onView(withId(R.id.registerBtn)).perform(click());
 
         onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
+        //TODO: Force a logout on this test user so the app actually creates it each time
         //TODO: Check to ensure HomeActivity launched correctly here to ensure they successfully...
         //registered (is the above method OK or should it not rely on the FAQ page being first?
     }
@@ -135,6 +137,24 @@ public class RegisterUITest {
         onView(withText(R.string.passwordsDontMatch)).perform(ViewActions.pressBack());
     }
 
+    //Test that the user entered a valid email address
+    @Test
+    public void test07() {
+        onView(withId(R.id.registerNameTxt))
+                .perform(typeText(name), closeSoftKeyboard());
+        onView(withId(R.id.registerEmailTxt))
+                .perform(typeText(invalidEmail), closeSoftKeyboard());
+        onView(withId(R.id.registerPasswordTxt))
+                .perform(typeText(pass), closeSoftKeyboard());
+        onView(withId(R.id.registerConfirmPassword))
+          .perform(typeText(pass), closeSoftKeyboard());
+
+        onView(withId(R.id.registerBtn)).perform(click());
+
+        //wait for dialog to appear, then dismiss it
+        onView(withText(R.string.isNotAValidEmail)).perform(ViewActions.pressBack());
+    }
+
     //test that the registration page warns if the passwords don't match
     @Test
     public void test08() {
@@ -161,9 +181,9 @@ public class RegisterUITest {
         onView(withId(R.id.registerEmailTxt))
                 .perform(typeText(email), closeSoftKeyboard());
         onView(withId(R.id.registerPasswordTxt))
-                .perform(typeText(shortpass), closeSoftKeyboard());
+                .perform(typeText(shortPass), closeSoftKeyboard());
         onView(withId(R.id.registerConfirmPassword))
-                .perform(typeText(shortpass), closeSoftKeyboard());
+                .perform(typeText(shortPass), closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
 
