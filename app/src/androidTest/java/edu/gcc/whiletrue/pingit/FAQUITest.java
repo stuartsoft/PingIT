@@ -46,7 +46,7 @@ public class FAQUITest {
 
     //Check that pressing the up button on the settings page brings us back to the previous tab on the home screen
     @Test
-    public void test46(){
+    public void test55(){
         //tap FAQ tab
         onView(withText(R.string.faqSectionTitle)).perform(click());
         //assert that we are on the FAQ tab
