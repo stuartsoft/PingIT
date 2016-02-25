@@ -1,5 +1,6 @@
 package edu.gcc.whiletrue.pingit;
 
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -73,7 +74,28 @@ public class FAQUITest {
 
     }
 
-    //Check that pressing the up button on the settings page
+    //Test that pressing the software Back button brings us back to the FAQ, Chat, or Pings page
+    @Test
+    public void test54() {
+        //tap FAQ tab
+        onView(withText(R.string.faqSectionTitle)).perform(click());
+        //assert that we are on the FAQ tab
+        onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
+
+        //tap the Settings icon
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+        onView(withText("Settings"))
+                .perform(click());
+        //assert that we are on the Settings page
+        onView(withId(R.id.settingsFragmentContainer)).check(matches(isDisplayed()));
+
+        //Press the software or hardware Back button
+        onView(withId(R.id.settingsFragmentContainer)).perform(ViewActions.pressBack());
+        //assert that we are on the FAQ tab
+        onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
+    }
+
+    //Check that pressing the on-screen Up button on the settings page
     //brings us back to the previous tab on the home screen
     @Test
     public void test55(){
