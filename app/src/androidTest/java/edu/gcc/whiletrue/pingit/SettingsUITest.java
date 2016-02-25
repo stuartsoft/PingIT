@@ -130,4 +130,23 @@ public class SettingsUITest {
         onView(withText(R.string.confirmLogoutMsg)).perform(ViewActions.pressBack());
     }
 
+    //Tap Log Out button, confirm logout, and make sure the user is returned to the Login screen
+    @Test
+    public void test52() {
+        onView(withId(R.id.logoutBtn)).perform(click());
+        //wait for dialog to appear, then confirm logout
+        onView(withText("Yes")).perform(click());
+
+        onView(withId(R.id.fragment_login)).check(matches(isDisplayed()));
+    }
+
+    //Tap Log Out button, but cancel the action by tapping No
+    @Test
+    public void test53() {
+        onView(withId(R.id.logoutBtn)).perform(click());
+        //wait for dialog to appear, then cancel logout action
+        onView(withText("No")).perform(click());
+
+        onView(withId(R.id.settingsFragmentContainer)).check(matches(isDisplayed()));
+    }
 }
