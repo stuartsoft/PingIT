@@ -1,19 +1,21 @@
 package edu.gcc.whiletrue.pingit;
 
+import java.util.ArrayList;
+
 /**
  * Created by Zared on 2/8/2016.
  */
 public class FAQ {
     private String category;
-    private String[][] questionArr;
+    ArrayList<ArrayList<String>> questionArr;
 
     public FAQ() {
         category = "Porblem";
-        questionArr[0][0] = "A question";
-        questionArr[0][1] = "An answer";
+        questionArr.get(0).add("A qustion");
+        questionArr.get(0).add("An answer");
     }
 
-    public FAQ(String cat, String[][] arr) {
+    public FAQ(String cat, ArrayList<ArrayList<String>> arr) {
         this.category = cat;
         this.questionArr = arr;
     }
@@ -22,7 +24,7 @@ public class FAQ {
         return category;
     }
 
-    public String[][] getQuestionArr() {
+    public ArrayList<ArrayList<String>> getQuestionArr() {
         return questionArr;
     }
 }

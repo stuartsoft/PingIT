@@ -28,6 +28,7 @@ import java.util.ArrayList;
 public class FAQPageFragment extends Fragment {
 
     private FragmentManager fragmentManager;
+    private FAQPageFragment thisFrag = this;
 
     public class FAQArrayAdapter extends ArrayAdapter<FAQ> {
         Context myContext;
@@ -80,17 +81,21 @@ public class FAQPageFragment extends Fragment {
 
         final ArrayList<FAQ> faqData = new ArrayList<FAQ>();
 
-        String[][] arr = new String[2][2];
-        arr[0][0]= "A question";
-        arr[0][1] = "An answer";
-        arr[1][0]= "It's because... IDK";
-        arr[1][1] = "JUST DO IT";
+        ArrayList<ArrayList<String>> arr =  new ArrayList<ArrayList<String>>();
+        arr.add(new ArrayList<String>());
+        arr.get(0).add("A question");
+        arr.get(0).add("An answer");
 
-        String[][] arr2 = new String[2][2];
-        arr2[0][0]= "Questions for second";
-        arr2[0][1] = "Another answer";
-        arr2[1][0]= "It's because your dumb";
-        arr2[1][1] = "Stop being dumb";
+        ArrayList<ArrayList<String>> arr2 =  new ArrayList<ArrayList<String>>();
+        arr2.add(new ArrayList<String>());
+        arr2.add(new ArrayList<String>());
+        arr2.add(new ArrayList<String>());
+        arr2.get(0).add("Questions for second");
+        arr2.get(0).add("Another answer");
+        arr2.get(1).add("It's because your dumb");
+        arr2.get(1).add("Stop being dumb");
+        arr2.get(2).add("My light is orange!");
+        arr2.get(2).add("It's because it reflects every other color except orange.");
 
         faqData.add(new FAQ("My computer won't turn on", arr));
         faqData.add(new FAQ("I can't connect to the World Wide Webernet", arr2));
@@ -105,15 +110,15 @@ public class FAQPageFragment extends Fragment {
                                     int position, long arg3) {
                 // TODO Auto-generated method stub
                 FAQExtendedFragment faqFrag = new FAQExtendedFragment();
-                String[][] listToSend = faqData.get(position).getQuestionArr();
+                ArrayList<ArrayList<String>> listToSend = faqData.get(position).getQuestionArr();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("listToGet", listToSend);
                 faqFrag.setArguments(bundle);
 
                 FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                 fragmentTransaction.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
+                fragmentTransaction.replace(R.id.faq_containter, faqFrag);
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.add(R.id.faq_containter, faqFrag);
                 fragmentTransaction.commit();
                 Toast.makeText(getContext(), "I clicked on the " + position + " one!", Toast.LENGTH_SHORT).show();
             }

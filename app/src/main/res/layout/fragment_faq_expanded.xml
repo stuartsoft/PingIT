@@ -6,10 +6,11 @@
     tools:context="edu.gcc.whiletrue.pingit.RegisterFragment"
     android:orientation="vertical"
     android:id="@+id/expanded_faq_fragment">
+
     <FrameLayout
-        android:id="@+id/expanded_faq_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/expanded_faq_fragment2">
 
         <ListView
             android:layout_width="match_parent"

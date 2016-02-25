@@ -22,7 +22,7 @@ public class FAQExtendedFragment extends Fragment {
     public FAQExtendedFragment() {
     }
 
-    FAQExtendedFragment thisFrag = this;
+    private FAQExtendedFragment thisFrag = this;
 
     ArrayList<ArrayList<String>> conciseQuestions = new  ArrayList<ArrayList<String>>();
 
@@ -64,8 +64,14 @@ public class FAQExtendedFragment extends Fragment {
             convertView= layoutInflater.inflate(R.layout.faq_list_template, null);
 
             TextView txt=(TextView)convertView.findViewById(R.id.faq_template_text);
+            String myString = "";
+            try{
+                myString = questions.get(position).get(0).toString();
+            }
+            catch (NullPointerException e){
+                throw new RuntimeException(e);
+            }
 
-            String myString = questions.get(position).get(0).toString();
 
             txt.setText(myString);
 
@@ -88,13 +94,13 @@ public class FAQExtendedFragment extends Fragment {
 
         Bundle bundle =this.getArguments();
 
-        String[][] selected_list = (String[][]) bundle.getSerializable("listToGet");
+        ArrayList<ArrayList<String>> selected_list = (ArrayList<ArrayList<String>>) bundle.getSerializable("listToGet");
         ArrayList<ArrayList<String>> arrList = new ArrayList<ArrayList<String>>();
 
-        for(int i = 0; i< selected_list.length; i++){
+        for(int i = 0; i< selected_list.size(); i++){
             ArrayList<String> tempList = new ArrayList<String>();
-            tempList.add(selected_list[i][0]);
-            tempList.add(selected_list[i][1]);
+            tempList.add(selected_list.get(i).get(0).toString());
+            tempList.add(selected_list.get(i).get(1).toString());
             arrList.add(tempList);
         }
 
@@ -111,20 +117,22 @@ public class FAQExtendedFragment extends Fragment {
                                     int position, long arg3) {
                 // TODO Auto-generated method stub
                 FAQAnswerFragment faqFrag = new FAQAnswerFragment();
+
+                //Collects the title and answer of selected question
                 String title = conciseQuestions.get(position).get(0).toString();
                 String answer = conciseQuestions.get(position).get(1).toString();
                 Bundle bundle = new Bundle();
+                //bundles the strings to be sent to the new fragmemt
                 bundle.putString("sentTitle", title);
                 bundle.putString("sentAnswer", answer);
                 faqFrag.setArguments(bundle);
 
                 FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                 fragmentTransaction.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
+                fragmentTransaction.replace(R.id.expanded_faq_fragment, faqFrag);
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.replace(R.id.expanded_faq_container, faqFrag);
-
+                //fragmentTransaction.remove(thisFrag);
                 fragmentTransaction.commit();
-                fragmentTransaction.hide(thisFrag);
             }
         });
 
