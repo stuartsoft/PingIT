@@ -8,6 +8,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.hamcrest.Matcher;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +43,10 @@ import static org.junit.Assert.assertEquals;
 public class SettingsUITest {
 
     String enteredName = "Stuart Bowman";
+    String prefsToggleKey = getTargetContext().getString(R.string.prefs_notification_resend_toggle_key);
+    String prefsDelayKey = getTargetContext().getString(R.string.prefs_notification_resend_delay_key);
+    String displayNameKey = getTargetContext().getString(R.string.prefs_display_name_key);
+    String clearPingsKey = getTargetContext().getString(R.string.prefs_clear_pings_key);
 
     @Rule//startup activity to test
     public ActivityTestRule<SettingsActivity> mActivityRule = new ActivityTestRule<>(
@@ -58,30 +63,56 @@ public class SettingsUITest {
     }*/
 
     //Ensure the switch moves from off to on when tapped. Switch starts off.
-    /*@Test
+    @Test
     public void test42() {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getTargetContext());
 
-        onData(withKey("notification_resend_toggle")).perform(click());
+        Boolean notificationResendOn = settings.getBoolean(prefsToggleKey, false);
+        if (notificationResendOn)//if the switch is on then turn it off
+            onData(withKey(prefsToggleKey)).perform(click());
 
-        onData(withSummaryText("Notification will only be sent once.")).check(matches(isDisplayed()));
-        //TODO: Find a way to check this because I don't know how.
-    }*/
+        //switch is now OFF
+        //assert the settings value matches the expected value
+        assertEquals(false, settings.getBoolean(prefsToggleKey, false));
+        //assert that the correct message is displayed in the row
+        onView(withText(R.string.prefs_notification_resend_toggle_summaryoff)).check(matches(isDisplayed()));
+
+        //test turning ON the switch
+        onData(withKey(prefsToggleKey)).perform(click());
+        //assert the value changed in the preferences
+        assertEquals(true, settings.getBoolean(prefsToggleKey, false));
+        //assert that the correct message is displayed in the row
+        onView(withText(R.string.prefs_notification_resend_toggle_summaryon)).check(matches(isDisplayed()));
+
+    }
 
     //Ensure the switch moves from on to off when tapped. Switch starts on.
-    /*@Test
+    @Test
     public void test43() {
-        onData(withKey("notification_resend_toggle")).perform(click());
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getTargetContext());
 
-        onData(withSummaryText("Repeat notification if not dismissed.")).check(matches(isDisplayed()));
-        //TODO: Find a way to check this because I don't know how.
-    }*/
+        Boolean notificationResendOn = settings.getBoolean(prefsToggleKey, false);
+        if (!notificationResendOn)//if the switch is off then turn it on
+            onData(withKey(prefsToggleKey)).perform(click());
+
+        //switch is now ON
+        //assert the settings value matches the expected value
+        assertEquals(true, settings.getBoolean(prefsToggleKey, false));
+        //assert that the correct message is displayed in the row
+        onView(withText(R.string.prefs_notification_resend_toggle_summaryon)).check(matches(isDisplayed()));
+
+        //test turning OFF the switch
+        onData(withKey(prefsToggleKey)).perform(click());
+        //assert the value changed in the preferences
+        assertEquals(false, settings.getBoolean(prefsToggleKey, false));
+        //assert that the correct message is displayed in the row
+        onView(withText(R.string.prefs_notification_resend_toggle_summaryoff)).check(matches(isDisplayed()));
+    }
 
     //Test that tapping Notification Resend Delay launches a dialog box
     @Test
     public void test44() {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getTargetContext());
-        String prefsToggleKey = getTargetContext().getString(R.string.prefs_notification_resend_toggle_key);
-        String prefsDelayKey = getTargetContext().getString(R.string.prefs_notification_resend_delay_key);
 
         Boolean notificationResendOn = settings.getBoolean(prefsToggleKey, false);
         if (!notificationResendOn)//if notification resend delay is off, turn it on so we can set the delay
@@ -97,8 +128,6 @@ public class SettingsUITest {
     @Test
     public void test45(){
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getTargetContext());
-        String prefsToggleKey = getTargetContext().getString(R.string.prefs_notification_resend_toggle_key);
-        String prefsDelayKey = getTargetContext().getString(R.string.prefs_notification_resend_delay_key);
 
         Boolean notificationResendOn = settings.getBoolean(prefsToggleKey, false);
         if (!notificationResendOn)//if notification resend delay is off, turn it on so we can set the delay
@@ -121,7 +150,6 @@ public class SettingsUITest {
     //just test that the dialog box appears to change the display name. Then cancel the dialog
     @Test
     public void test46(){
-        String displayNameKey = getTargetContext().getString(R.string.prefs_display_name_key);
         onData(withKey(displayNameKey)).perform(click());
         //type a name
         //onView(withText("Display Name")).perform(typeTextIntoFocusedView("Stuart Bowman"), closeSoftKeyboard());
@@ -150,7 +178,6 @@ public class SettingsUITest {
     //Test that tapping Clear Pings brings up a dialog box
     @Test
     public void test48() {
-        String clearPingsKey = getTargetContext().getString(R.string.prefs_clear_pings_key);
         onData(withKey(clearPingsKey)).perform(click());
         //wait for dialog to appear, then dismiss it
         onView(withText(R.string.prefs_clear_pings_dialogtitle)).perform(ViewActions.pressBack());
@@ -159,7 +186,6 @@ public class SettingsUITest {
     //Test that the user can cancel clearing his pings
     @Test
     public void test50() {
-        String clearPingsKey = getTargetContext().getString(R.string.prefs_clear_pings_key);
         onData(withKey(clearPingsKey)).perform(click());
         //wait for dialog to appear, then cancel.
         onView(withText(R.string.dialogNo)).perform(click());
