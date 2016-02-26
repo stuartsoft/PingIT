@@ -82,9 +82,9 @@ public class FAQUITest {
         onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
 
         //tap the Settings icon
-        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-        onView(withText("Settings"))
-                .perform(click());
+        //openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+        onView(withId(R.id.menu_home_settings)).perform(click());
+
         //assert that we are on the Settings page
         onView(withId(R.id.settingsFragmentContainer)).check(matches(isDisplayed()));
 
@@ -104,9 +104,9 @@ public class FAQUITest {
         onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
 
         //tap the Settings icon
-        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-        onView(withText("Settings"))
-                .perform(click());
+        //openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+        onView(withId(R.id.menu_home_settings)).perform(click());
+
         //assert that we are on the Settings page
         onView(withId(R.id.settingsFragmentContainer)).check(matches(isDisplayed()));
 

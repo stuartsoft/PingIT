@@ -51,24 +51,32 @@ Built from the ground up, this project aims to better connect students and helpd
   **Build Artifact Paths**
   ```
   app/build/outputs/apk/app-debug.apk
-  app/build/outputs/lint-results.html
+  app/build/outputs/lint-results.html => quality/lint
+  app/build/outputs/lint-results_files => quality/lint/lint-results_files
+  app/build/reports/androidTests/connected => quality/tests
   ```
   **Build Parameters**
   ```
-  env.ANDROID_HOME = Path to Android/SDK
+  env.ANDROID_HOME = ~/Android/Sdk
   ```
   **Build Steps**
   ```
   Gradle
       clean build - use wrapper
+      Execute: If all previous steps finished successfully
   Instrumented tests
-      #Unlock device
-      adb shell input keyevent 82
-      #run connected Android Tests
-      chmod +x ./gradlew
-      ./gradlew cAT
+      Custom script:
+          #Check connected devices
+          adb devices
+          #Unlock device
+          adb shell input keyevent 82
+          #run connected Android Tests
+          chmod +x ./gradlew
+          ./gradlew cAT
+      Execute: If all previous steps finished successfully
   Mirror Build Status Badge
-      ~/.BuildServer/MirrorBuildStatusWrapper.sh
+      Custom script: ~/.BuildServer/MirrorBuildStatusWrapper.sh
+      Execute: Even if some of the previous steps failed
   ```
 ###License
   MIT
