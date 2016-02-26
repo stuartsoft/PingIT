@@ -110,7 +110,12 @@ public class SettingsUITest {
         String selectedOption = "1 minute";
         onView(withText(selectedOption)).perform(click());
 
-        assertEquals(selectedOption,settings.getString(prefsDelayKey, ""));//check that the preferences value reflects the UI actions
+        //assert that we are on the settings page
+        onView(withId(R.id.settingsFragmentContainer)).check(matches(isDisplayed()));
+        //assert that the selected option is displayed
+        onView(withText(selectedOption)).check(matches(isDisplayed()));
+        //assert that the saved preferences value matches the UI selection
+        assertEquals(selectedOption,settings.getString(prefsDelayKey, ""));
     }
 
     //just test that the dialog box appears to change the display name. Then cancel the dialog
