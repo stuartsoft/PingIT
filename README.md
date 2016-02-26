@@ -36,7 +36,7 @@ Built from the ground up, this project aims to better connect students and helpd
 
 ###Team City Build Server Setup
   **Default Branch**
-  ```  
+  ```
   refs/heads/master
   ```
   **Branch Specification**
@@ -51,24 +51,55 @@ Built from the ground up, this project aims to better connect students and helpd
   **Build Artifact Paths**
   ```
   app/build/outputs/apk/app-debug.apk
-  app/build/outputs/lint-results.html
+  app/build/outputs/lint-results.html => quality/lint
+  app/build/outputs/lint-results_files => quality/lint/lint-results_files
+  app/build/reports/androidTests/connected => quality/tests
   ```
   **Build Parameters**
   ```
-  env.ANDROID_HOME = Path to Android/SDK
+  env.ANDROID_HOME = ~/Android/Sdk
   ```
   **Build Steps**
   ```
   Gradle
       clean build - use wrapper
+      Execute: If all previous steps finished successfully
   Instrumented tests
-      #Unlock device
-      adb shell input keyevent 82
-      #run connected Android Tests
-      chmod +x ./gradlew
-      ./gradlew cAT
+      Custom script:
+          #Check connected devices
+          adb devices
+          #Unlock device
+          adb shell input keyevent 82
+          #run connected Android Tests
+          chmod +x ./gradlew
+          ./gradlew cAT
+      Execute: If all previous steps finished successfully
   Mirror Build Status Badge
-      ~/.BuildServer/MirrorBuildStatusWrapper.sh
+      Custom script: ~/.BuildServer/MirrorBuildStatusWrapper.sh
+      Execute: Even if some of the previous steps failed
   ```
 ###License
-  MIT
+```
+The MIT License (MIT)
+
+Copyright (c) 2016 Grove City College
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+

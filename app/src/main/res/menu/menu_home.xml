@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="edu.gcc.whiletrue.pingit.HomeActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/menu_home_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:icon="@android:drawable/ic_menu_preferences"
+        app:showAsAction="ifRoom" />
 </menu>

@@ -166,6 +166,7 @@ public class SettingsActivityFragment extends PreferenceFragment
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        //Update a preference's summary as soon as a user changes it
         Preference pref = findPreference(key);
 
         if (pref instanceof EditTextPreference) {
