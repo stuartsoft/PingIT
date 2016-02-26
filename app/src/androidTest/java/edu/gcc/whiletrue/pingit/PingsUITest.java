@@ -62,9 +62,8 @@ public class PingsUITest {
         onView(withId(R.id.fragment_pings_page)).check(matches(isDisplayed()));
 
         //tap the Settings icon
-        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-        onView(withText("Settings"))
-                .perform(click());
+        //openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+        onView(withId(R.id.menu_home_settings)).perform(click());
 
         //assert that we are on the Settings page
         onView(withId(R.id.settingsFragmentContainer)).check(matches(isDisplayed()));
