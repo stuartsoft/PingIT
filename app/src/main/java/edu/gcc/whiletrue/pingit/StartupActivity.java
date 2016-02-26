@@ -32,13 +32,13 @@ public class StartupActivity extends AppCompatActivity implements
             onSwitchToLogin();
         else
             onSwitchToRegister();
-
+    }
         //this intent call will skip the login activity for convenience
         //TODO remove this before production
-        //Intent intent = new Intent(this, HomeActivity.class);
-        //startActivity(intent);
-        //finish();
-    }
+//        Intent intent = new Intent(this, HomeActivity.class);
+//        startActivity(intent);
+//        finish();
+
 
     //Returns true if the device has an internet connection. False otherwise.
     @Override

@@ -60,7 +60,7 @@ public class LoginUITest {
             .perform(click());
 
         //TODO: Assert that the HomeActivity has been launched to complete the test.
-        onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
+        onView(withId(R.id.faq_containter)).check(matches(isDisplayed()));
         //Is this  method OK or should it not rely on the FAQ page being first?
     }
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#e0e0e0"
+    android:longClickable="false"
+    android:clickable="false"
+    android:contextClickable="false"
+    android:nestedScrollingEnabled="false">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="55sp"
+        android:id="@+id/faq_template_text"
+        android:layout_marginLeft="10dp"
+        android:nestedScrollingEnabled="false"
+        android:textSize="20sp"
+        android:textColor="@android:color/black" />
+
+</LinearLayout>

@@ -34,7 +34,7 @@ public class FAQUITest {
         //tap FAQ tab
         onView(withText(R.string.faqSectionTitle)).perform(click());
         //assert that we are on the FAQ tab
-        onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
+        onView(withId(R.id.faq_containter)).check(matches(isDisplayed()));
 
         //tap the Settings icon
         //openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
@@ -50,7 +50,7 @@ public class FAQUITest {
         //tap FAQ tab
         onView(withText(R.string.faqSectionTitle)).perform(click());
         //assert that we are on the FAQ tab
-        onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
+        onView(withId(R.id.faq_containter)).check(matches(isDisplayed()));
 
         //tap Chat tab
         onView(withText(R.string.chatSectionTitle)).perform(click());
@@ -64,7 +64,7 @@ public class FAQUITest {
         //tap FAQ tab
         onView(withText(R.string.faqSectionTitle)).perform(click());
         //assert that we are on the FAQ tab
-        onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
+        onView(withId(R.id.faq_containter)).check(matches(isDisplayed()));
 
         //tap Pings tab
         onView(withText(R.string.pingsSectionTitle)).perform(click());
@@ -79,7 +79,7 @@ public class FAQUITest {
         //tap FAQ tab
         onView(withText(R.string.faqSectionTitle)).perform(click());
         //assert that we are on the FAQ tab
-        onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
+        onView(withId(R.id.faq_containter)).check(matches(isDisplayed()));
 
         //tap the Settings icon
         //openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
@@ -91,7 +91,7 @@ public class FAQUITest {
         //Press the software or hardware Back button
         onView(withId(R.id.settingsFragmentContainer)).perform(ViewActions.pressBack());
         //assert that we are on the FAQ tab
-        onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
+        onView(withId(R.id.faq_containter)).check(matches(isDisplayed()));
     }
 
     //Check that pressing the on-screen Up button on the settings page
@@ -101,7 +101,7 @@ public class FAQUITest {
         //tap FAQ tab
         onView(withText(R.string.faqSectionTitle)).perform(click());
         //assert that we are on the FAQ tab
-        onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
+        onView(withId(R.id.faq_containter)).check(matches(isDisplayed()));
 
         //tap the Settings icon
         //openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
@@ -112,6 +112,6 @@ public class FAQUITest {
 
         onView(withContentDescription("Navigate up")).perform(click());
         //assert that we are on the FAQ tab
-        onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
+        onView(withId(R.id.faq_containter)).check(matches(isDisplayed()));
     }
 }
