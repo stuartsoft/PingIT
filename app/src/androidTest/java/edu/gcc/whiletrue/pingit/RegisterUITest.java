@@ -39,10 +39,11 @@ public class RegisterUITest {
             StartupActivity.class);
 
     //Regular, successful sign up
+    /*
     @Test
     public void test01() {
         // Click fields, type info, and create an account
-        /*
+
 
         onView(withId(R.id.registerNameTxt))
             .perform(typeText(name), closeSoftKeyboard());
@@ -56,12 +57,12 @@ public class RegisterUITest {
         onView(withId(R.id.registerBtn)).perform(click());
 
         onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
-        */
+
 
         //TODO: Force an unregister on this test user so the app actually creates it each time
         //TODO: Check to ensure HomeActivity launched correctly here to ensure they successfully...
         //registered (is the above method OK or should it not rely on the FAQ page being first?
-    }
+    }*/
 
     //Test that tapping the button at the bottom of the screen switches to the Login screen
     @Test
