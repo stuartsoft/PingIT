@@ -2,6 +2,7 @@ package edu.gcc.whiletrue.pingit;
 
 import android.content.SharedPreferences;
 import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -12,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
@@ -76,6 +78,11 @@ public class SettingsUITest {
     //Test that tapping Notification Resend Delay launches a dialog box
     @Test
     public void test44() {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getTargetContext());
+        Boolean notificationResendOn = settings.getBoolean("notification_resend_toggle", false);
+        if (!notificationResendOn)
+            onData(withKey("notification_resend_toggle")).perform(click());
+
         onData(withKey("notification_resend_delay")).perform(click());
 
         onView(withText("Notification Resend Delay")).perform(ViewActions.pressBack());
