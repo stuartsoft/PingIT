@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.ParseInstallation;
 import com.parse.SignUpCallback;
 
 import java.util.Objects;
@@ -178,7 +179,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
             ParseUser.logOut();//make sure the user is logged out first
 
-            try {user.signUp();
+            try {
+                user.signUp();
+                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                installation.put("user",ParseUser.getCurrentUser());
+                installation.saveInBackground();
             } catch (ParseException e) {return e.getCode();}//return exception code
             return 0;//no issues
         }

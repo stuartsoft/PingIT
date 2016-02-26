@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 import java.util.Objects;
@@ -159,7 +160,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
             ParseUser.logOut();//make sure the user is logged out first
 
-            try {ParseUser.logIn(email,pass);
+            try {
+                ParseUser.logIn(email,pass);
+                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                installation.put("user",ParseUser.getCurrentUser());
+                installation.saveInBackground();
             } catch (ParseException e) {return e.getCode();}//return exception code
             return 0;//no issues
         }
