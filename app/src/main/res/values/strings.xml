@@ -43,6 +43,25 @@
     <string name="confirmLogoutMsg">Are you sure you would like to log out?</string>
     <string name="passwordTooShort">Please enter a password of at least 6 characters.</string>
     <string name="passwordNotValid">Please enter a valid password.</string>
+    <string name="prefs_notification_sound_key">notification_sound_preference</string>
+    <string name="prefs_notification_sound_title">Notification Sound</string>
+    <string name="prefs_notification_sound_summary">Should display current sound</string>
+    <string name="prefs_notification_resend_toggle_key">notification_resend_toggle</string>
+    <string name="prefs_notification_resend_toggle_title">Notification Resend</string>
+    <string name="prefs_notification_resend_toggle_summaryoff">Notification will only be sent once.</string>
+    <string name="prefs_notification_resend_toggle_summaryon">Repeat notification if not dismissed.</string>
+    <string name="prefs_notification_resend_delay_key">notification_resend_delay</string>
+    <string name="prefs_notification_resend_delay_title">Notification Resend Delay</string>
+    <string name="prefs_display_name_key">display_name</string>
+    <string name="prefs_display_name_title">Display Name</string>
+    <string name="prefs_display_name_summary">Should display current name</string>
+    <string name="prefs_display_name_dialogmessage">Please enter a display name.</string>
+    <string name="prefs_clear_pings_key">clear_pings</string>
+    <string name="prefs_clear_pings_title">Clear Archived Pings</string>
+    <string name="prefs_clear_pings_summary">Erase all ping history.</string>
+    <string name="prefs_clear_pings_dialogtitle">Are You Sure?</string>
+    <string name="prefs_clear_pings_dialogmessage">This will clear all of your pings and cannot be undone. Are you sure you want to proceed?</string>
+    <string name="prefs_clear_pings_positive">Yes, erase my pings.</string>
 
 
 </resources>

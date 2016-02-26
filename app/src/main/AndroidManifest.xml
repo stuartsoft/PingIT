@@ -43,15 +43,13 @@
             android:label="@string/titleActivityHome"
             android:parentActivityName=".StartupActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustNothing">
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".SettingsActivity"
             android:label="@string/titleActivitySettings"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustNothing"
             android:parentActivityName="edu.gcc.whiletrue.pingit.HomeActivity">
         </activity>
     </application>

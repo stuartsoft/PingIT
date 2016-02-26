@@ -79,19 +79,23 @@ public class SettingsUITest {
     @Test
     public void test44() {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getTargetContext());
-        Boolean notificationResendOn = settings.getBoolean("notification_resend_toggle", false);
+        String prefsToggleKey = getTargetContext().getString(R.string.prefs_notification_resend_toggle_key);
+        String prefsDelayKey = getTargetContext().getString(R.string.prefs_notification_resend_delay_key);
+
+        Boolean notificationResendOn = settings.getBoolean(prefsToggleKey, false);
         if (!notificationResendOn)
-            onData(withKey("notification_resend_toggle")).perform(click());
+            onData(withKey(prefsToggleKey)).perform(click());
 
-        onData(withKey("notification_resend_delay")).perform(click());
+        onData(withKey(prefsDelayKey)).perform(click());
 
-        onView(withText("Notification Resend Delay")).perform(ViewActions.pressBack());
+        onView(withText(R.string.prefs_notification_resend_delay_title)).perform(ViewActions.pressBack());
     }
 
     //just test that the dialog box appears to change the display name. Then cancel the dialog
     @Test
     public void test46(){
-        onData(withKey("display_name")).perform(click());
+        String displayNameKey = getTargetContext().getString(R.string.prefs_display_name_key);
+        onData(withKey(displayNameKey)).perform(click());
         //type a name
         //onView(withText("Display Name")).perform(typeTextIntoFocusedView("Stuart Bowman"), closeSoftKeyboard());
 
@@ -119,17 +123,19 @@ public class SettingsUITest {
     //Test that tapping Clear Pings brings up a dialog box
     @Test
     public void test48() {
-        onData(withKey("clear_pings")).perform(click());
+        String clearPingsKey = getTargetContext().getString(R.string.prefs_clear_pings_key);
+        onData(withKey(clearPingsKey)).perform(click());
         //wait for dialog to appear, then dismiss it
-        onView(withText("Are You Sure?")).perform(ViewActions.pressBack());
+        onView(withText(R.string.prefs_clear_pings_dialogtitle)).perform(ViewActions.pressBack());
     }
 
     //Test that the user can cancel clearing his pings
     @Test
     public void test50() {
-        onData(withKey("clear_pings")).perform(click());
+        String clearPingsKey = getTargetContext().getString(R.string.prefs_clear_pings_key);
+        onData(withKey(clearPingsKey)).perform(click());
         //wait for dialog to appear, then cancel.
-        onView(withText("No, cancel.")).perform(click());
+        onView(withText(R.string.dialogNo)).perform(click());
     }
 
     //tap logout button and make sure confirmation dialog appears
@@ -145,7 +151,7 @@ public class SettingsUITest {
     public void test52() {
         onView(withId(R.id.logoutBtn)).perform(click());
         //wait for dialog to appear, then confirm logout
-        onView(withText("Yes")).perform(click());
+        onView(withText(R.string.dialogYes)).perform(click());
 
         onView(withId(R.id.fragment_login)).check(matches(isDisplayed()));
     }
@@ -155,7 +161,7 @@ public class SettingsUITest {
     public void test53() {
         onView(withId(R.id.logoutBtn)).perform(click());
         //wait for dialog to appear, then cancel logout action
-        onView(withText("No")).perform(click());
+        onView(withText(R.string.dialogNo)).perform(click());
 
         onView(withId(R.id.settingsFragmentContainer)).check(matches(isDisplayed()));
     }
