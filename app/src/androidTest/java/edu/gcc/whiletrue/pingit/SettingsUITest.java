@@ -32,6 +32,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withContentDesc
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withTagKey;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by BOWMANRS1 on 2/23/2016.
@@ -83,12 +84,33 @@ public class SettingsUITest {
         String prefsDelayKey = getTargetContext().getString(R.string.prefs_notification_resend_delay_key);
 
         Boolean notificationResendOn = settings.getBoolean(prefsToggleKey, false);
-        if (!notificationResendOn)
+        if (!notificationResendOn)//if notification resend delay is off, turn it on so we can set the delay
             onData(withKey(prefsToggleKey)).perform(click());
 
-        onData(withKey(prefsDelayKey)).perform(click());
+        onData(withKey(prefsDelayKey)).perform(click());//open delay setting
 
+        //wait for dialog to appear, then dismiss it
         onView(withText(R.string.prefs_notification_resend_delay_title)).perform(ViewActions.pressBack());
+    }
+
+    //select an option from the list of notification resend delays
+    @Test
+    public void test45(){
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getTargetContext());
+        String prefsToggleKey = getTargetContext().getString(R.string.prefs_notification_resend_toggle_key);
+        String prefsDelayKey = getTargetContext().getString(R.string.prefs_notification_resend_delay_key);
+
+        Boolean notificationResendOn = settings.getBoolean(prefsToggleKey, false);
+        if (!notificationResendOn)//if notification resend delay is off, turn it on so we can set the delay
+            onData(withKey(prefsToggleKey)).perform(click());
+
+        onData(withKey(prefsDelayKey)).perform(click());//open delay setting
+
+        //select the first time delay option
+        String selectedOption = "1 minute";
+        onView(withText(selectedOption)).perform(click());
+
+        assertEquals(selectedOption,settings.getString(prefsDelayKey, ""));//check that the preferences value reflects the UI actions
     }
 
     //just test that the dialog box appears to change the display name. Then cancel the dialog
