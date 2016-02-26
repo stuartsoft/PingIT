@@ -9,6 +9,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -18,6 +19,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.containsString;
 
 /**
  * Created by BOWMANRS1 on 2/12/2016.
@@ -152,7 +154,8 @@ public class RegisterUITest {
         onView(withId(R.id.registerBtn)).perform(click());
 
         //wait for dialog to appear, then dismiss it
-        onView(withText(R.string.isNotAValidEmail)).perform(ViewActions.pressBack());
+        String expectedMsg = getTargetContext().getString(R.string.isNotAValidEmail);
+        onView(withText(containsString(expectedMsg))).perform(ViewActions.pressBack());
     }
 
     //test that the registration page warns if the passwords don't match
