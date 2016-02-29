@@ -1,6 +1,7 @@
 package edu.gcc.whiletrue.pingit;
 
 import android.content.SharedPreferences;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.test.espresso.action.ViewActions;
@@ -21,11 +22,14 @@ import static android.support.test.espresso.Espresso.openActionBarOverflowOrOpti
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.typeTextIntoFocusedView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.PreferenceMatchers.isEnabled;
 import static android.support.test.espresso.matcher.PreferenceMatchers.withKey;
+import static android.support.test.espresso.matcher.PreferenceMatchers.withSummary;
 import static android.support.test.espresso.matcher.PreferenceMatchers.withSummaryText;
+import static android.support.test.espresso.matcher.PreferenceMatchers.withTitle;
 import static android.support.test.espresso.matcher.PreferenceMatchers.withTitleText;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -59,7 +63,8 @@ public class SettingsUITest {
 
         //wait for dialog to appear, then dismiss it
         pressBack();
-        //TODO: Fix this; test freezes once dialogue is opened
+        //TODO: Fix this; test freezes once dialogue is opened.
+        //Has to do with the Ringtone being a system window.
     }*/
 
     //Ensure the switch moves from off to on when tapped. Switch starts off.
@@ -160,20 +165,23 @@ public class SettingsUITest {
     }
 
     //Open the Name box, type a new name, and hit Okay. The new name should be displayed.
-    /*@Test
+    @Test
     public void test47(){
         onData(withKey("display_name")).perform(click());
         //type a name
-        onView(withText("Display Name")).perform(typeTextIntoFocusedView(enteredName),
-                closeSoftKeyboard());
+        onView(withText("Display Name"))//This is the problem
+                .perform(replaceText(enteredName), closeSoftKeyboard());
         //Submit the name
         onView(withText("OK")).perform(click());
 
         //onData(withKey("display_name")).check(matches(isDisplayed()));
-        onData(withSummaryText(enteredName)).check(matches(isDisplayed()));
+        //onData(withSummaryText(enteredName)).check(matches(isDisplayed()));
 
-        //TODO: Fix this
-    }*/
+        //TODO: Fix this; getting an error related to typing in the popup
+        //I think the problem is that the system doesn't know where to click to start typing
+        //We need to identify this window; could do by telling it to tap on the field which contains
+        //the user's current name, but this is a pain to get
+    }
 
     //Test that tapping Clear Pings brings up a dialog box
     @Test
