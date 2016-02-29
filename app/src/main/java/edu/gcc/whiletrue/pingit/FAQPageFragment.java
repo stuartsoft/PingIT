@@ -117,7 +117,7 @@ public class FAQPageFragment extends Fragment {
 
                 FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                 fragmentTransaction.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
-                fragmentTransaction.replace(R.id.faq_containter, faqFrag);
+                fragmentTransaction.replace(R.id.faq_container, faqFrag);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
                 Toast.makeText(getContext(), "I clicked on the " + position + " one!", Toast.LENGTH_SHORT).show();

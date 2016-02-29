@@ -10,8 +10,8 @@ public class FAQ {
     ArrayList<ArrayList<String>> questionArr;
 
     public FAQ() {
-        category = "Porblem";
-        questionArr.get(0).add("A qustion");
+        category = "Problem";
+        questionArr.get(0).add("A question");
         questionArr.get(0).add("An answer");
     }
 
