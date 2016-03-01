@@ -158,6 +158,7 @@ public class ChatPageFragment extends Fragment {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.SECOND, -30);
         query.whereGreaterThan("timeOfLastAction", calendar.getTime());
+        query.orderByDescending("timeOfLastAction");
         query.findInBackground(callback);
     }
 
