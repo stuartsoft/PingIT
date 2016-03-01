@@ -129,26 +129,31 @@ public class ChatPageFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final Button startChat = (Button) view.findViewById(R.id.launchChatButt);
-        startChat.setEnabled(false);
-        startChat.setText("Searching for online admins...");
-        findOnlineAdmins(new FindCallback<ParseObject>() {
+        startChat.setText("Click to Refresh");
+
+        startChat.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (objects == null || objects.isEmpty()) {
-                    startChat.setText("No online admins.");
-                } else {
-                    String firstAdminUserName = objects.get(0).get("userName").toString();
-                    String firstAdminFriendlyName = objects.get(0).get("friendlyName").toString();
-                    startChat.setEnabled(true);
-                    startChat.setText("Click to chat with " + firstAdminFriendlyName);
-                    final String[] users = {firstAdminUserName};
-                    startChat.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            startMessaging(users);
+            public void onClick(View v) {
+                findOnlineAdmins(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        if (objects == null || objects.isEmpty()) {
+                            startChat.setText("No online admins.");
+                        } else {
+                            String firstAdminUserName = objects.get(0).get("userName").toString();
+                            String firstAdminFriendlyName = objects.get(0).get("friendlyName").toString();
+                            startChat.setEnabled(true);
+                            startChat.setText("Click to chat with " + firstAdminFriendlyName);
+                            final String[] users = {firstAdminUserName};
+                            startChat.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startMessaging(users);
+                                }
+                            });
                         }
-                    });
-                }
+                    }
+                });
             }
         });
     }
