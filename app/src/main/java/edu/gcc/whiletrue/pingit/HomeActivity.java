@@ -20,6 +20,13 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.parse.ParseUser;
+import com.sendbird.android.SendBird;
+
+import java.util.UUID;
+
+import static edu.gcc.whiletrue.pingit.Util.generateDeviceUUID;
+
 public class HomeActivity extends AppCompatActivity {
 
     /**
@@ -55,6 +62,8 @@ public class HomeActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+
 
     }
 
@@ -124,5 +133,11 @@ public class HomeActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SendBird.disconnect();
     }
 }

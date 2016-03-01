@@ -81,6 +81,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        ParseUser.logOut();
         final View view;
         view = v;
 
@@ -98,6 +99,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 user.setUsername(emailTxt.getText().toString().toLowerCase());
                 user.setEmail(emailTxt.getText().toString());
                 user.setPassword(passTxt.getText().toString());
+                user.put("friendlyName",nameTxt.getText().toString());
 
                 user.signUpInBackground(new SignUpCallback() {
                     @Override

@@ -20,7 +20,7 @@ android {
 
     defaultConfig {
         applicationId "edu.gcc.whiletrue.pingit"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -66,4 +66,11 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
     // Optional -- UI testing with UI Automator
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
+}
+
+repositories {
+    maven { url "https://raw.githubusercontent.com/smilefam/sendbird-android/master/" }
+}
+dependencies {
+    compile 'com.sendbird.sdk:sendbird-android-sdk:2.0.1'
 }

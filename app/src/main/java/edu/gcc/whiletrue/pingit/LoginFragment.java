@@ -17,6 +17,8 @@ import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import static edu.gcc.whiletrue.pingit.Util.generateDeviceUUID;
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -89,6 +91,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                     public void done(ParseUser user, ParseException e) {
                         if (e == null) {
                             Toast.makeText(fragmentContainer.getContext(), "Login Successful!", Toast.LENGTH_SHORT).show();
+                            //we have logged in
+                            ParseUser.getCurrentUser().put("UUID", generateDeviceUUID(getContext()));
                             Intent intent = new Intent(view.getContext(), HomeActivity.class);
                             startActivity(intent);
                         } else
