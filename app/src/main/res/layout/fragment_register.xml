@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     tools:context="edu.gcc.whiletrue.pingit.RegisterFragment"
     tools:showIn="@id/startup_fragment_container"
+    android:id="@+id/fragment_register"
     android:orientation="vertical">
 
 
@@ -11,13 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
-        android:layout_margin="50dp"
         android:fillViewport="false">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="50dp">
 
             <ImageView
                 android:layout_width="80dp"

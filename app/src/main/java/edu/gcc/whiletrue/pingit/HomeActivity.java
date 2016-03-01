@@ -57,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -82,7 +82,7 @@ public class HomeActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_home_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
@@ -129,7 +129,7 @@ public class HomeActivity extends AppCompatActivity {
                 case 1:
                     return getString(R.string.chatSectionTitle);
                 case 2:
-                    return getString(R.string.notificationSectionTitle);
+                    return getString(R.string.pingsSectionTitle);
             }
             return null;
         }

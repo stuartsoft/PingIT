@@ -2,9 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="edu.gcc.whiletrue.pingit.ChatPageFragment"
-    android:weightSum="1">
+
+    android:id="@+id/fragment_chat_page"
+    tools:context="edu.gcc.whiletrue.pingit.ChatPageFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
