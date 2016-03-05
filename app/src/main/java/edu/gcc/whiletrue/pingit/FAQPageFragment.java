@@ -34,12 +34,14 @@ public class FAQPageFragment extends Fragment {
     public class FAQArrayAdapter extends ArrayAdapter<FAQ> {
         Context myContext;
         int myResource;
+        int textResource;
         ArrayList<FAQ> FAQs;
 
-        public FAQArrayAdapter(Context context, int resource, ArrayList<FAQ> objects) {
+        public FAQArrayAdapter(Context context, int resource, int textid, ArrayList<FAQ> objects) {
             super(context, resource, objects);
             myContext = context;
             myResource = resource;
+            textResource = textid;
             FAQs = objects;
         }
 
@@ -49,7 +51,7 @@ public class FAQPageFragment extends Fragment {
 
             // Get references for view elements
             View row = inflater.inflate(myResource, parent, false);
-            TextView textLine = (TextView) row.findViewById(R.id.faq_template_text);
+            TextView textLine = (TextView) row.findViewById(textResource);
 
             // Set the values from the data.
             textLine.setText(FAQs.get(position).getCategory());
@@ -102,12 +104,13 @@ public class FAQPageFragment extends Fragment {
         faqData.add(new FAQ("My computer won't turn on", arr));
         faqData.add(new FAQ("I can't connect to the World Wide Webernet", arr2));
 
+
         //final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.view_row, R.id.header_text, array);
         final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) rootView.findViewById(R.id.expandableLayoutListView);
 
-        faqArrayAdapter = new FAQArrayAdapter(getContext(), R.layout.faq_list_template, faqData);
+        faqArrayAdapter = new FAQArrayAdapter(getContext(), R.layout.view_row, R.id.header_text, faqData);
 
-        expandableLayoutListView.setAdapter();
+        expandableLayoutListView.setAdapter(faqArrayAdapter);
 
         return rootView;
     }
