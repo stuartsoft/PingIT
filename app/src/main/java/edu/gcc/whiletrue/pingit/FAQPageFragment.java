@@ -19,6 +19,8 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
+import com.andexert.expandablelayout.library.ExpandableLayoutListView;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +30,6 @@ import java.util.ArrayList;
 public class FAQPageFragment extends Fragment {
 
     private FragmentManager fragmentManager;
-    private FAQPageFragment thisFrag = this;
 
     public class FAQArrayAdapter extends ArrayAdapter<FAQ> {
         Context myContext;
@@ -71,6 +72,7 @@ public class FAQPageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentManager = getFragmentManager();
+
     }
 
     @Override
@@ -100,36 +102,12 @@ public class FAQPageFragment extends Fragment {
         faqData.add(new FAQ("My computer won't turn on", arr));
         faqData.add(new FAQ("I can't connect to the World Wide Webernet", arr2));
 
-        ListView listView = (ListView) rootView.findViewById(R.id.listView_categories);
-        listView.setAdapter(faqArrayAdapter);
-
-        listView.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1,
-                                    int position, long arg3) {
-                // TODO Auto-generated method stub
-                FAQExtendedFragment faqFrag = new FAQExtendedFragment();
-                ArrayList<ArrayList<String>> listToSend = faqData.get(position).getQuestionArr();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("listToGet", listToSend);
-                faqFrag.setArguments(bundle);
-
-                FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-                fragmentTransaction.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
-                fragmentTransaction.replace(R.id.faq_containter, faqFrag);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-                Toast.makeText(getContext(), "I clicked on the " + position + " one!", Toast.LENGTH_SHORT).show();
-            }
-        });
+        //final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.view_row, R.id.header_text, array);
+        final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) rootView.findViewById(R.id.expandableLayoutListView);
 
         faqArrayAdapter = new FAQArrayAdapter(getContext(), R.layout.faq_list_template, faqData);
 
-        ListView faqListView = (ListView) rootView.findViewById(R.id.listView_categories);
-
-        faqListView.setAdapter(faqArrayAdapter);
-
+        expandableLayoutListView.setAdapter();
 
         return rootView;
     }

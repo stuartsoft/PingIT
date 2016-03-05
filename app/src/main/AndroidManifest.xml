@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.gcc.whiletrue.pingit">
+    xmlns:tools="http://schemas.android.com/tools" package="edu.gcc.whiletrue.pingit">
 
     <uses-permission android:name="android.permission.INTERNET" /><!--Fabric-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /><!--Parse-->
@@ -20,6 +20,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        tools:replace="android:icon"
         android:theme="@style/AppTheme">
         <activity
             android:name=".StartupActivity"
