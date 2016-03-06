@@ -169,7 +169,7 @@ public class SettingsUITest {
     public void test47(){
         onData(withKey("display_name")).perform(click());
         //type a name
-        onView(withText("Display Name"))//This is the problem
+        onView(withText("Display Name"))//FIXME: This is the problem
                 .perform(replaceText(enteredName), closeSoftKeyboard());
         //Submit the name
         onView(withText("OK")).perform(click());

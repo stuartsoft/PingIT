@@ -85,5 +85,10 @@ public class PingsPageFragment extends Fragment {
 
         return rootView;
     }
-
+    //Asynchronous task to make sure this doesn't lag. Check what Stuart did with register/login
+    //Async tasks have a before method, a run in background method, and a post request method
+    //Pre and post request are run on the UI and only background one is run in background
+    //Want to have nothing for pre-run; background methods makes query, gets response, and interpret response
+    //On post, actually create new pings
+    //Constructor, do in background, and on post execute
 }
