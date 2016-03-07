@@ -11,12 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
 import android.widget.Toast;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import com.andexert.expandablelayout.library.ExpandableLayoutListView;
@@ -31,18 +34,66 @@ public class FAQPageFragment extends Fragment {
 
     private FragmentManager fragmentManager;
 
+    public class internalArrayAdapter extends BaseAdapter {
+        Context myContext;
+        int myResource;
+        int textResource;
+        ArrayList<ArrayList<String>> questionsAndAnswers;
+
+            public internalArrayAdapter(Context context, int resource, int textid, ArrayList<ArrayList<String>> objects){
+                myContext = context;
+                myResource = resource;
+                textResource = textid;
+                questionsAndAnswers = objects;
+            }
+
+            @Override // Gets the data into a presentable form to be displayed.
+            public View getView(int position, View convertView, ViewGroup parent) {
+                LayoutInflater inflater = ((Activity) myContext).getLayoutInflater();
+
+                // Get references for view elements
+                View row = inflater.inflate(myResource, parent, false);
+                TextView textLine = (TextView) row.findViewById(textResource);
+
+
+                // Set the values from the data.
+                textLine.setText(questionsAndAnswers.get(position).get(0));
+                return row;
+            }
+
+            @Override
+            public long getItemId(int position) {
+
+                return position;
+            }
+
+            @Override
+            public Object getItem(int position) {
+
+                return null;
+            }
+
+        @Override
+        public int getCount(){
+            return 0;
+        }
+    }
+
     public class FAQArrayAdapter extends ArrayAdapter<FAQ> {
         Context myContext;
         int myResource;
         int textResource;
+        int secondResource;
         ArrayList<FAQ> FAQs;
 
-        public FAQArrayAdapter(Context context, int resource, int textid, ArrayList<FAQ> objects) {
+        public FAQArrayAdapter(Context context, int resource, int textid, int internalReference, ArrayList<FAQ> objects) {
             super(context, resource, objects);
             myContext = context;
             myResource = resource;
             textResource = textid;
+            secondResource = internalReference;
             FAQs = objects;
+
         }
 
         @Override // Gets the data into a presentable form to be displayed.
@@ -52,9 +103,14 @@ public class FAQPageFragment extends Fragment {
             // Get references for view elements
             View row = inflater.inflate(myResource, parent, false);
             TextView textLine = (TextView) row.findViewById(textResource);
+            ExpandableLayoutListView interalList = (ExpandableLayoutListView) row.findViewById(secondResource);
 
             // Set the values from the data.
             textLine.setText(FAQs.get(position).getCategory());
+            //Make new internalAdapter
+            internalArrayAdapter internalAdapter;
+            internalAdapter = new internalArrayAdapter(getContext(), R.layout.view_row, R.id.header_text, FAQs.get(position).getQuestionArr());
+            interalList.setAdapter(internalAdapter);
             return row;
         }
     }
@@ -108,7 +164,7 @@ public class FAQPageFragment extends Fragment {
         //final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.view_row, R.id.header_text, array);
         final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) rootView.findViewById(R.id.expandableLayoutListView);
 
-        faqArrayAdapter = new FAQArrayAdapter(getContext(), R.layout.view_row, R.id.header_text, faqData);
+        faqArrayAdapter = new FAQArrayAdapter(getContext(), R.layout.view_row, R.id.header_text, R.id.internalRow, faqData);
 
         expandableLayoutListView.setAdapter(faqArrayAdapter);
 
