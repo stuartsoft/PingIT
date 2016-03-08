@@ -12,7 +12,7 @@
         android:id="@+id/top_bar_container"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="#824096"
+        android:background="@color/colorPrimary"
         >
         <LinearLayout
             android:layout_width="match_parent"
