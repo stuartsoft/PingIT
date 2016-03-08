@@ -69,8 +69,8 @@ dependencies {
 }
 
 repositories {
-    maven { url "https://raw.githubusercontent.com/smilefam/sendbird-android/master/" }
+    maven { url "https://raw.githubusercontent.com/smilefam/SendBird-SDK-Android/master/" }
 }
 dependencies {
-    compile 'com.sendbird.sdk:sendbird-android-sdk:2.0.1'
+    compile 'com.sendbird.sdk:sendbird-android-sdk:2.0.6'
 }
