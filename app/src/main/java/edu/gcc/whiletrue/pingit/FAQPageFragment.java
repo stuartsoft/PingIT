@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,30 +53,30 @@ public class FAQPageFragment extends Fragment {
                 LayoutInflater inflater = ((Activity) myContext).getLayoutInflater();
 
                 // Get references for view elements
-                View row = inflater.inflate(myResource, parent, false);
+                View row = inflater.inflate(R.layout.internal_view_row, parent, false);
                 TextView textLine = (TextView) row.findViewById(textResource);
-
+                TextView answerLine = (TextView) row.findViewById(R.id.FAQ_Answer);
 
                 // Set the values from the data.
                 textLine.setText(questionsAndAnswers.get(position).get(0));
+                answerLine.setText((questionsAndAnswers.get(position).get(1)));
                 return row;
             }
 
             @Override
             public long getItemId(int position) {
-
                 return position;
             }
 
             @Override
             public Object getItem(int position) {
-
-                return null;
+                return questionsAndAnswers.get(position);
             }
 
         @Override
         public int getCount(){
-            return 0;
+            //Log.w(getString(R.string.log_warning), "getCount: " + questionsAndAnswers.size() );
+            return questionsAndAnswers.size();
         }
     }
 
@@ -103,14 +104,15 @@ public class FAQPageFragment extends Fragment {
             // Get references for view elements
             View row = inflater.inflate(myResource, parent, false);
             TextView textLine = (TextView) row.findViewById(textResource);
-            ExpandableLayoutListView interalList = (ExpandableLayoutListView) row.findViewById(secondResource);
+            ExpandableLayoutListView internalList = (ExpandableLayoutListView) row.findViewById(R.id.nestedListView);
 
             // Set the values from the data.
             textLine.setText(FAQs.get(position).getCategory());
             //Make new internalAdapter
             internalArrayAdapter internalAdapter;
-            internalAdapter = new internalArrayAdapter(getContext(), R.layout.view_row, R.id.header_text, FAQs.get(position).getQuestionArr());
-            interalList.setAdapter(internalAdapter);
+            Log.w(getString(R.string.log_warning), "FAQ num: " + FAQs.get(position).getQuestionArr().size());
+            internalAdapter = new internalArrayAdapter(inflater.getContext(), R.layout.internal_view_row, R.id.header_text, FAQs.get(position).getQuestionArr());
+            internalList.setAdapter(internalAdapter);
             return row;
         }
     }
@@ -164,7 +166,7 @@ public class FAQPageFragment extends Fragment {
         //final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.view_row, R.id.header_text, array);
         final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) rootView.findViewById(R.id.expandableLayoutListView);
 
-        faqArrayAdapter = new FAQArrayAdapter(getContext(), R.layout.view_row, R.id.header_text, R.id.internalRow, faqData);
+        faqArrayAdapter = new FAQArrayAdapter(inflater.getContext(), R.layout.view_row, R.id.header_text, R.id.internalRow, faqData);
 
         expandableLayoutListView.setAdapter(faqArrayAdapter);
 
