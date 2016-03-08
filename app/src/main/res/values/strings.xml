@@ -62,6 +62,9 @@
     <string name="prefs_clear_pings_dialogtitle">Are You Sure?</string>
     <string name="prefs_clear_pings_dialogmessage">This will clear all of your pings and cannot be undone. Are you sure you want to proceed?</string>
     <string name="prefs_clear_pings_positive">Yes, erase my pings.</string>
+    <string name="ClickToRefresh">Click to Refresh</string>
+    <string name="NoOnlineAdmins">No online admins.</string>
+    <string name="fmtClickToChatWith">Click to chat with %s</string>
 
 
 </resources>

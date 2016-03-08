@@ -5,8 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" /><!--Fabric-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /><!--Parse-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /><!--Leak Canary-->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!--sendbird-->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -61,6 +60,32 @@
             android:parentActivityName="edu.gcc.whiletrue.pingit.HomeActivity">
         </activity>
 
+
+        <activity
+            android:name=".SendBirdChatActivity"
+            android:label="SendBird"
+            android:configChanges="orientation|screenSize"
+            >
+        </activity>
+        <activity
+            android:name=".SendBirdMessagingActivity"
+            android:label="SendBird"
+            android:configChanges="orientation|screenSize"
+            >
+        </activity>
+
+        <!-- Required to run Sample project
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>-->
+
         <service android:name="com.parse.PushService" />
         <receiver android:name="com.parse.ParsePushBroadcastReceiver"
             android:exported="false">
@@ -78,6 +103,7 @@
                 <category android:name="edu.gcc.whiletrue.pingit" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>

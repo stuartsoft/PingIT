@@ -5,24 +5,22 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.LogInCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 import java.util.Objects;
+
 
 /**
  * A placeholder fragment containing a simple view.
@@ -133,6 +131,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 signInDialog.show();//show login dialog with progress spinner while Parse executes in the background
                 signInTask = new SignInTask(emailTxt.getText().toString().toLowerCase(), passTxt.getText().toString(), view,fragmentContainer.getContext());
                 signInTask.execute();//attempt to login in the background
+
                 break;
             default:
                 break;
