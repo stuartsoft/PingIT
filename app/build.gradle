@@ -12,6 +12,7 @@ apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    maven { url "https://raw.githubusercontent.com/smilefam/SendBird-SDK-Android/master/" }
 }
 
 android {
@@ -31,6 +32,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    lintOptions{
+        //prevents SendBird from crashing the linter
+        disable 'InvalidPackage'
     }
 }
 
@@ -54,6 +59,9 @@ dependencies {
     //PARSE
     compile 'com.parse.bolts:bolts-android:1.+'
     compile 'com.parse:parse-android:1.+'
+
+    //SendBird
+    compile 'com.sendbird.sdk:sendbird-android-sdk:2.0.6'
 
     //UNIT TESTING AND & INSTRUMENTED TESTING
     // Required -- JUnit 4 framework
