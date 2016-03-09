@@ -48,37 +48,37 @@ public class FAQPageFragment extends Fragment {
         int textResource;
         ArrayList<ArrayList<String>> questionsAndAnswers;
 
-            public internalArrayAdapter(Context context, int resource, int textid, ArrayList<ArrayList<String>> objects){
-                myContext = context;
-                myResource = resource;
-                textResource = textid;
-                questionsAndAnswers = objects;
-            }
+        public internalArrayAdapter(Context context, int resource, int textid, ArrayList<ArrayList<String>> objects){
+            myContext = context;
+            myResource = resource;
+            textResource = textid;
+            questionsAndAnswers = objects;
+        }
 
-            @Override // Gets the data into a presentable form to be displayed.
-            public View getView(int position, View convertView, ViewGroup parent) {
-                LayoutInflater inflater = ((Activity) myContext).getLayoutInflater();
+        @Override // Gets the data into a presentable form to be displayed.
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = ((Activity) myContext).getLayoutInflater();
 
-                // Get references for view elements
-                View row = inflater.inflate(myResource, parent, false);
-                TextView textLine = (TextView) row.findViewById(textResource);
-                TextView answerLine = (TextView) row.findViewById(R.id.FAQ_Answer);
+            // Get references for view elements
+            View row = inflater.inflate(myResource, parent, false);
+            TextView textLine = (TextView) row.findViewById(textResource);
+            TextView answerLine = (TextView) row.findViewById(R.id.FAQ_Answer);
 
-                // Set the values from the data.
-                textLine.setText(questionsAndAnswers.get(position).get(0));
-                answerLine.setText((questionsAndAnswers.get(position).get(1)));
-                return row;
-            }
+            // Set the values from the data.
+            textLine.setText(questionsAndAnswers.get(position).get(0));
+            answerLine.setText((questionsAndAnswers.get(position).get(1)));
+            return row;
+        }
 
-            @Override
-            public long getItemId(int position) {
-                return position;
-            }
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
 
-            @Override
-            public Object getItem(int position) {
-                return questionsAndAnswers.get(position);
-            }
+        @Override
+        public Object getItem(int position) {
+            return questionsAndAnswers.get(position);
+        }
 
         @Override
         public int getCount(){

@@ -4,6 +4,9 @@ import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.parse.Parse;
+import com.parse.ParseUser;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -29,7 +32,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 public class RegisterUITest {
 
     String name = "John Doe";
-    String email = "unittest@gmail.com";
+    String email = "unittestX@gmail.com";
     String pass = "justinrocks";
     String shortPass = "poo";
     String invalidEmail = "Leeroy Jenkins";
@@ -39,12 +42,9 @@ public class RegisterUITest {
             StartupActivity.class);
 
     //Regular, successful sign up
-    /*
     @Test
     public void test01() {
         // Click fields, type info, and create an account
-
-
         onView(withId(R.id.registerNameTxt))
             .perform(typeText(name), closeSoftKeyboard());
         onView(withId(R.id.registerEmailTxt))
@@ -56,13 +56,14 @@ public class RegisterUITest {
 
         onView(withId(R.id.registerBtn)).perform(click());
 
-        onView(withId(R.id.fragment_faqpage)).check(matches(isDisplayed()));
+        onView(withId(R.id.faq_container)).check(matches(isDisplayed()));
 
+        //Delete the user so we can run this test again without fail.
+        ParseUser user = ParseUser.getCurrentUser();
+        user.deleteInBackground();
 
-        //TODO: Force an unregister on this test user so the app actually creates it each time
-        //TODO: Check to ensure HomeActivity launched correctly here to ensure they successfully...
-        //registered (is the above method OK or should it not rely on the FAQ page being first?
-    }*/
+        //TODO: Is the above method OK or should it not rely on the FAQ page being first?
+    }
 
     //Test that tapping the button at the bottom of the screen switches to the Login screen
     @Test

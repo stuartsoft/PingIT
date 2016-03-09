@@ -36,7 +36,7 @@ public class PingsUITest {
         //tap FAQ tab
         onView(withText(R.string.faqSectionTitle)).perform(click());
         //assert that we are on the FAQ tab
-        onView(withId(R.id.faq_containter)).check(matches(isDisplayed()));
+        onView(withId(R.id.faq_container)).check(matches(isDisplayed()));
     }
 
     //Switch to the Chat page from the Pings page
