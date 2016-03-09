@@ -44,11 +44,16 @@ public class RegisterUITest {
     //Regular, successful sign up
     @Test
     public void test01() {
+        String disposableEmail = "asdf@gmail.com";
+        /*this is the email used only for testing registration, because it will be repeatidly
+        created and deleted, so it must be separate from the regular email
+         */
+
         // Click fields, type info, and create an account
         onView(withId(R.id.registerNameTxt))
             .perform(typeText(name), closeSoftKeyboard());
         onView(withId(R.id.registerEmailTxt))
-            .perform(typeText(email), closeSoftKeyboard());
+            .perform(typeText(disposableEmail), closeSoftKeyboard());
         onView(withId(R.id.registerPasswordTxt))
             .perform(typeText(pass), closeSoftKeyboard());
         onView(withId(R.id.registerConfirmPassword))
@@ -56,7 +61,8 @@ public class RegisterUITest {
 
         onView(withId(R.id.registerBtn)).perform(click());
 
-        onView(withId(R.id.faq_container)).check(matches(isDisplayed()));
+        //check that we are on the home activity
+        onView(withId(R.id.main_content)).check(matches(isDisplayed()));
 
         //Delete the user so we can run this test again without fail.
         ParseUser user = ParseUser.getCurrentUser();
