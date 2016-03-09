@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:padding="10dp"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:text="ExpandableLayout Header!"
         android:gravity="center"/>
 

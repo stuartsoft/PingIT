@@ -75,7 +75,6 @@ public class FAQPageFragment extends Fragment {
 
         @Override
         public int getCount(){
-            //Log.w(getString(R.string.log_warning), "getCount: " + questionsAndAnswers.size() );
             return questionsAndAnswers.size();
         }
     }
@@ -110,8 +109,7 @@ public class FAQPageFragment extends Fragment {
             textLine.setText(FAQs.get(position).getCategory());
             //Make new internalAdapter
             internalArrayAdapter internalAdapter;
-            Log.w(getString(R.string.log_warning), "FAQ num: " + FAQs.get(position).getQuestionArr().size());
-            internalAdapter = new internalArrayAdapter(inflater.getContext(), R.layout.internal_view_row, R.id.header_text, FAQs.get(position).getQuestionArr());
+            internalAdapter = new internalArrayAdapter(inflater.getContext(), R.layout.internal_view_row, R.id.internal_header_text, FAQs.get(position).getQuestionArr());
             internalList.setAdapter(internalAdapter);
             return row;
         }

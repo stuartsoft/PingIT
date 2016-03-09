@@ -8,8 +8,8 @@
         android:id="@+id/internalRow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        expandable:el_headerLayout="@layout/view_header"
+        expandable:el_headerLayout="@layout/internal_header"
         expandable:el_contentLayout="@layout/internal_view_content"
-        android:background="#dc7166"/>
+        />
 
 </LinearLayout>
