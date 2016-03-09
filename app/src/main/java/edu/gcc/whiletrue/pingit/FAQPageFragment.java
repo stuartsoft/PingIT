@@ -34,6 +34,8 @@ import com.andexert.expandablelayout.library.ExpandableLayoutListView;
 public class FAQPageFragment extends Fragment {
 
     private FragmentManager fragmentManager;
+    final ArrayList<FAQ> faqData = new ArrayList<FAQ>();
+
 
     public class internalArrayAdapter extends BaseAdapter {
         Context myContext;
@@ -131,6 +133,45 @@ public class FAQPageFragment extends Fragment {
         super.onCreate(savedInstanceState);
         fragmentManager = getFragmentManager();
 
+        //Load FAQ data
+        //TODO replace dummy data with parse stuff and move this all to an async task
+        ArrayList<ArrayList<String>> arr1 =  new ArrayList<ArrayList<String>>();
+        arr1.add(new ArrayList<String>());
+        arr1.get(0).add("Example question A");
+        arr1.get(0).add("Example answer");
+        arr1.add(new ArrayList<String>());
+        arr1.get(1).add("Example question B");
+        arr1.get(1).add("Example answer");
+
+        ArrayList<ArrayList<String>> arr2 =  new ArrayList<ArrayList<String>>();
+        arr2.add(new ArrayList<String>());
+        arr2.get(0).add("Example question C");
+        arr2.get(0).add("Example answer");
+        arr2.add(new ArrayList<String>());
+        arr2.get(1).add("Example question D");
+        arr2.get(1).add("bad shit");
+
+        ArrayList<ArrayList<String>> arr3 =  new ArrayList<ArrayList<String>>();
+        arr3.add(new ArrayList<String>());
+        arr3.get(0).add("A question");
+        arr3.get(0).add("An answer");
+
+        ArrayList<ArrayList<String>> arr4 =  new ArrayList<ArrayList<String>>();
+        arr4.add(new ArrayList<String>());
+        arr4.add(new ArrayList<String>());
+        arr4.add(new ArrayList<String>());
+        arr4.get(0).add("Questions for second");
+        arr4.get(0).add("Another answer");
+        arr4.get(1).add("It's because your dumb");
+        arr4.get(1).add("Stop being dumb");
+        arr4.get(2).add("My light is orange!");
+        arr4.get(2).add("It's because it reflects every other color except orange.");
+
+        faqData.add(new FAQ("Example Category 1", arr1));
+        faqData.add(new FAQ("Example Category 2", arr2));
+        faqData.add(new FAQ("My computer won't turn on", arr3));
+        faqData.add(new FAQ("I can't connect to the World Wide Webernet", arr4));
+
     }
 
     @Override
@@ -138,28 +179,6 @@ public class FAQPageFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_faqpage, container, false);
-
-        final ArrayList<FAQ> faqData = new ArrayList<FAQ>();
-
-        ArrayList<ArrayList<String>> arr =  new ArrayList<ArrayList<String>>();
-        arr.add(new ArrayList<String>());
-        arr.get(0).add("A question");
-        arr.get(0).add("An answer");
-
-        ArrayList<ArrayList<String>> arr2 =  new ArrayList<ArrayList<String>>();
-        arr2.add(new ArrayList<String>());
-        arr2.add(new ArrayList<String>());
-        arr2.add(new ArrayList<String>());
-        arr2.get(0).add("Questions for second");
-        arr2.get(0).add("Another answer");
-        arr2.get(1).add("It's because your dumb");
-        arr2.get(1).add("Stop being dumb");
-        arr2.get(2).add("My light is orange!");
-        arr2.get(2).add("It's because it reflects every other color except orange.");
-
-        faqData.add(new FAQ("My computer won't turn on", arr));
-        faqData.add(new FAQ("I can't connect to the World Wide Webernet", arr2));
-
 
         //final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.view_row, R.id.header_text, array);
         final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) rootView.findViewById(R.id.expandableLayoutListView);
