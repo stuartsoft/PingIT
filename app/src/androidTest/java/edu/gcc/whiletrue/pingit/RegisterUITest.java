@@ -5,6 +5,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import org.junit.Before;
@@ -66,9 +67,12 @@ public class RegisterUITest {
 
         //Delete the user so we can run this test again without fail.
         ParseUser user = ParseUser.getCurrentUser();
-        user.deleteInBackground();
+        try {
+            user.delete();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-        //TODO: Is the above method OK or should it not rely on the FAQ page being first?
     }
 
     //Test that tapping the button at the bottom of the screen switches to the Login screen
