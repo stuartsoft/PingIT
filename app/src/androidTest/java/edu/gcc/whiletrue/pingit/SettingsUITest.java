@@ -164,6 +164,7 @@ public class SettingsUITest {
         //TODO: Ensure this is a thorough enough test. This also hangs quite a bit
     }
 
+    /*
     //Open the Name box, type a new name, and hit Okay. The new name should be displayed.
     @Test
     public void test47(){
@@ -182,6 +183,7 @@ public class SettingsUITest {
         //We need to identify this window; could do by telling it to tap on the field which contains
         //the user's current name, but this is a pain to get
     }
+    */
 
     //Test that tapping Clear Pings brings up a dialog box
     @Test
