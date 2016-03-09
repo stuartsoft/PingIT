@@ -60,7 +60,7 @@ public class FAQPageFragment extends Fragment {
                 LayoutInflater inflater = ((Activity) myContext).getLayoutInflater();
 
                 // Get references for view elements
-                View row = inflater.inflate(R.layout.internal_view_row, parent, false);
+                View row = inflater.inflate(myResource, parent, false);
                 TextView textLine = (TextView) row.findViewById(textResource);
                 TextView answerLine = (TextView) row.findViewById(R.id.FAQ_Answer);
 
@@ -187,9 +187,7 @@ public class FAQPageFragment extends Fragment {
 
         //final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.view_row, R.id.header_text, array);
         final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) rootView.findViewById(R.id.expandableLayoutListView);
-
         faqArrayAdapter = new FAQArrayAdapter(inflater.getContext(), R.layout.view_row, R.id.header_text, R.id.internalRow, faqData);
-
         expandableLayoutListView.setAdapter(faqArrayAdapter);
 
         return rootView;

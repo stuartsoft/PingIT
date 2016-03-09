@@ -9,7 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:padding="10dp"
-        android:textColor="@android:color/holo_blue_light"
+        android:textSize="16sp"
+        android:textColor="@android:color/holo_blue_dark"
         android:text="ExpandableLayout Header!"
         android:gravity="center"/>
 
