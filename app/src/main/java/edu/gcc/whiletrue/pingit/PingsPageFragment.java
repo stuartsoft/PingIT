@@ -123,16 +123,20 @@ public class PingsPageFragment extends Fragment {
                 ArrayList<Ping> pingData = new ArrayList<Ping>();
 
                 for (int i = 0; i < pingsList.size(); i++) {
-                    //Format the raw date into something more readable
-                    SimpleDateFormat formatter =
-                            new SimpleDateFormat("EEE, MMM d, yyyy 'at' h:mm a");
+                    try {
+                        //Format the raw date into something more readable
+                        SimpleDateFormat formatter =
+                                new SimpleDateFormat("EEE, MMM d, yyyy 'at' h:mm a");
 
-                    Date rawDate = pingsList.get(i).getDate("Date");
-                    String formattedDate = formatter.format(rawDate);
+                        Date rawDate = pingsList.get(i).getDate("Date");
+                        String formattedDate = formatter.format(rawDate);
 
-                    //Populate each Ping object
-                    pingData.add(new Ping(pingsList.get(i).getString("Title"),
-                            pingsList.get(i).getString("Message"), formattedDate));
+                        //Populate each Ping object
+                        pingData.add(new Ping(pingsList.get(i).getString("Title"),
+                                pingsList.get(i).getString("Message"), formattedDate));
+                    }catch(Exception e){}
+                    //TODO figure out why this is throwing an error when the user has no pings
+                    //something to do with Date.getTime() being called on a null object reference
                 }
 
                 //Put the new Pings into the list
