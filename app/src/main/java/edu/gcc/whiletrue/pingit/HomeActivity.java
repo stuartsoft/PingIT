@@ -125,6 +125,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SendBird.disconnect();
+
+        //SendBird.disconnect();
     }
 }

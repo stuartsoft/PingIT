@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -31,8 +32,6 @@ public class ChatPageFragment extends Fragment {
     private static final int REQUEST_SENDBIRD_USER_LIST_ACTIVITY = 300;
 
 
-    String userId = ParseUser.getCurrentUser().getUsername();
-    String userName = (String) ParseUser.getCurrentUser().get("friendlyName");
 
 
     public ChatPageFragment() {
@@ -47,7 +46,7 @@ public class ChatPageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(userName == null) userName = "John Doe";
+
     }
 
     @Override
@@ -82,7 +81,11 @@ public class ChatPageFragment extends Fragment {
                             startChat.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    startMessaging(users);
+                                    try {
+                                        startMessaging(users);
+                                    }catch (Exception e){
+                                        Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG);
+                                    }
                                 }
                             });
                         }
@@ -101,21 +104,19 @@ public class ChatPageFragment extends Fragment {
         query.findInBackground(callback);
     }
 
-    private void startChat(String channelUrl) {
-        Intent intent = new Intent(getContext(), SendBirdChatActivity.class);
-        Bundle args = SendBirdChatActivity.makeSendBirdArgs(appId, userId, userName, channelUrl);
 
-        intent.putExtras(args);
+    private void startMessaging(String [] targetUserIds) throws Exception{
+        if(ParseUser.getCurrentUser()!=null) {
+            String userId = ParseUser.getCurrentUser().getUsername();
+            String userName = (String) ParseUser.getCurrentUser().get("friendlyName");
+            if (userName == null) userName = "John Doe";
+            Intent intent = new Intent(getContext(), SendBirdMessagingActivity.class);
+            Bundle args = SendBirdMessagingActivity.makeMessagingStartArgs(appId, userId, userName, targetUserIds);
+            intent.putExtras(args);
 
-        startActivityForResult(intent, REQUEST_SENDBIRD_CHAT_ACTIVITY);
-    }
-
-    private void startMessaging(String [] targetUserIds) {
-        Intent intent = new Intent(getContext(), SendBirdMessagingActivity.class);
-        Bundle args = SendBirdMessagingActivity.makeMessagingStartArgs(appId, userId, userName, targetUserIds);
-        intent.putExtras(args);
-
-        startActivityForResult(intent, REQUEST_SENDBIRD_MESSAGING_ACTIVITY);
+            startActivityForResult(intent, REQUEST_SENDBIRD_MESSAGING_ACTIVITY);
+        }
+        else throw new Exception("Attempted to start chat without being logged in.");
     }
 
 
