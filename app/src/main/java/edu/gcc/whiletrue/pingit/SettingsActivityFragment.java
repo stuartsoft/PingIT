@@ -14,6 +14,7 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.RingtonePreference;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,6 +138,7 @@ public class SettingsActivityFragment extends PreferenceFragment
             case R.id.logoutBtn:
                 confirmSignOutDialog.show();
                 break;
+
             default:
                 break;
         }
@@ -165,9 +167,32 @@ public class SettingsActivityFragment extends PreferenceFragment
         //Update a preference's summary as soon as a user changes it
         Preference pref = findPreference(key);
 
+        Log.d("Testing", "Changed a preference.");
+
         if (pref instanceof EditTextPreference) {
+            Log.d("Testing", "Changed text preference.");
+
             EditTextPreference textPref = (EditTextPreference) pref;
-            pref.setSummary(textPref.getText());
+            //Convert their entered text from Pref to String; trim so "    " counts as blank
+            String enteredNameString = textPref.getText().trim();
+
+            if (enteredNameString.equals("")) {
+                Log.d("Testing", "Entered blank name.");
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(fragmentContext);
+                builder.setTitle(R.string.app_name);
+                builder.setPositiveButton(R.string.dialogConfirm, null);
+
+                Log.d("Testing", "Passed first part.");
+
+                builder.setMessage("A blank name is invalid. Please enter a valid name.");
+                AlertDialog errorDialog = builder.create();
+                errorDialog.show();
+
+
+            }
+
+            else pref.setSummary(textPref.getText()); //Name is okay; update it
         }
 
         else if (pref instanceof RingtonePreference) {

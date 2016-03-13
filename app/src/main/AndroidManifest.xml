@@ -65,12 +65,14 @@
         <activity
             android:name=".SendBirdChatActivity"
             android:label="SendBird"
+            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"
             >
         </activity>
         <activity
             android:name=".SendBirdMessagingActivity"
             android:label="SendBird"
+            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"
             >
         </activity>

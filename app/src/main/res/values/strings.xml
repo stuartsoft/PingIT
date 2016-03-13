@@ -49,7 +49,7 @@
     <string name="prefs_notification_resend_toggle_key">notification_resend_toggle</string>
     <string name="prefs_notification_resend_toggle_title">Notification Resend</string>
     <string name="prefs_notification_resend_toggle_summaryoff">Notification will only be sent once.</string>
-    <string name="prefs_notification_resend_toggle_summaryon">Repeat notification if not dismissed.</string>
+    <string name="prefs_notification_resend_toggle_summaryon">Repeat notification after a set time.</string>
     <string name="prefs_notification_resend_delay_key">notification_resend_delay</string>
     <string name="prefs_notification_resend_delay_title">Notification Resend Delay</string>
     <string name="prefs_display_name_key">display_name</string>
