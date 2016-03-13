@@ -26,6 +26,7 @@
         android:key="@string/prefs_display_name_key"
         android:title="@string/prefs_display_name_title"
         android:summary="@string/prefs_display_name_summary"
+        android:singleLine="true"
         android:dialogMessage="@string/prefs_display_name_dialogmessage"/>
     <edu.gcc.whiletrue.pingit.ClearPingsDialogPreference
         android:key="@string/prefs_clear_pings_key"

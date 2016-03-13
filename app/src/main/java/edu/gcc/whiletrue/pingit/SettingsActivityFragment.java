@@ -14,11 +14,13 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.RingtonePreference;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -163,6 +165,19 @@ public class SettingsActivityFragment extends PreferenceFragment
         }
     }
 
+    public void onSubmitClicked(View v)
+    {
+        String enteredName = nameEditText.getText().toString();
+        if(TextUtils.isEmpty(pass) || pass.length() < [YOUR MIN LENGTH])
+        {
+            passwordEditText.setError("You must have x characters in your password");
+            return;
+        }
+
+        //continue processing
+
+    }
+
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         //Update a preference's summary as soon as a user changes it
         Preference pref = findPreference(key);
@@ -189,7 +204,7 @@ public class SettingsActivityFragment extends PreferenceFragment
                 AlertDialog errorDialog = builder.create();
                 errorDialog.show();
 
-
+                //TODO Need to actually prevent the setting from changing, not just summary
             }
 
             else pref.setSummary(textPref.getText()); //Name is okay; update it
