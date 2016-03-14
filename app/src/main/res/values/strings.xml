@@ -9,9 +9,12 @@
     <string name="titleActivityHome">PingIT</string>
     <string name="loginWelcomeMessage">Welcome to PingIT. Please sign in.</string>
     <string name="loginBtn">Login</string>
+    <string name="logoutBtn">Logout</string>
     <string name="faqSectionTitle">FAQ</string>
     <string name="chatSectionTitle">Chat</string>
-    <string name="notificationSectionTitle">Pings</string>
+    <string name="pingsSectionTitle">Pings</string>
+
+    <string name="noNetworkConnectionMsg">Unable to connect to PingIT server. Please check network settings.</string>
 
     <string name="startupTitleLogin">Login to PingIT</string>
     <string name="startupTitleRegister">Register with PingIT</string>
@@ -21,8 +24,47 @@
     <string name="registerPasswordPlaceholderConfirm">Confirm Password</string>
     <string name="registerBtn">Register</string>
     <string name="registerSwitchToLoginBtn">Already have an account?</string>
+    <string name="registerSuccessMsg">Registration Successful!"</string>
     <string name="loginSwitchToRegisterBtn">Create an account</string>
     <string name="titleActivitySettings">Settings</string>
+    <string name="passwordsDontMatch">Please enter matching passwords.</string>
+    <string name="nameNotValid">Please enter a valid name.</string>
+    <string name="emailAlreadyInUse">" is already in use. Please enter a different email."</string>
+    <string name="isNotAValidEmail">" is not a valid email. Please enter a valid email."</string>
+    <string name="emailNotValid">Please enter a valid email.</string>
+    <string name="invalidCredentials">Email or password is incorrect. Please try again.</string>
+    <string name="dialogConfirm">Okay</string>
+    <string name="dialogYes">Yes</string>
+    <string name="dialogNo">No</string>
+    <string name="loginSuccessMsg">Login Successful!</string>
+    <string name="signingInDialogMsg">Signing into PingIT…</string>
+    <string name="signingOutDialogMsg">Signing out…</string>
+    <string name="dialogCancel">Cancel</string>
+    <string name="confirmLogoutMsg">Are you sure you would like to log out?</string>
+    <string name="passwordTooShort">Please enter a password of at least 6 characters.</string>
+    <string name="passwordNotValid">Please enter a valid password.</string>
+    <string name="prefs_notification_sound_key">notification_sound_preference</string>
+    <string name="prefs_notification_sound_title">Notification Sound</string>
+    <string name="prefs_notification_sound_summary">Should display current sound</string>
+    <string name="prefs_notification_resend_toggle_key">notification_resend_toggle</string>
+    <string name="prefs_notification_resend_toggle_title">Notification Resend</string>
+    <string name="prefs_notification_resend_toggle_summaryoff">Notification will only be sent once.</string>
+    <string name="prefs_notification_resend_toggle_summaryon">Repeat notification if not dismissed.</string>
+    <string name="prefs_notification_resend_delay_key">notification_resend_delay</string>
+    <string name="prefs_notification_resend_delay_title">Notification Resend Delay</string>
+    <string name="prefs_display_name_key">display_name</string>
+    <string name="prefs_display_name_title">Display Name</string>
+    <string name="prefs_display_name_summary">Should display current name</string>
+    <string name="prefs_display_name_dialogmessage">Please enter a display name.</string>
+    <string name="prefs_clear_pings_key">clear_pings</string>
+    <string name="prefs_clear_pings_title">Clear Archived Pings</string>
+    <string name="prefs_clear_pings_summary">Erase all ping history.</string>
+    <string name="prefs_clear_pings_dialogtitle">Are You Sure?</string>
+    <string name="prefs_clear_pings_dialogmessage">This will clear all of your pings and cannot be undone. Are you sure you want to proceed?</string>
+    <string name="prefs_clear_pings_positive">Yes, erase my pings.</string>
+    <string name="ClickToRefresh">Click to Refresh</string>
+    <string name="NoOnlineAdmins">No online admins.</string>
+    <string name="fmtClickToChatWith">Click to chat with %s</string>
 
 
 </resources>
