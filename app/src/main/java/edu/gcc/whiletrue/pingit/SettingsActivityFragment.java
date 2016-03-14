@@ -12,7 +12,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import android.util.Log;
@@ -27,6 +29,8 @@ import android.widget.TextView;
 
 import com.parse.ParseUser;
 
+import java.util.prefs.Preferences;
+
 import static android.support.v4.app.ActivityCompat.finishAffinity;
 
 /**
@@ -34,7 +38,7 @@ import static android.support.v4.app.ActivityCompat.finishAffinity;
  */
 
 public class SettingsActivityFragment extends PreferenceFragment
-        implements SharedPreferences.OnSharedPreferenceChangeListener, View.OnClickListener {
+        implements Preference.OnPreferenceChangeListener, SharedPreferences.OnSharedPreferenceChangeListener, View.OnClickListener {
 
     private Context fragmentContext;
     private SignOutTask signOutTask;
@@ -165,7 +169,7 @@ public class SettingsActivityFragment extends PreferenceFragment
         }
     }
 
-    public void onSubmitClicked(View v)
+    /*public void onSubmitClicked(View v)
     {
         String enteredName = nameEditText.getText().toString();
         if(TextUtils.isEmpty(pass) || pass.length() < [YOUR MIN LENGTH])
@@ -176,7 +180,18 @@ public class SettingsActivityFragment extends PreferenceFragment
 
         //continue processing
 
-    }
+    }*/
+
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        Log.d("Changed:", "+ onPreferenceChange(preference:" + preference + ", newValue:" + newValue + ")"); //Doesn't fire
+        Boolean rv = true;
+        String source = newValue.toString();
+            if(source.matches("")){
+                rv = false;
+            }
+        Log.d("Changed:", "- onPreferenceChange()");
+        return rv;
+    } //TODO Delete if this doesn't work, which it probably won't since Ben is an idiot
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         //Update a preference's summary as soon as a user changes it
@@ -205,6 +220,8 @@ public class SettingsActivityFragment extends PreferenceFragment
                 errorDialog.show();
 
                 //TODO Need to actually prevent the setting from changing, not just summary
+                //Possible way: https://tinyurl.com/z8g4tke
+                //Another way: https://tinyurl.com/hvaewqb
             }
 
             else pref.setSummary(textPref.getText()); //Name is okay; update it
