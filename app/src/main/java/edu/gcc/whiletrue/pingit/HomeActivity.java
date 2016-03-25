@@ -1,20 +1,27 @@
 package edu.gcc.whiletrue.pingit;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.sendbird.android.SendBird;
 
-public class HomeActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class HomeActivity extends AppCompatActivity implements PingsLoadingFragment.PingsPageInterface{
+
+    public Fragment pingsFragment;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -38,6 +45,10 @@ public class HomeActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        if (pingsFragment == null)
+            pingsFragment = PingsLoadingFragment.newInstance();
+
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -50,9 +61,32 @@ public class HomeActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+    }
 
+    @Override
+    public void displayPingsList(ArrayList<Ping> data) {
+
+        Fragment newPingsPage = PingsPageFragment.newInstance(data);
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        RegisterFragment registerFrag = new RegisterFragment();
+        fragmentTransaction.remove(pingsFragment);
+        fragmentTransaction.commit();
+
+        pingsFragment = newPingsPage;
+        mSectionsPagerAdapter.notifyDataSetChanged();
+        Log.w(getString(R.string.log_warning), "displayPingsList: " );
+    }
+
+    @Override
+    public void loadPings() {
+        pingsFragment = PingsLoadingFragment.newInstance();
+        mSectionsPagerAdapter.notifyDataSetChanged();
+        Log.w(getString(R.string.log_warning), "loadPings: ");
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -98,8 +132,13 @@ public class HomeActivity extends AppCompatActivity {
                 case 1:
                     return ChatPageFragment.newInstance();
                 default:
-                    return PingsPageFragment.newInstance();
+                    return pingsFragment;
             }
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
 
         @Override
@@ -121,6 +160,7 @@ public class HomeActivity extends AppCompatActivity {
             return null;
         }
     }
+
 
     @Override
     protected void onDestroy() {
