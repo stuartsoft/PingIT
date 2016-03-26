@@ -10,7 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -36,7 +39,19 @@ public class PingsLoadingFragment extends Fragment {
         void loadPings();
     }
 
+    public interface networkStatusCallback {
+        public boolean checkNetworkStatus();
+    }
+
     private PingsPageInterface mCallback;
+    private networkStatusCallback mNetworkCallback;
+
+    private View rootView;
+    private TextView loadingDialogtxt;
+    private ProgressBar progress;
+    private Button btnRetry;
+
+    private GetPingsTask getPingsTask;
 
     @Override
     public void onAttach(Context context) {
@@ -49,6 +64,13 @@ public class PingsLoadingFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString()
                     + " must implement pingsPageInterface");
+        }
+
+        try {
+            mNetworkCallback = (networkStatusCallback) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString()
+                    + " must implement networkStatusCallback");
         }
     }
 
@@ -70,14 +92,28 @@ public class PingsLoadingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_pings_page, container, false);
+        rootView = inflater.inflate(R.layout.fragment_pings_loading, container, false);
 
-        GetPingsTask getPings = new GetPingsTask(ParseUser.getCurrentUser(),
-                rootView, inflater.getContext());
+        loadingDialogtxt = (TextView)rootView.findViewById(R.id.signInDialogText);
+        progress = (ProgressBar)rootView.findViewById(R.id.progressBar);
+        btnRetry = (Button)rootView.findViewById(R.id.btnRetry);
+        btnRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnRetry.setVisibility(View.INVISIBLE);
+                progress.setVisibility(View.VISIBLE);
+                getPingsTask = new GetPingsTask(ParseUser.getCurrentUser(),
+                        rootView, rootView.getContext());
+                getPingsTask.execute();
+            }
+        });
 
-        getPings.execute();
+        getPingsTask = new GetPingsTask(ParseUser.getCurrentUser(),
+                rootView, rootView.getContext());
 
-        return inflater.inflate(R.layout.fragment_pings_loading, container, false);
+        getPingsTask.execute();
+
+        return rootView;
     }
 
     private class GetPingsTask extends AsyncTask<String, Void, Integer> {
@@ -94,6 +130,9 @@ public class PingsLoadingFragment extends Fragment {
 
         @Override
         protected Integer doInBackground(String... params) {
+            if (!mNetworkCallback.checkNetworkStatus()){
+                return -1;
+            }
             try { //Query Parse for the user's pings
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("Pings");
                 query.whereEqualTo("User", user);
@@ -125,14 +164,17 @@ public class PingsLoadingFragment extends Fragment {
                 }
 
                 mCallback.displayPingsList(pingData);
-
-
             }
             else {
                 Log.e(getString(R.string.log_error),
                         "onPostExecute: User has no network connection. Cannot load pings.");
                 //TODO: Add a custom page here for when the user has no network connection
                 //and allow them to refresh with a button
+
+                loadingDialogtxt.setText(getString(R.string.pingConnectionError));
+                progress.setVisibility(View.GONE);
+                btnRetry.setVisibility(View.VISIBLE);
+                //alert the user that there was an issue loading pings
             }
         }
     }

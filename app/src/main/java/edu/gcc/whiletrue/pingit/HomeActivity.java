@@ -1,7 +1,10 @@
 package edu.gcc.whiletrue.pingit;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -19,7 +22,7 @@ import com.sendbird.android.SendBird;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends AppCompatActivity implements PingsLoadingFragment.PingsPageInterface{
+public class HomeActivity extends AppCompatActivity implements PingsLoadingFragment.PingsPageInterface, PingsLoadingFragment.networkStatusCallback{
 
     public Fragment pingsFragment;
 
@@ -61,6 +64,13 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+    }
+
+    @Override
+    public boolean checkNetworkStatus(){
+        ConnectivityManager cm = (ConnectivityManager)getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
     }
 
     @Override
