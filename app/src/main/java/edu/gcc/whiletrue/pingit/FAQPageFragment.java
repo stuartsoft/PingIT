@@ -3,6 +3,7 @@ package edu.gcc.whiletrue.pingit;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,10 +24,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
 
 import java.lang.reflect.Array;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import com.andexert.expandablelayout.library.ExpandableLayoutListView;
 
@@ -140,42 +151,42 @@ public class FAQPageFragment extends Fragment {
 
         //Load FAQ data
         //TODO replace dummy data with parse stuff and move this all to an async task
-        ArrayList<ArrayList<String>> arr1 =  new ArrayList<ArrayList<String>>();
-        arr1.add(new ArrayList<String>());
-        arr1.get(0).add("Example question A");
-        arr1.get(0).add("Example answer");
-        arr1.add(new ArrayList<String>());
-        arr1.get(1).add("Example question B");
-        arr1.get(1).add("Example answer");
-
-        ArrayList<ArrayList<String>> arr2 =  new ArrayList<ArrayList<String>>();
-        arr2.add(new ArrayList<String>());
-        arr2.get(0).add("Example question C");
-        arr2.get(0).add("Example answer");
-        arr2.add(new ArrayList<String>());
-        arr2.get(1).add("Example question D");
-        arr2.get(1).add("bad shit");
-
-        ArrayList<ArrayList<String>> arr3 =  new ArrayList<ArrayList<String>>();
-        arr3.add(new ArrayList<String>());
-        arr3.get(0).add("A question");
-        arr3.get(0).add("An answer");
-
-        ArrayList<ArrayList<String>> arr4 =  new ArrayList<ArrayList<String>>();
-        arr4.add(new ArrayList<String>());
-        arr4.add(new ArrayList<String>());
-        arr4.add(new ArrayList<String>());
-        arr4.get(0).add("Questions for second");
-        arr4.get(0).add("Another answer");
-        arr4.get(1).add("It's because your dumb");
-        arr4.get(1).add("Stop being dumb");
-        arr4.get(2).add("My light is orange!");
-        arr4.get(2).add("It's because it reflects every other color except orange.");
-
-        faqData.add(new FAQ("Example Category 1", arr1));
-        faqData.add(new FAQ("Example Category 2", arr2));
-        faqData.add(new FAQ("My computer won't turn on", arr3));
-        faqData.add(new FAQ("I can't connect to the World Wide Webernet", arr4));
+//        ArrayList<ArrayList<String>> arr1 =  new ArrayList<ArrayList<String>>();
+//        arr1.add(new ArrayList<String>());
+//        arr1.get(0).add("Example question A");
+//        arr1.get(0).add("Example answer");
+//        arr1.add(new ArrayList<String>());
+//        arr1.get(1).add("Example question B");
+//        arr1.get(1).add("Example answer");
+//
+//        ArrayList<ArrayList<String>> arr2 =  new ArrayList<ArrayList<String>>();
+//        arr2.add(new ArrayList<String>());
+//        arr2.get(0).add("Example question C");
+//        arr2.get(0).add("Example answer");
+//        arr2.add(new ArrayList<String>());
+//        arr2.get(1).add("Example question D");
+//        arr2.get(1).add("bad shit");
+//
+//        ArrayList<ArrayList<String>> arr3 =  new ArrayList<ArrayList<String>>();
+//        arr3.add(new ArrayList<String>());
+//        arr3.get(0).add("A question");
+//        arr3.get(0).add("An answer");
+//
+//        ArrayList<ArrayList<String>> arr4 =  new ArrayList<ArrayList<String>>();
+//        arr4.add(new ArrayList<String>());
+//        arr4.add(new ArrayList<String>());
+//        arr4.add(new ArrayList<String>());
+//        arr4.get(0).add("Questions for second");
+//        arr4.get(0).add("Another answer");
+//        arr4.get(1).add("It's because your dumb");
+//        arr4.get(1).add("Stop being dumb");
+//        arr4.get(2).add("My light is orange!");
+//        arr4.get(2).add("It's because it reflects every other color except orange.");
+//
+//        faqData.add(new FAQ("Example Category 1", arr1));
+//        faqData.add(new FAQ("Example Category 2", arr2));
+//        faqData.add(new FAQ("My computer won't turn on", arr3));
+//        faqData.add(new FAQ("I can't connect to the World Wide Webernet", arr4));
 
     }
 
@@ -185,12 +196,76 @@ public class FAQPageFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_faqpage, container, false);
 
-        //final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.view_row, R.id.header_text, array);
-        final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) rootView.findViewById(R.id.expandableLayoutListView);
-        faqArrayAdapter = new FAQArrayAdapter(inflater.getContext(), R.layout.view_row, R.id.header_text, R.id.internalRow, faqData);
-        expandableLayoutListView.setAdapter(faqArrayAdapter);
+        GetFAQTask getFAQs = new GetFAQTask(ParseUser.getCurrentUser(),
+                rootView, inflater.getContext());
 
+        //Run the background async task to get the user's pings
+        getFAQs.execute();
         return rootView;
+    }
+
+    private class GetFAQTask extends AsyncTask<String, Void, Integer> {
+        ParseUser user;
+        final View view;
+        Context context;
+        ArrayList<ParseObject> categoryList;
+        ArrayList<ArrayList<ParseObject>> questionsList = new ArrayList<ArrayList<ParseObject>>();
+
+        public GetFAQTask (ParseUser user, View view, Context context) {
+            this.user = user;
+            this.view = view;
+            this.context = context;
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            try { //Query Parse for the user's pings
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("FAQ_Category");
+                categoryList = new ArrayList<ParseObject>(query.find());
+                for (ParseObject category: categoryList) {
+                    ArrayList<ParseObject> questionQuery = new ArrayList<ParseObject>(category.getRelation("Questions").getQuery().find());
+                    ///Filler
+                    questionsList.add(questionQuery);
+                }
+            } catch (ParseException e) {return e.getCode();}//return exception code
+            return 0;//no issues
+        }
+
+        @Override
+        protected void onPostExecute(Integer errorCode) {
+            if (errorCode == 0) { //Populate the pings list if everything is clear
+                ArrayList<FAQ> faqData = new ArrayList<FAQ>();
+
+                for (int i = 0; i < categoryList.size(); i++) {
+                            try {
+                                ArrayList<ArrayList<String>> questionArr = new ArrayList<ArrayList<String>>();
+                                questionArr.add(new ArrayList<String>());
+                                for(int j = 0; j< questionsList.get(i).size(); j++){
+                                    for(int z = 0; z< questionsList.get(i).size(); z++) {
+                                        questionArr.get(j).add(questionsList.get(i).get(z).getString("Text"));
+                                        questionArr.get(j).add(questionsList.get(i).get(z).getString("AnswerText"));
+                                    }
+                                }
+
+                        //Populate each Ping object
+                        faqData.add(new FAQ(categoryList.get(i).getString("Text"), questionArr));
+                    }catch(Exception e){}
+                    //TODO figure out why this is throwing an error when the user has no pings
+                    //something to do with Date.getTime() being called on a null object reference
+                }
+
+                //final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.view_row, R.id.header_text, array);
+                final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) view.findViewById(R.id.expandableLayoutListView);
+                faqArrayAdapter = new FAQArrayAdapter(getContext(), R.layout.view_row, R.id.header_text, R.id.internalRow, faqData);
+                expandableLayoutListView.setAdapter(faqArrayAdapter);
+            }
+            else {
+                Log.e(getString(R.string.log_error),
+                        "onPostExecute: User has no network connection. Cannot load pings.");
+                //TODO: Add a custom page here for when the user has no network connection
+                //and allow them to refresh with a button
+            }
+        }
     }
 
 }

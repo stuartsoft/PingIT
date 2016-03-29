@@ -94,7 +94,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         return view;
     }
 
-    //handles all onClicke events for this fragment
+    //handles all onClick events for this fragment
     @Override
     public void onClick(View v) {
         final View view = v;//final reference to the view that called onClick
