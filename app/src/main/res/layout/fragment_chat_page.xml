@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
 
     android:id="@+id/fragment_chat_page"
-    tools:context="edu.gcc.whiletrue.pingit.ChatPageFragment">
+    tools:context=".chat.StartChatFragment">
 
     <!-- TODO: Update blank fragment layout -->
 

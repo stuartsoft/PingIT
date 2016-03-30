@@ -63,13 +63,13 @@
 
 
         <activity
-            android:name=".SendBirdChatActivity"
+            android:name=".chat.SendBirdChatActivity"
             android:label="SendBird"
             android:configChanges="orientation|screenSize"
             >
         </activity>
         <activity
-            android:name=".SendBirdMessagingActivity"
+            android:name=".chat.SendBirdMessagingActivity"
             android:label="SendBird"
             android:configChanges="orientation|screenSize"
             >

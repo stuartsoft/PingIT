@@ -12,7 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.sendbird.android.SendBird;
+import edu.gcc.whiletrue.pingit.chat.SendBirdChatFragment;
+import edu.gcc.whiletrue.pingit.chat.StartChatFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -96,7 +97,7 @@ public class HomeActivity extends AppCompatActivity {
                 case 0:
                     return FAQPageFragment.newInstance();
                 case 1:
-                    return ChatPageFragment.newInstance();
+                    return StartChatFragment.newInstance();
                 default:
                     return PingsPageFragment.newInstance();
             }
