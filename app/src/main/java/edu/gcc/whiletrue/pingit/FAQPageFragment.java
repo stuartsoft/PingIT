@@ -147,47 +147,6 @@ public class FAQPageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fragmentManager = getFragmentManager();
-
-        //Load FAQ data
-        //TODO replace dummy data with parse stuff and move this all to an async task
-//        ArrayList<ArrayList<String>> arr1 =  new ArrayList<ArrayList<String>>();
-//        arr1.add(new ArrayList<String>());
-//        arr1.get(0).add("Example question A");
-//        arr1.get(0).add("Example answer");
-//        arr1.add(new ArrayList<String>());
-//        arr1.get(1).add("Example question B");
-//        arr1.get(1).add("Example answer");
-//
-//        ArrayList<ArrayList<String>> arr2 =  new ArrayList<ArrayList<String>>();
-//        arr2.add(new ArrayList<String>());
-//        arr2.get(0).add("Example question C");
-//        arr2.get(0).add("Example answer");
-//        arr2.add(new ArrayList<String>());
-//        arr2.get(1).add("Example question D");
-//        arr2.get(1).add("bad shit");
-//
-//        ArrayList<ArrayList<String>> arr3 =  new ArrayList<ArrayList<String>>();
-//        arr3.add(new ArrayList<String>());
-//        arr3.get(0).add("A question");
-//        arr3.get(0).add("An answer");
-//
-//        ArrayList<ArrayList<String>> arr4 =  new ArrayList<ArrayList<String>>();
-//        arr4.add(new ArrayList<String>());
-//        arr4.add(new ArrayList<String>());
-//        arr4.add(new ArrayList<String>());
-//        arr4.get(0).add("Questions for second");
-//        arr4.get(0).add("Another answer");
-//        arr4.get(1).add("It's because your dumb");
-//        arr4.get(1).add("Stop being dumb");
-//        arr4.get(2).add("My light is orange!");
-//        arr4.get(2).add("It's because it reflects every other color except orange.");
-//
-//        faqData.add(new FAQ("Example Category 1", arr1));
-//        faqData.add(new FAQ("Example Category 2", arr2));
-//        faqData.add(new FAQ("My computer won't turn on", arr3));
-//        faqData.add(new FAQ("I can't connect to the World Wide Webernet", arr4));
-
     }
 
     @Override
@@ -239,16 +198,16 @@ public class FAQPageFragment extends Fragment {
                 for (int i = 0; i < categoryList.size(); i++) {
                             try {
                                 ArrayList<ArrayList<String>> questionArr = new ArrayList<ArrayList<String>>();
-                                questionArr.add(new ArrayList<String>());
                                 for(int j = 0; j< questionsList.get(i).size(); j++){
-                                    for(int z = 0; z< questionsList.get(i).size(); z++) {
-                                        questionArr.get(j).add(questionsList.get(i).get(z).getString("Text"));
-                                        questionArr.get(j).add(questionsList.get(i).get(z).getString("AnswerText"));
-                                    }
+                                    questionArr.add(new ArrayList<String>());
+                                    questionArr.get(j).add(questionsList.get(i).get(j).getString("Text"));
+                                    questionArr.get(j).add(questionsList.get(i).get(j).getString("AnswerText"));
                                 }
 
                         //Populate each Ping object
-                        faqData.add(new FAQ(categoryList.get(i).getString("Text"), questionArr));
+                        //Make sure that the category isn't empty
+                        if(questionArr.size()>0)
+                            faqData.add(new FAQ(categoryList.get(i).getString("Text"), questionArr));
                     }catch(Exception e){}
                     //TODO figure out why this is throwing an error when the user has no pings
                     //something to do with Date.getTime() being called on a null object reference
