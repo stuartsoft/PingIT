@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.sendbird.android.MessageListQuery;
@@ -52,11 +53,15 @@ public class SendBirdMessagingFragment extends Fragment {
     public ProgressBar mProgressBtnUpload;
     public SendBirdChatHandler mHandler;
 
-    private boolean inflated = false;
-    public boolean isInflated(){return inflated;}
 
     public static interface SendBirdChatHandler {
         public void onChannelListClicked();
+    }
+
+    public static SendBirdMessagingFragment newInstance(SendBirdMessagingAdapter adapter) {
+        SendBirdMessagingFragment fragment = new SendBirdMessagingFragment();
+        fragment.setSendBirdMessagingAdapter(adapter);
+        return fragment;
     }
 
     public void setSendBirdChatHandler(SendBirdChatHandler handler) {
@@ -69,18 +74,22 @@ public class SendBirdMessagingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.sendbird_fragment_messaging, container, false);
+        View rootView = inflater.inflate(R.layout.sendbird_fragment_messaging, container,false);
         initUIComponents(rootView);
         return rootView;
     }
 
 
     private void initUIComponents(View rootView) {
+        //resize relative layout
+        RelativeLayout rl = (RelativeLayout) rootView.findViewById(R.id.messagingLayout);
+        rl.getLayoutParams().height = getActivity().getWindow().getDecorView().getHeight() - 100;
+
         mListView = (ListView)rootView.findViewById(R.id.list);
         turnOffListViewDecoration(mListView);
         mListView.setAdapter(mAdapter);
 
-        mBtnChannel = (ImageButton)rootView.findViewById(R.id.btn_channel);
+        //mBtnChannel = (ImageButton)rootView.findViewById(R.id.btn_channel);
         mBtnSend = (Button)rootView.findViewById(R.id.btn_send);
         mBtnUpload = (ImageButton)rootView.findViewById(R.id.btn_upload);
         mProgressBtnUpload = (ProgressBar)rootView.findViewById(R.id.progress_btn_upload);
@@ -94,7 +103,7 @@ public class SendBirdMessagingFragment extends Fragment {
             }
         });
 
-
+    /*
         mBtnChannel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,6 +112,7 @@ public class SendBirdMessagingFragment extends Fragment {
                 }
             }
         });
+        */
 
         mBtnUpload.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -278,7 +278,7 @@ public class SendBirdMessagingAdapter extends BaseAdapter {
                         @Override
                         public void onClick(View v) {
                             new AlertDialog.Builder(mContext)
-                                    .setTitle("SendBird")
+                                    .setTitle("PingIT")
                                     .setMessage("Do you want to download this file?")
                                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         @Override

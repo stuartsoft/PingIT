@@ -62,19 +62,6 @@
         </activity>
 
 
-        <activity
-            android:name=".chat.SendBirdChatActivity"
-            android:label="SendBird"
-            android:configChanges="orientation|screenSize"
-            >
-        </activity>
-        <activity
-            android:name=".chat.SendBirdMessagingActivity"
-            android:label="SendBird"
-            android:configChanges="orientation|screenSize"
-            >
-        </activity>
-
         <!-- Required to run Sample project
         <activity
             android:name=".HomeActivity"
