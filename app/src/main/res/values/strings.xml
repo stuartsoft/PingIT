@@ -66,5 +66,11 @@
     <string name="NoOnlineAdmins">No online admins.</string>
     <string name="fmtClickToChatWith">Click to chat with %s</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="loadingPings">Requesting pings...</string>
+    <string name="pingConnectionError">Could not connect to the Ping.IT server.\nPlease try again.</string>
+    <string name="retryConnection">Retry</string>
+
 
 </resources>
