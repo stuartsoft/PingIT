@@ -4,6 +4,7 @@ package edu.gcc.whiletrue.pingit.chat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,6 +37,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import edu.gcc.whiletrue.pingit.HomeActivity;
 import edu.gcc.whiletrue.pingit.R;
@@ -68,6 +71,9 @@ public class StartChatFragment extends Fragment {
         return fragment;
     }
 
+    private Timer refreshTimer;
+    private Button startChat;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +81,8 @@ public class StartChatFragment extends Fragment {
 
 
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -90,52 +98,60 @@ public class StartChatFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        SendBird.disconnect();
+        refreshTimer.cancel();
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final Button startChat = (Button) view.findViewById(R.id.launchChatButt);
-        startChat.setText(R.string.ClickToRefresh);
-
-        startChat.setOnClickListener(new View.OnClickListener() {
+        startChat = (Button) view.findViewById(R.id.launchChatButt);
+        startChat.setText(R.string.NoOnlineAdmins);
+        refreshTimer = new Timer();
+        refreshTimer.schedule(new TimerTask() {
             @Override
-            public void onClick(View v) {
-                findOnlineAdmins(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> objects, ParseException e) {
-                        if (objects == null || objects.isEmpty()) {
-                            startChat.setText(R.string.NoOnlineAdmins);
-                        } else {
-                            final String firstAdminUserName = objects.get(0).get("userName").toString();
-                            String firstAdminFriendlyName = objects.get(0).get("friendlyName").toString();
-                            startChat.setEnabled(true);
-                            startChat.setText(String.format(getString(R.string.fmtClickToChatWith), firstAdminFriendlyName));
-                            startChat.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    try {
-                                        startMessaging(firstAdminUserName);
-                                    } catch (Exception e) {
-                                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG);
-                                    }
-                                }
-                            });
-                        }
-                    }
-                });
+            public void run() {
+                refreshOnlineAdmins();
             }
-        });
+        }, 0, 1000);
     }
 
-    private void findOnlineAdmins(FindCallback<ParseObject> callback){
-        ParseQuery query = ParseQuery.getQuery("AdminTimes");
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.SECOND, -30);
-        query.whereGreaterThan("timeOfLastAction", calendar.getTime());
-        query.orderByDescending("timeOfLastAction");
-        query.findInBackground(callback);
+    private void refreshOnlineAdmins(){
+        if(getActivity() != null && startChat != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ParseQuery query = ParseQuery.getQuery("AdminTimes");
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.add(Calendar.SECOND, -30);
+                    query.whereGreaterThan("timeOfLastAction", calendar.getTime());
+                    query.orderByDescending("timeOfLastAction");
+                    query.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> objects, ParseException e) {
+                            if (objects == null || objects.isEmpty()) {
+                                startChat.setText(R.string.NoOnlineAdmins);
+                            } else {
+                                refreshTimer.cancel();
+                                final String firstAdminUserName = objects.get(0).get("userName").toString();
+                                String firstAdminFriendlyName = objects.get(0).get("friendlyName").toString();
+                                startChat.setEnabled(true);
+                                startChat.setText(String.format(getString(R.string.fmtClickToChatWith), firstAdminFriendlyName));
+                                startChat.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        try {
+                                            startMessaging(firstAdminUserName);
+                                        } catch (Exception e) {
+                                            Log.e("SendBird", e.getMessage());
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        }
     }
 
 
