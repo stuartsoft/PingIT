@@ -11,11 +11,14 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.preference.SwitchPreference;
+import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -229,11 +232,29 @@ public class SettingsActivityFragment extends PreferenceFragment
 
         else if (pref instanceof RingtonePreference) {
             Uri ringtoneUri = Uri.parse(sharedPreferences.getString(key, ""));
+            Log.d("Testing", "Ringtone key is" + ringtoneUri);
+
             Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), ringtoneUri);
             String name = ringtone.getTitle(getActivity());
 
             RingtonePreference ringtonePref = (RingtonePreference) findPreference(key);
             ringtonePref.setSummary(name);
+            //TODO Need to use actual ringtone; method here:
+            //https://stackoverflow.com/questions/30864679/how-to-use-ringtonepreference-to-play-notification-sound
         }
+        /*
+        else if (pref instanceof SwitchPreference) {
+            Log.d("Testing", "Changed switch preference.");
+            Log.d("Testing", "Switch key is" + key);
+
+        }
+
+        else if (pref instanceof ListPreference) {
+            Log.d("Testing", "Changed list preference.");
+            Log.d("Testing", "List key is" + key);
+
+        }
+        */
     }
+
 }

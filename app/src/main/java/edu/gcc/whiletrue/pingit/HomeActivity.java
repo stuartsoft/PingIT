@@ -1,6 +1,7 @@
 package edu.gcc.whiletrue.pingit;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,7 +52,8 @@ public class HomeActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setSound(Uri.parse("content:/storage/emulated/0/notifications/Fallout_XP.mp3"));//TODO Add real notification sound path here
 
     }
 
