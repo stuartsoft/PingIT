@@ -43,7 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         Boolean switchStateBool = preferences.getBoolean(switchPrefKey, false);
 
-        if (switchStateBool) {
+        if (switchStateBool) {//If the user chooses to resend, get their chosen value and send to Parse
             String listStateString = preferences.getString(listPrefKey, "");
 
             StringTokenizer tokenizer = new StringTokenizer(listStateString);
@@ -51,14 +51,12 @@ public class SettingsActivity extends AppCompatActivity {
             String resendMinutesOrHours = tokenizer.nextToken();
             int resendValueInt = Integer.parseInt(resendValueString);
 
-            if (resendMinutesOrHours.contains("hour")) resendValueInt *= 60;
+            if (resendMinutesOrHours.contains("hour")) resendValueInt *= 60;//Convert hours to mins
 
             user.put("resendDelay", resendValueInt);
             user.saveInBackground();
         }
-        else {
-            Log.d("Testing", "Changed switch to off");
-
+        else { //If the switch is off, disable the resend delay in Parse
             user.put("resendDelay", 0);
             user.saveInBackground();
         }

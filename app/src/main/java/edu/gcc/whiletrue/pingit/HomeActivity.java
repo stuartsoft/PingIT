@@ -1,5 +1,7 @@
 package edu.gcc.whiletrue.pingit;
 
+import android.app.Notification;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,9 +13,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.parse.ParsePushBroadcastReceiver;
 import com.sendbird.android.SendBird;
 
 public class HomeActivity extends AppCompatActivity {
@@ -52,9 +56,13 @@ public class HomeActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setSound(Uri.parse("content:/storage/emulated/0/notifications/Fallout_XP.mp3"));//TODO Add real notification sound path here
+        /*NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setSound(Uri.parse("android.media.Ringtone@108308e"));//TODO Add real notification sound path here*/
 
+        /*Notification notification = new Notification();
+        notification.sound = Uri.parse("content://media/internal/audio/media/21");*/
+
+        Log.d("Testing", "Parsed: " + Uri.parse("content://media/external/audio/media/17638"));
     }
 
     @Override

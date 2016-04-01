@@ -83,6 +83,7 @@ public class SettingsActivityFragment extends PreferenceFragment
         Uri ringtoneUri = Uri.parse(sp.getString("notification_sound_preference", ""));
         Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), ringtoneUri);
         String name = ringtone.getTitle(getActivity());
+            Log.d("Testing", "Ringtone is" + ringtone);
 
         RingtonePreference ringtonePref = (RingtonePreference)
                 findPreference("notification_sound_preference");
