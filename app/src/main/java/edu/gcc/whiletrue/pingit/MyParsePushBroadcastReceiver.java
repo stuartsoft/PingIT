@@ -17,10 +17,15 @@ public class MyParsePushBroadcastReceiver extends ParsePushBroadcastReceiver {
     @Override
     protected Notification getNotification(Context context, Intent intent) {
         Log.d("Testing", "Fired notification class");
-        Log.d("Testing", "Intent is " + intent);
 
+        Uri soundURI = Uri.parse("android.resource://" + context.getPackageName() + "/" +  R.raw.testsound);
+        Log.d("Testing", "Sound URI is " + soundURI);
         Notification n = super.getNotification(context, intent);
-        n.sound = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.testsound);
+        //n.sound = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.testsound);
+        n.sound = soundURI;
+
+        n.color = 0xFF0000FF;
+
         //n.sound = Uri.parse("content://media/internal/audio/media/21");
 
         Log.d("Testing", "N equals " + n);
