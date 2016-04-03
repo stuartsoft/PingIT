@@ -3,23 +3,17 @@ package edu.gcc.whiletrue.pingit;
 
 import android.content.Context;
 import android.content.Intent;
-<<<<<<< HEAD
 import android.graphics.Color;
-=======
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
->>>>>>> 3e0068546cda39ae01999577a4ae6adeb3bcf0a9
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-<<<<<<< HEAD
 import android.support.v4.view.PagerTabStrip;
-=======
 import android.support.v4.app.FragmentTransaction;
->>>>>>> 3e0068546cda39ae01999577a4ae6adeb3bcf0a9
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
