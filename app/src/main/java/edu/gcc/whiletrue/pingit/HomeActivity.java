@@ -44,7 +44,7 @@ import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity implements PingsLoadingFragment.PingsPageInterface, PingsLoadingFragment.networkStatusCallback{
+public class HomeActivity extends AppCompatActivity implements PingsLoadingFragment.PingsPageInterface, PingsLoadingFragment.networkStatusCallback, PingsPageFragment.networkStatusCallback{
 
     public Fragment pingsFragment;
 

@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,9 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -38,6 +37,13 @@ public class PingsPageFragment extends Fragment{
 
     ArrayList<Ping> pingsList;
     PingArrayAdapter pingArrayAdapter;
+    private networkStatusCallback mNetworkCallback;
+    private View fragmentRootView;
+
+    public interface networkStatusCallback {
+        public boolean checkNetworkStatus();
+    }
+
 
     public class PingArrayAdapter extends ArrayAdapter<Ping> {
         Context myContext;
@@ -93,6 +99,13 @@ public class PingsPageFragment extends Fragment{
             pingsList = new ArrayList<Ping>();
             //pingsList.add(new Ping());
         }
+
+        try {
+            mNetworkCallback = (networkStatusCallback) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString()
+                    + " must implement networkStatusCallback");
+        }
     }
 
     @Override
@@ -106,7 +119,78 @@ public class PingsPageFragment extends Fragment{
                 R.layout.ping_list_template, pingsList);
         ListView pingsListView = (ListView) rootView.findViewById(R.id.listview_pings);
         pingsListView.setAdapter(pingArrayAdapter);
+        fragmentRootView = rootView;
+
+        final Handler pingUpdateHandler = new Handler();
+        final int delay = 5000; //milliseconds
+
+        pingUpdateHandler.postDelayed(new Runnable() {
+            public void run() {
+                //do something
+                CheckPingUpdates updateTask = new CheckPingUpdates(ParseUser.getCurrentUser(),
+                        fragmentRootView, fragmentRootView.getContext());
+
+                updateTask.execute();
+                pingUpdateHandler.postDelayed(this, delay);
+            }
+        }, delay);
+
         return rootView;
+    }
+
+    private class CheckPingUpdates extends AsyncTask<String, Void, Integer> {
+        ParseUser user;
+        final View view;
+        Context context;
+        List<ParseObject> pingsList;
+
+        public CheckPingUpdates (ParseUser user, View view, Context context) {
+            this.user = user;
+            this.view = view;
+            this.context = context;
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            if (!mNetworkCallback.checkNetworkStatus()){
+                return -1;
+            }
+            try { //Query Parse for the user's pings
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Pings");
+                query.whereEqualTo("User", user);
+                pingsList = query.find();
+            } catch (ParseException e) {return e.getCode();}//return exception code
+            return 0;//no issues
+        }
+
+        @Override
+        protected void onPostExecute(Integer errorCode) {
+            if (errorCode == 0) { //Populate the pings list if everything is clear
+                ArrayList<Ping> pingData = new ArrayList<Ping>();
+
+                for (int i = 0; i < pingsList.size(); i++) {
+                    try {
+                        //Format the raw date into something more readable
+                        SimpleDateFormat formatter =
+                                new SimpleDateFormat("EEE, MMM d, yyyy 'at' h:mm a");
+
+                        Date rawDate = pingsList.get(i).getDate("Date");
+                        String formattedDate = formatter.format(rawDate);
+
+                        //Populate each Ping object
+                        pingData.add(new Ping(pingsList.get(i).getString("Title"),
+                                pingsList.get(i).getString("Message"), formattedDate));
+                    }catch(Exception e){}
+                }
+                //update the adapter and listview
+                pingArrayAdapter.myPings = pingData;
+                pingArrayAdapter.notifyDataSetChanged();
+
+            }
+            else {
+                Log.e(getString(R.string.log_error), "Could not fetch pings");
+            }
+        }
     }
 
 
