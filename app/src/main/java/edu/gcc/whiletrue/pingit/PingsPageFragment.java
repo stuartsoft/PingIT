@@ -21,6 +21,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,7 +33,11 @@ import java.util.List;
  * Use the {@link PingsPageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PingsPageFragment extends Fragment {
+
+public class PingsPageFragment extends Fragment{
+
+    ArrayList<Ping> pingsList;
+    PingArrayAdapter pingArrayAdapter;
 
     public class PingArrayAdapter extends ArrayAdapter<Ping> {
         Context myContext;
@@ -64,20 +69,30 @@ public class PingsPageFragment extends Fragment {
         }
     }
 
-    PingArrayAdapter pingArrayAdapter;
-
     public PingsPageFragment() {
         // Required empty public constructor
     }
 
-    public static PingsPageFragment newInstance() {
+    public static PingsPageFragment newInstance(ArrayList<Ping> data) {
+        Bundle b = new Bundle();
+        b.putSerializable("pinglist", data);
+
         PingsPageFragment fragment = new PingsPageFragment();
+        fragment.setArguments(b);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle=getArguments();
+
+        if (bundle != null)
+            pingsList = (ArrayList<Ping>)bundle.getSerializable("pinglist");
+        else {
+            pingsList = new ArrayList<Ping>();
+            //pingsList.add(new Ping());
+        }
     }
 
     @Override
@@ -86,71 +101,13 @@ public class PingsPageFragment extends Fragment {
         //Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_pings_page, container, false);
 
-        GetPingsTask getPings = new GetPingsTask(ParseUser.getCurrentUser(),
-                rootView, inflater.getContext());
-
-        //Run the background async task to get the user's pings
-        getPings.execute();
-
+        //Put the new Pings into the list
+        pingArrayAdapter = new PingArrayAdapter(getContext(),
+                R.layout.ping_list_template, pingsList);
+        ListView pingsListView = (ListView) rootView.findViewById(R.id.listview_pings);
+        pingsListView.setAdapter(pingArrayAdapter);
         return rootView;
     }
 
-    private class GetPingsTask extends AsyncTask<String, Void, Integer> {
-        ParseUser user;
-        final View view;
-        Context context;
-        List <ParseObject> pingsList;
 
-        public GetPingsTask (ParseUser user, View view, Context context) {
-            this.user = user;
-            this.view = view;
-            this.context = context;
-        }
-
-        @Override
-        protected Integer doInBackground(String... params) {
-            try { //Query Parse for the user's pings
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("Pings");
-                query.whereEqualTo("User", user);
-                pingsList = query.find();
-            } catch (ParseException e) {return e.getCode();}//return exception code
-            return 0;//no issues
-        }
-
-        @Override
-        protected void onPostExecute(Integer errorCode) {
-            if (errorCode == 0) { //Populate the pings list if everything is clear
-                ArrayList<Ping> pingData = new ArrayList<Ping>();
-
-                for (int i = 0; i < pingsList.size(); i++) {
-                    try {
-                        //Format the raw date into something more readable
-                        SimpleDateFormat formatter =
-                                new SimpleDateFormat("EEE, MMM d, yyyy 'at' h:mm a");
-
-                        Date rawDate = pingsList.get(i).getDate("Date");
-                        String formattedDate = formatter.format(rawDate);
-
-                        //Populate each Ping object
-                        pingData.add(new Ping(pingsList.get(i).getString("Title"),
-                                pingsList.get(i).getString("Message"), formattedDate));
-                    }catch(Exception e){}
-                    //TODO figure out why this is throwing an error when the user has no pings
-                    //something to do with Date.getTime() being called on a null object reference
-                }
-
-                //Put the new Pings into the list
-                pingArrayAdapter = new PingArrayAdapter(getContext(),
-                        R.layout.ping_list_template, pingData);
-                ListView pingsListView = (ListView) view.findViewById(R.id.listview_pings);
-                pingsListView.setAdapter(pingArrayAdapter);
-            }
-            else {
-                Log.e(getString(R.string.log_error),
-                        "onPostExecute: User has no network connection. Cannot load pings.");
-                //TODO: Add a custom page here for when the user has no network connection
-                //and allow them to refresh with a button
-            }
-        }
-    }
 }

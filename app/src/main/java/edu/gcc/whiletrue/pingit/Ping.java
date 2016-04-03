@@ -1,9 +1,11 @@
 package edu.gcc.whiletrue.pingit;
 
+import java.io.Serializable;
+
 /**
  * Created by STEGNERBT1 on 1/30/2016.
  */
-public class Ping {
+public class Ping implements Serializable {
     private String title;
     private String message;
     private String date;
