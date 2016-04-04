@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseUser;
 
@@ -66,21 +67,26 @@ public class SettingsActivityFragment extends PreferenceFragment
         // Set the summary of the Name preference to the user's friendly name.
         SharedPreferences sp = getPreferenceScreen().getSharedPreferences();
 
-        EditTextPreference editTextPref = (EditTextPreference) findPreference("display_name");
-        editTextPref.setSummary(sp.getString("display_name", ""));
+        String dispNameKey = getString(R.string.prefs_display_name_key);
+        EditTextPreference editTextPref = (EditTextPreference) findPreference(dispNameKey);
+        editTextPref.setSummary(sp.getString(dispNameKey, ""));
 
         try{
         // Set the summary of the Notification Sound preference to the tone's friendly name.
-        Uri ringtoneUri = Uri.parse(sp.getString("notification_sound_preference", ""));
+            String notKey = getString(R.string.prefs_notification_sound_key);
+        Uri ringtoneUri = Uri.parse(sp.getString(notKey, ""));
         Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), ringtoneUri);
         String name = ringtone.getTitle(getActivity());
+            if(name.trim().equals(""))name = "Blank Name";
 
         RingtonePreference ringtonePref = (RingtonePreference)
-                findPreference("notification_sound_preference");
+                findPreference(notKey);
         ringtonePref.setSummary(name);
             //TODO find better solution to handling a blank ringtone
         }
-        catch(Exception e){}
+        catch(Exception e){
+            Toast.makeText(getContext(), "Failed to set ringtone.", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -155,9 +161,8 @@ public class SettingsActivityFragment extends PreferenceFragment
             super.onPostExecute(integer);
 
             //remove persistant login
-            SecurePreferences preferences = new SecurePreferences(getContext(),"loginPref",SecurePreferences.generateDeviceUUID(getContext()),true);
+            SecurePreferences preferences = new SecurePreferences(getContext(),getString(R.string.pref_login),SecurePreferences.generateDeviceUUID(getContext()),true);
             preferences.clear();
-
 
             Intent intent = new Intent(fragmentContext, StartupActivity.class);
             //add an extra to indicate to the startup activity to show the login screen first
@@ -171,18 +176,22 @@ public class SettingsActivityFragment extends PreferenceFragment
         //Update a preference's summary as soon as a user changes it
         Preference pref = findPreference(key);
 
-        if (pref instanceof EditTextPreference) {
-            EditTextPreference textPref = (EditTextPreference) pref;
-            pref.setSummary(textPref.getText());
-        }
-
-        else if (pref instanceof RingtonePreference) {
+        if(key.equals(getString(R.string.prefs_notification_sound_key))){
             Uri ringtoneUri = Uri.parse(sharedPreferences.getString(key, ""));
             Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), ringtoneUri);
             String name = ringtone.getTitle(getActivity());
 
             RingtonePreference ringtonePref = (RingtonePreference) findPreference(key);
             ringtonePref.setSummary(name);
+        }else if(key.equals(getString(R.string.prefs_notification_resend_toggle_key))){
+
+        }else if(key.equals(getString(R.string.prefs_notification_resend_delay_key))){
+
+        }else if(key.equals(getString(R.string.prefs_display_name_key))){
+            pref.setSummary(((EditTextPreference)pref).getText());
+            ParseUser.getCurrentUser().put("friendlyName", ((EditTextPreference)pref).getText());
+        }else if(key.equals(getString(R.string.prefs_clear_pings_key))){
+            //will not run
         }
     }
 }

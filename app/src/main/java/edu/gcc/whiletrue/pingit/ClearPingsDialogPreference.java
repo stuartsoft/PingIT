@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.text.ParseException;
@@ -30,9 +31,10 @@ public class ClearPingsDialogPreference extends DialogPreference {
         if(positiveResult){
             try {
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("Pings");
-                query.whereEqualTo("User", ParseUser.getCurrentUser().getUsername());
-                List<ParseObject> pingsList = query.find();
-                for(ParseObject p : pingsList) p.deleteEventually();
+                query.whereEqualTo("User", ParseUser.getCurrentUser());
+                List<ParseObject>pingsList = query.find();
+                Toast.makeText(getContext(), pingsList.size() + " PINGS CLEARED", Toast.LENGTH_SHORT).show();
+                for(ParseObject p : pingsList) p.delete();
             } catch (Exception e){
                 Toast.makeText(getContext(),"Unable to clear pings.",Toast.LENGTH_LONG).show();
             }

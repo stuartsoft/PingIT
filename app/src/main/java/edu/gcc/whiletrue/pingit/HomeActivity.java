@@ -54,6 +54,8 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
     private SendBirdMessagingAdapter mSendBirdMessagingAdapter;
     private SendBirdMessagingFragment mSendBirdMessagingFragment;
     private CountDownTimer mTimer;
+
+    public Fragment faqFragment;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -91,7 +93,8 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         if(mSendBirdMessagingFragment == null)
             mSendBirdMessagingFragment = SendBirdMessagingFragment.newInstance(mSendBirdMessagingAdapter);
 
-
+        if(faqFragment == null)
+            faqFragment = FAQPageFragment.newInstance();
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Create the adapter that will return a fragment for each of the three
@@ -200,7 +203,7 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position){
                 case 0:
-                    return FAQPageFragment.newInstance();
+                    return faqFragment;
                 case 1:
                     return chatFragment;
                 default:

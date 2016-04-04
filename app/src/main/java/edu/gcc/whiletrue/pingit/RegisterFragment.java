@@ -193,9 +193,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
             if (errorCode == 0){//Registration succeeded! Open home activity!
                 //record successful login
-                SecurePreferences preferences = new SecurePreferences(getContext(),"loginPref",SecurePreferences.generateDeviceUUID(getContext()),true);
-                preferences.put("username",emailTxt.getText().toString());
-                preferences.put("password",passTxt.getText().toString());
+                //record successful login
+                SecurePreferences preferences = new SecurePreferences(getContext(),getString(R.string.pref_login),SecurePreferences.generateDeviceUUID(getContext()),true);
+                preferences.put(getString(R.string.pref_login_username),emailTxt.getText().toString());
+                preferences.put(getString(R.string.pref_login_password), passTxt.getText().toString());
+
                 Toast.makeText(fragmentContainer.getContext(), R.string.registerSuccessMsg, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), HomeActivity.class);
                 startActivity(intent);

@@ -71,6 +71,11 @@
     <string name="loadingPings">Requesting pings...</string>
     <string name="pingConnectionError">Could not connect to the Ping.IT server.\nPlease try again.</string>
     <string name="retryConnection">Retry</string>
+    <string name="pref_login">loginPref</string>
+    <string name="pref_login_username">username</string>
+    <string name="pref_login_password">password</string>
+    <string name="str_login_title">Logging In...</string>
+    <string name="str_login_msg">Logging in with saved credentials.</string>
 
 
 </resources>
