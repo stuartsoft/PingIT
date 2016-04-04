@@ -34,7 +34,7 @@ public class RegisterUITest {
 
     String name = "John Doe";
     String email = "unittestX@gmail.com";
-    String pass = "justinrocks";
+    String pass = "justinrocks1";
     String shortPass = "poo";
     String invalidEmail = "Leeroy Jenkins";
 
