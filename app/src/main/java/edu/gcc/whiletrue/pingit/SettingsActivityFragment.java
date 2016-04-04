@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.Parse;
 import com.parse.ParseUser;
 
 import static android.support.v4.app.ActivityCompat.finishAffinity;
@@ -188,8 +189,11 @@ public class SettingsActivityFragment extends PreferenceFragment
         }else if(key.equals(getString(R.string.prefs_notification_resend_delay_key))){
 
         }else if(key.equals(getString(R.string.prefs_display_name_key))){
-            pref.setSummary(((EditTextPreference)pref).getText());
-            ParseUser.getCurrentUser().put("friendlyName", ((EditTextPreference)pref).getText());
+            pref.setSummary(((EditTextPreference) pref).getText());
+            ParseUser u = ParseUser.getCurrentUser();
+            u.put("friendlyName", ((EditTextPreference) pref).getText());
+            u.saveInBackground();
+            Toast.makeText(getActivity(), "Setting:"+((EditTextPreference)pref).getText(), Toast.LENGTH_SHORT).show();
         }else if(key.equals(getString(R.string.prefs_clear_pings_key))){
             //will not run
         }
