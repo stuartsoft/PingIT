@@ -45,6 +45,37 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         // Required empty public constructor
     }
 
+    public static boolean hasDigitsAndLetters(String pass)
+    {
+        return (hasDigits(pass) && hasLetters(pass));
+    }
+
+    public static boolean hasLetters(String pass)
+    {
+        for(int i=0; i<pass.length(); i++)
+        {
+            if(Character.isLetter(pass.charAt(i)))
+            {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    public static boolean hasDigits(String pass)
+    {
+        for(int i=0; i<pass.length(); i++)
+        {
+            if(Character.isDigit(pass.charAt(i)))
+            {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -122,8 +153,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                     dialogMsg = getString(R.string.emailNotValid);
                 else if (!Objects.equals(passTxt.getText().toString(), passConfirmTxt.getText().toString()))
                     dialogMsg = getString(R.string.passwordsDontMatch);
-                else if (passTxt.getText().toString().length()<6)
+                else if (passTxt.getText().toString().length()<8)
                     dialogMsg = getString(R.string.passwordTooShort);
+                else if (!hasDigitsAndLetters(passTxt.getText().toString()))
+                    dialogMsg = getString(R.string.passwordMissingCharacters);
+
 
                 //display dialog if there were any issues
                 if (dialogMsg != ""){
