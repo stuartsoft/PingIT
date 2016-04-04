@@ -157,7 +157,6 @@ public class SettingsActivityFragment extends PreferenceFragment
             //remove persistant login
             SecurePreferences preferences = new SecurePreferences(getContext(),"loginPref",SecurePreferences.generateDeviceUUID(getContext()),true);
             preferences.clear();
-            Log.d("PersLogin", "User info removed.");
 
 
             Intent intent = new Intent(fragmentContext, StartupActivity.class);

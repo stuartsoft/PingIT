@@ -71,7 +71,6 @@ public class StartupActivity extends AppCompatActivity implements
             bundle = new Bundle();
             bundle.putString("username",userName);
             bundle.putString("password",password);
-            Log.d("PersLogin","User info found. U:"+userName + " P:"+password);
         }
         return bundle;
     }

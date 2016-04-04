@@ -196,7 +196,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 SecurePreferences preferences = new SecurePreferences(getContext(),"loginPref",SecurePreferences.generateDeviceUUID(getContext()),true);
                 preferences.put("username",email);
                 preferences.put("password",pass);
-                Log.d("PersLogin", "User info stored. U:" + email + " P:" + pass);
 
                 Toast.makeText(fragmentContainer.getContext(), R.string.loginSuccessMsg, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), HomeActivity.class);
