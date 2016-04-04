@@ -1,12 +1,14 @@
 package edu.gcc.whiletrue.pingit;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,8 +69,22 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
+
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         fragmentContainer = container;
+
+        Bundle b = this.getArguments();
+        if(b != null){
+            String uname = b.getString("username");
+            String pass = b.getString("password");
+            if(uname != null && pass != null){
+
+                Log.d("PersLogin", "Logging In");
+                ProgressDialog.show(getContext(), "Logging In...", "Logging in with saved credentials.");
+                new SignInTask(uname, pass, view,fragmentContainer.getContext()).execute();
+            }
+        }
 
         Button btnTemp = (Button) view.findViewById(R.id.loginBtn);
         btnTemp.setOnClickListener(this);
@@ -175,6 +191,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             signInDialog.dismiss();
 
             if (errorCode == 0){//Login succeeded! Open home activity!
+
+                //record successful login
+                SecurePreferences preferences = new SecurePreferences(getContext(),"loginPref",SecurePreferences.generateDeviceUUID(getContext()),true);
+                preferences.put("username",email);
+                preferences.put("password",pass);
+                Log.d("PersLogin", "User info stored. U:" + email + " P:" + pass);
+
                 Toast.makeText(fragmentContainer.getContext(), R.string.loginSuccessMsg, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), HomeActivity.class);
                 startActivity(intent);

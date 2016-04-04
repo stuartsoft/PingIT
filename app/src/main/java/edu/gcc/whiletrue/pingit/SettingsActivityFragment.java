@@ -14,6 +14,7 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.RingtonePreference;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -152,6 +153,12 @@ public class SettingsActivityFragment extends PreferenceFragment
         @Override
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
+
+            //remove persistant login
+            SecurePreferences preferences = new SecurePreferences(getContext(),"loginPref",SecurePreferences.generateDeviceUUID(getContext()),true);
+            preferences.clear();
+            Log.d("PersLogin", "User info removed.");
+
 
             Intent intent = new Intent(fragmentContext, StartupActivity.class);
             //add an extra to indicate to the startup activity to show the login screen first
