@@ -81,7 +81,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             if(uname != null && pass != null){
 
                 Log.d("PersLogin", "Logging In");
-                ProgressDialog.show(getContext(), "Logging In...", "Logging in with saved credentials.");
+                ProgressDialog.show(getContext(), getString(R.string.str_login_title), getString(R.string.str_login_msg));
                 new SignInTask(uname, pass, view,fragmentContainer.getContext()).execute();
             }
         }
@@ -193,9 +193,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             if (errorCode == 0){//Login succeeded! Open home activity!
 
                 //record successful login
-                SecurePreferences preferences = new SecurePreferences(getContext(),"loginPref",SecurePreferences.generateDeviceUUID(getContext()),true);
-                preferences.put("username",email);
-                preferences.put("password",pass);
+                SecurePreferences preferences = new SecurePreferences(getContext(),getString(R.string.pref_login),SecurePreferences.generateDeviceUUID(getContext()),true);
+                preferences.put(getString(R.string.pref_login_username),email);
+                preferences.put(getString(R.string.pref_login_password), pass);
 
                 Toast.makeText(fragmentContainer.getContext(), R.string.loginSuccessMsg, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), HomeActivity.class);

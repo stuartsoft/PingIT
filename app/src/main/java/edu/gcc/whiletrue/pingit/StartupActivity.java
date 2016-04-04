@@ -61,16 +61,16 @@ public class StartupActivity extends AppCompatActivity implements
 
         Bundle bundle = null;
         // This will get you an instance of your applications shared preferences.
-        SecurePreferences preferences = new SecurePreferences(this,"loginPref",SecurePreferences.generateDeviceUUID(this),true);
+        SecurePreferences preferences = new SecurePreferences(this,getString(R.string.pref_login),SecurePreferences.generateDeviceUUID(this),true);
 
         // Values
-        String userName = preferences.getString("username");
-        String password = preferences.getString("password");
+        String userName = preferences.getString(getString(R.string.pref_login_username));
+        String password = preferences.getString(getString(R.string.pref_login_password));
 
         if(userName != null && password != null){
             bundle = new Bundle();
             bundle.putString("username",userName);
-            bundle.putString("password",password);
+            bundle.putString("password", password);
         }
         return bundle;
     }
