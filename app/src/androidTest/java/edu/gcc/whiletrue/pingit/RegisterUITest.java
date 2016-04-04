@@ -212,7 +212,7 @@ public class RegisterUITest {
     }
 
 
-    //Test for lack of digits in password
+    //Test for lack of letters in password
     @Test
     public void test10a() {
         onView(withId(R.id.registerNameTxt))
@@ -230,7 +230,7 @@ public class RegisterUITest {
         onView(withText(R.string.passwordMissingCharacters)).perform(ViewActions.pressBack());
     }
 
-    //Test for lack of letters in password
+    //Test for lack of digits in password
     @Test
     public void test10b() {
         onView(withId(R.id.registerNameTxt))
