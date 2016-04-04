@@ -3,6 +3,15 @@ package edu.gcc.whiletrue.pingit;
 import android.content.Context;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
+import android.widget.Toast;
+
+import com.parse.Parse;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import java.text.ParseException;
+import java.util.List;
 
 /**
  * Created by stuart on 2/5/16.
@@ -12,5 +21,21 @@ import android.util.AttributeSet;
 public class ClearPingsDialogPreference extends DialogPreference {
     public ClearPingsDialogPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    @Override
+    protected void onDialogClosed(boolean positiveResult) {
+        super.onDialogClosed(positiveResult);
+
+        if(positiveResult){
+            try {
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Pings");
+                query.whereEqualTo("User", ParseUser.getCurrentUser().getUsername());
+                List<ParseObject> pingsList = query.find();
+                for(ParseObject p : pingsList) p.deleteEventually();
+            } catch (Exception e){
+                Toast.makeText(getContext(),"Unable to clear pings.",Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

@@ -22,7 +22,7 @@
         android:entries="@array/resendDelayValues"
         android:entryValues="@array/resendDelayValues"
         android:dependency="@string/prefs_notification_resend_toggle_key" />
-    <EditTextPreference
+    <edu.gcc.whiletrue.pingit.ChangeDisplayNamePreference
         android:key="@string/prefs_display_name_key"
         android:title="@string/prefs_display_name_title"
         android:summary="@string/prefs_display_name_summary"
