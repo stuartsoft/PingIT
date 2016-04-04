@@ -36,7 +36,8 @@
                 android:id="@+id/registerNameTxt"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
-                android:hint="@string/registerNamePlaceholder" />
+                android:hint="@string/registerNamePlaceholder"
+                android:maxLength="30"/>
 
             <EditText
                 android:layout_width="match_parent"
