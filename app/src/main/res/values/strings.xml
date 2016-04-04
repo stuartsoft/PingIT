@@ -41,7 +41,8 @@
     <string name="signingOutDialogMsg">Signing out…</string>
     <string name="dialogCancel">Cancel</string>
     <string name="confirmLogoutMsg">Are you sure you would like to log out?</string>
-    <string name="passwordTooShort">Please enter a password of at least 6 characters.</string>
+    <string name="passwordTooShort">Please enter a password of at least 8 characters.</string>
+    <string name="passwordMissingCharacters">Password must contain letters and numbers.</string>
     <string name="passwordNotValid">Please enter a valid password.</string>
     <string name="prefs_notification_sound_key">notification_sound_preference</string>
     <string name="prefs_notification_sound_title">Notification Sound</string>
@@ -72,6 +73,12 @@
     <string name="pingConnectionError">Could not connect to the Ping.IT server.\nPlease try again.</string>
     <string name="retryConnection">Retry</string>
     <string name="noPings">You currently have no pings!</string>
+    <string name="pref_login">loginPref</string>
+    <string name="pref_login_username">username</string>
+    <string name="pref_login_password">password</string>
+    <string name="str_login_title">Logging In...</string>
+    <string name="str_login_msg">Logging in with saved credentials.</string>
+    <string name="str_blank_name_msg">Name cannot be blank.</string>
 
 
 </resources>

@@ -136,6 +136,7 @@ public class PingsLoadingFragment extends Fragment {
             try { //Query Parse for the user's pings
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("Pings");
                 query.whereEqualTo("User", user);
+                query.orderByDescending("createdAt");
                 pingsList = query.find();
             } catch (ParseException e) {return e.getCode();}//return exception code
             return 0;//no issues
