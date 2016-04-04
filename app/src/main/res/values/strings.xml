@@ -76,6 +76,7 @@
     <string name="pref_login_password">password</string>
     <string name="str_login_title">Logging In...</string>
     <string name="str_login_msg">Logging in with saved credentials.</string>
+    <string name="str_blank_name_msg">Name cannot be blank.</string>
 
 
 </resources>

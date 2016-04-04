@@ -205,6 +205,7 @@ public class SettingsActivityFragment extends PreferenceFragment
             String newName = ((EditTextPreference) pref).getText().trim();
             if(newName.equals("")){//override
                 ((EditTextPreference) pref).setText(defaultFName);
+                Toast.makeText(getActivity(), R.string.str_blank_name_msg, Toast.LENGTH_SHORT).show();
             }
             else {
                 defaultFName = newName;
