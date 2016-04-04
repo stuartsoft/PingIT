@@ -36,6 +36,8 @@ public class RegisterUITest {
     String email = "unittestX@gmail.com";
     String pass = "justinrocks1";
     String shortPass = "poo";
+    String charPass = "eightchar";
+    String numPass = "12345678";
     String invalidEmail = "Leeroy Jenkins";
 
     @Rule//startup activity to test
@@ -183,7 +185,7 @@ public class RegisterUITest {
         onView(withId(R.id.registerPasswordTxt))
                 .perform(typeText(pass), closeSoftKeyboard());
         onView(withId(R.id.registerConfirmPassword))
-                .perform(typeText(pass+"1"), closeSoftKeyboard());
+                .perform(typeText(pass + "1"), closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
 
@@ -207,5 +209,42 @@ public class RegisterUITest {
 
         //wait for dialog to appear, then dismiss it
         onView(withText(R.string.passwordTooShort)).perform(ViewActions.pressBack());
+    }
+
+
+    //Test for lack of digits in password
+    @Test
+    public void test10a() {
+        onView(withId(R.id.registerNameTxt))
+                .perform(typeText(name), closeSoftKeyboard());
+        onView(withId(R.id.registerEmailTxt))
+                .perform(typeText(email), closeSoftKeyboard());
+        onView(withId(R.id.registerPasswordTxt))
+                .perform(typeText(numPass), closeSoftKeyboard());
+        onView(withId(R.id.registerConfirmPassword))
+                .perform(typeText(numPass), closeSoftKeyboard());
+
+        onView(withId(R.id.registerBtn)).perform(click());
+
+        //wait for dialog to appear, then dismiss it
+        onView(withText(R.string.passwordMissingCharacters)).perform(ViewActions.pressBack());
+    }
+
+    //Test for lack of letters in password
+    @Test
+    public void test10b() {
+        onView(withId(R.id.registerNameTxt))
+                .perform(typeText(name), closeSoftKeyboard());
+        onView(withId(R.id.registerEmailTxt))
+                .perform(typeText(email), closeSoftKeyboard());
+        onView(withId(R.id.registerPasswordTxt))
+                .perform(typeText(charPass), closeSoftKeyboard());
+        onView(withId(R.id.registerConfirmPassword))
+                .perform(typeText(charPass), closeSoftKeyboard());
+
+        onView(withId(R.id.registerBtn)).perform(click());
+
+        //wait for dialog to appear, then dismiss it
+        onView(withText(R.string.passwordMissingCharacters)).perform(ViewActions.pressBack());
     }
 }
