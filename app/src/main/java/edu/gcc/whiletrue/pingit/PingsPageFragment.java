@@ -43,6 +43,9 @@ public class PingsPageFragment extends Fragment{
     private View fragmentRootView;
     private ListView pingsListView;
     private TextView noPingsTxt;
+    private final Handler pingUpdateHandler = new Handler();
+    private Runnable pingUpdateRunnable;
+    final int delay = 5000; //milliseconds
 
     public interface networkStatusCallback {
         public boolean checkNetworkStatus();
@@ -127,10 +130,8 @@ public class PingsPageFragment extends Fragment{
 
         hideShowList();
 
-        final Handler pingUpdateHandler = new Handler();
-        final int delay = 5000; //milliseconds
-
-        pingUpdateHandler.postDelayed(new Runnable() {
+        //create repeatable runnable
+        pingUpdateRunnable = new Runnable() {
             public void run() {
                 //do something
                 CheckPingUpdates updateTask = new CheckPingUpdates(ParseUser.getCurrentUser(),
@@ -139,7 +140,10 @@ public class PingsPageFragment extends Fragment{
                 updateTask.execute();
                 pingUpdateHandler.postDelayed(this, delay);
             }
-        }, delay);
+        };
+
+        //set timer to call runnable for updating pings
+        pingUpdateHandler.postDelayed(pingUpdateRunnable, delay);
 
         return rootView;
     }
@@ -151,6 +155,12 @@ public class PingsPageFragment extends Fragment{
         else{
             noPingsTxt.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        pingUpdateHandler.removeCallbacks(pingUpdateRunnable);
     }
 
     private class CheckPingUpdates extends AsyncTask<String, Void, Integer> {

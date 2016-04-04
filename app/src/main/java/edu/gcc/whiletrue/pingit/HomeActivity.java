@@ -122,7 +122,6 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        RegisterFragment registerFrag = new RegisterFragment();
         fragmentTransaction.remove(pingsFragment);
         fragmentTransaction.commit();
 
@@ -139,7 +138,6 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         //Fragment newChatPage = SendBirdMessagingFragment.newInstance(mSendBirdMessagingAdapter);
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        RegisterFragment registerFrag = new RegisterFragment();
         fragmentTransaction.remove(chatFragment);
         fragmentTransaction.commit();
 
