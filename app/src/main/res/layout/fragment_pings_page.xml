@@ -1,7 +1,8 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:id="@+id/fragment_pings_page"
     tools:context="edu.gcc.whiletrue.pingit.PingsPageFragment">
 
@@ -14,5 +15,12 @@
         android:divider="@android:color/white"
         android:clickable="false" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/noPingsTxt"
+        android:text="@string/noPings"
+        android:gravity="center_horizontal"
+        android:padding="20dp"/>
 
-</FrameLayout>
+</LinearLayout>

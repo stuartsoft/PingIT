@@ -71,6 +71,7 @@
     <string name="loadingPings">Requesting pings...</string>
     <string name="pingConnectionError">Could not connect to the Ping.IT server.\nPlease try again.</string>
     <string name="retryConnection">Retry</string>
+    <string name="noPings">You currently have no pings!</string>
 
 
 </resources>

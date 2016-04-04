@@ -20,6 +20,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.w3c.dom.Text;
+
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,11 +41,12 @@ public class PingsPageFragment extends Fragment{
     PingArrayAdapter pingArrayAdapter;
     private networkStatusCallback mNetworkCallback;
     private View fragmentRootView;
+    private ListView pingsListView;
+    private TextView noPingsTxt;
 
     public interface networkStatusCallback {
         public boolean checkNetworkStatus();
     }
-
 
     public class PingArrayAdapter extends ArrayAdapter<Ping> {
         Context myContext;
@@ -117,9 +120,12 @@ public class PingsPageFragment extends Fragment{
         //Put the new Pings into the list
         pingArrayAdapter = new PingArrayAdapter(getContext(),
                 R.layout.ping_list_template, pingsList);
-        ListView pingsListView = (ListView) rootView.findViewById(R.id.listview_pings);
+        pingsListView = (ListView) rootView.findViewById(R.id.listview_pings);
+        noPingsTxt = (TextView) rootView.findViewById(R.id.noPingsTxt);
         pingsListView.setAdapter(pingArrayAdapter);
         fragmentRootView = rootView;
+
+        hideShowList();
 
         final Handler pingUpdateHandler = new Handler();
         final int delay = 5000; //milliseconds
@@ -136,6 +142,15 @@ public class PingsPageFragment extends Fragment{
         }, delay);
 
         return rootView;
+    }
+
+    private void hideShowList(){
+        if (pingsListView.getCount() == 0){
+            noPingsTxt.setVisibility(View.VISIBLE);
+        }
+        else{
+            noPingsTxt.setVisibility(View.GONE);
+        }
     }
 
     private class CheckPingUpdates extends AsyncTask<String, Void, Integer> {
@@ -185,7 +200,7 @@ public class PingsPageFragment extends Fragment{
                 //update the adapter and listview
                 pingArrayAdapter.myPings = pingData;
                 pingArrayAdapter.notifyDataSetChanged();
-
+                hideShowList();
             }
             else {
                 Log.e(getString(R.string.log_error), "Could not fetch pings");
