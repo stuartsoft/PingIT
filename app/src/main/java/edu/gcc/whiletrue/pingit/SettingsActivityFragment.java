@@ -14,6 +14,7 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.RingtonePreference;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,16 +87,28 @@ public class SettingsActivityFragment extends PreferenceFragment
             //TODO find better solution to handling a blank ringtone
         }
         catch(Exception e){
-            Toast.makeText(getContext(), "Failed to set ringtone.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Failed to set ringtone.", Toast.LENGTH_SHORT).show();
         }
 
     }
+
+    private String defaultFName;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         LinearLayout view = (LinearLayout)super.onCreateView(inflater, container, savedInstanceState);
 
         fragmentContext = inflater.getContext();
+
+        //set displayname to parse name
+
+        EditTextPreference etp = (EditTextPreference)findPreference(getString(R.string.prefs_display_name_key));
+        String fname = ParseUser.getCurrentUser().get("friendlyName").toString();
+        etp.setText(fname);
+        defaultFName = fname;
+        //etp.getEditText().setFilters(new InputFilter[]{new InputFilterMinMax(1, 20)});
+
+
 
         //append the footerview below the settings, like the logout button
         FrameLayout footerView = (FrameLayout)inflater.inflate(R.layout.footer_settings, null);
@@ -189,11 +202,17 @@ public class SettingsActivityFragment extends PreferenceFragment
         }else if(key.equals(getString(R.string.prefs_notification_resend_delay_key))){
 
         }else if(key.equals(getString(R.string.prefs_display_name_key))){
-            pref.setSummary(((EditTextPreference) pref).getText());
-            ParseUser u = ParseUser.getCurrentUser();
-            u.put("friendlyName", ((EditTextPreference) pref).getText());
-            u.saveInBackground();
-            Toast.makeText(getActivity(), "Setting:"+((EditTextPreference)pref).getText(), Toast.LENGTH_SHORT).show();
+            String newName = ((EditTextPreference) pref).getText().trim();
+            if(newName.equals("")){//override
+                ((EditTextPreference) pref).setText(defaultFName);
+            }
+            else {
+                defaultFName = newName;
+                pref.setSummary(newName);
+                ParseUser u = ParseUser.getCurrentUser();
+                u.put("friendlyName", newName);
+                u.saveInBackground();
+            }
         }else if(key.equals(getString(R.string.prefs_clear_pings_key))){
             //will not run
         }
