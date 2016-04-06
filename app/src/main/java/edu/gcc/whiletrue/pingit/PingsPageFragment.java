@@ -44,6 +44,7 @@ public class PingsPageFragment extends Fragment{
     private View fragmentRootView;
     private ListView pingsListView;
     private TextView noPingsTxt;
+    private SwipeRefreshLayout swipeRefreshLayout;
     final int delay = 5000; //milliseconds
 
     public interface networkStatusCallback {
@@ -77,6 +78,11 @@ public class PingsPageFragment extends Fragment{
             messageLine.setText(myPings.get(position).getMessage());
             dateLine.setText(myPings.get(position).getDate());
             return row;
+        }
+
+        @Override
+        public int getCount() {
+            return myPings.size();
         }
     }
 
@@ -117,7 +123,7 @@ public class PingsPageFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_pings_page, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_pings_page, container, false);
 
         //Put the new Pings into the list
         pingArrayAdapter = new PingArrayAdapter(getContext(),
@@ -126,8 +132,20 @@ public class PingsPageFragment extends Fragment{
         noPingsTxt = (TextView) rootView.findViewById(R.id.noPingsTxt);
         pingsListView.setAdapter(pingArrayAdapter);
         fragmentRootView = rootView;
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
 
         hideShowList();
+
+        swipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener(){
+                    @Override
+                    public void onRefresh() {
+                        CheckPingUpdates checkPingUpdates = new CheckPingUpdates(ParseUser.getCurrentUser(),
+                                fragmentRootView, fragmentRootView.getContext());
+                        checkPingUpdates.execute();
+                    }
+                }
+        );
 
         return rootView;
     }
@@ -194,6 +212,7 @@ public class PingsPageFragment extends Fragment{
                 pingArrayAdapter.myPings = pingData;
                 pingArrayAdapter.notifyDataSetChanged();
                 hideShowList();
+                swipeRefreshLayout.setRefreshing(false);
             }
             else {
                 Log.e(getString(R.string.log_error), "Could not fetch pings");
