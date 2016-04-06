@@ -2,63 +2,52 @@ package edu.gcc.whiletrue.pingit;
 
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
 
 import com.parse.ParsePushBroadcastReceiver;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by STEGNERBT1 on 3/31/2016.
  */
 public class MyParsePushBroadcastReceiver extends ParsePushBroadcastReceiver {
 
-    public static final String PARSE_DATA_KEY = "com.parse.Data";
-
     @Override
     protected Notification getNotification(Context context, Intent intent) {
-        //deactivate standard notification
+        //Deactivate standard notification
         return null;
     }
 
     @Override
     protected void onPushOpen(Context context, Intent intent) {
         //Implement
-        //TODO Do we need to do anything with this?
+        //TODO I think this needs to open the app because right now tapping notification does nothing
     }
 
     @Override
     protected void onPushReceive(Context context, Intent intent) {
-        JSONObject data = getDataFromIntent(intent);
+        //Get user's preferences
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
+        String ringtonePreferenceString =
+                preferences.getString("notification_sound_preference", "DEFAULT"); //Does this need to be handled in some way?
+
+        //Build a new notification
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        builder.setContentTitle("Testing Title");
-        builder.setContentText("Testing Text");
-        builder.setSmallIcon(R.raw.testicon);
+        builder.setContentTitle("Testing Title"); //This should probably be imported from Parse
+        builder.setContentText("Testing Text"); //Same as Title; omitting it just leaves it blank
+        builder.setSmallIcon(R.raw.testicon); //This should be changed to our icon obviously, can then remove this from raw folder
 
-        // OPTIONAL create soundUri and set sound:
-        builder.setSound(Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.testsound));
+        //Create soundUri and set sound:
+        builder.setSound(Uri.parse(ringtonePreferenceString));
 
-        notificationManager.notify("MyTag", 0, builder.build());
-
-    }
-
-    private JSONObject getDataFromIntent(Intent intent) {
-        JSONObject data = null;
-        try {
-            data = new JSONObject(intent.getExtras().getString(PARSE_DATA_KEY));
-        } catch (JSONException e) {
-            // Json was not readable...
-        }
-        return data;
+        notificationManager.notify("MyTag", 0, builder.build()); //I'm not sure what this actually does
     }
 }
