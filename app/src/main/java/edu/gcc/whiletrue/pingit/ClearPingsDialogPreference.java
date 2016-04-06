@@ -34,7 +34,7 @@ public class ClearPingsDialogPreference extends DialogPreference {
                 query.whereEqualTo("User", ParseUser.getCurrentUser());
                 List<ParseObject>pingsList = query.find();
                 //Toast.makeText(getContext(), pingsList.size() + " PINGS CLEARED", Toast.LENGTH_SHORT).show();
-                for(ParseObject p : pingsList) p.delete();
+                for(ParseObject p : pingsList) p.deleteInBackground();
             } catch (Exception e){
                 Toast.makeText(getContext(),"Unable to clear pings.",Toast.LENGTH_LONG).show();
             }
