@@ -151,11 +151,13 @@ public class PingsPageFragment extends Fragment{
     }
 
     private void hideShowList(){
-        if (pingsListView.getCount() == 0){
+        if (pingArrayAdapter.myPings.size() == 0){
             noPingsTxt.setVisibility(View.VISIBLE);
+            pingsListView.setVisibility(View.GONE);
         }
         else{
             noPingsTxt.setVisibility(View.GONE);
+            pingsListView.setVisibility(View.VISIBLE);
         }
     }
 
