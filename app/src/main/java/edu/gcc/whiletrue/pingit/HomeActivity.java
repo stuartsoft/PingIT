@@ -55,14 +55,6 @@ public class HomeActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        /*NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setSound(Uri.parse("android.media.Ringtone@108308e"));//TODO Add real notification sound path here*/
-
-        /*Notification notification = new Notification();
-        notification.sound = Uri.parse("content://media/internal/audio/media/21");*/
-
-        Log.d("Testing", "Parsed: " + Uri.parse("content://media/external/audio/media/17638"));
     }
 
     @Override
