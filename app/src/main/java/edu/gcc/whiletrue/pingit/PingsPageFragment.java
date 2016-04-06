@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,8 +44,6 @@ public class PingsPageFragment extends Fragment{
     private View fragmentRootView;
     private ListView pingsListView;
     private TextView noPingsTxt;
-    private final Handler pingUpdateHandler = new Handler();
-    private Runnable pingUpdateRunnable;
     final int delay = 5000; //milliseconds
 
     public interface networkStatusCallback {
@@ -130,21 +129,6 @@ public class PingsPageFragment extends Fragment{
 
         hideShowList();
 
-        //create repeatable runnable
-        pingUpdateRunnable = new Runnable() {
-            public void run() {
-                //do something
-                CheckPingUpdates updateTask = new CheckPingUpdates(ParseUser.getCurrentUser(),
-                        fragmentRootView, fragmentRootView.getContext());
-
-                updateTask.execute();
-                pingUpdateHandler.postDelayed(this, delay);
-            }
-        };
-
-        //set timer to call runnable for updating pings
-        pingUpdateHandler.postDelayed(pingUpdateRunnable, delay);
-
         return rootView;
     }
 
@@ -160,7 +144,6 @@ public class PingsPageFragment extends Fragment{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        pingUpdateHandler.removeCallbacks(pingUpdateRunnable);
     }
 
     private class CheckPingUpdates extends AsyncTask<String, Void, Integer> {
