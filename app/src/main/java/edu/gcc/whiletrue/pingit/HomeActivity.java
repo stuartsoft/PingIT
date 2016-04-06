@@ -1,9 +1,7 @@
 package edu.gcc.whiletrue.pingit;
 
-
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -12,7 +10,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerTabStrip;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -37,14 +34,14 @@ import com.sendbird.android.model.ReadStatus;
 import com.sendbird.android.model.SystemMessage;
 import com.sendbird.android.model.TypeStatus;
 
-import edu.gcc.whiletrue.pingit.chat.SendBirdMessagingAdapter;
-import edu.gcc.whiletrue.pingit.chat.SendBirdMessagingFragment;
-import edu.gcc.whiletrue.pingit.chat.StartChatFragment;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
+
+import edu.gcc.whiletrue.pingit.chat.SendBirdMessagingAdapter;
+import edu.gcc.whiletrue.pingit.chat.SendBirdMessagingFragment;
+import edu.gcc.whiletrue.pingit.chat.StartChatFragment;
 
 public class HomeActivity extends AppCompatActivity implements PingsLoadingFragment.PingsPageInterface, PingsLoadingFragment.networkStatusCallback, PingsPageFragment.networkStatusCallback{
 
@@ -109,6 +106,7 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+
     }
 
     @Override
@@ -149,6 +147,7 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
 
         String [] tuid = {targetUserID};
         SendBird.startMessaging(Arrays.asList(tuid));
+
 
     }
 
@@ -413,6 +412,7 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         mSendBirdMessagingAdapter.setMembers(messagingChannel.getMembers());
         mSendBirdMessagingAdapter.notifyDataSetChanged();
     }
+
 
     @Override
     public void onResume() {

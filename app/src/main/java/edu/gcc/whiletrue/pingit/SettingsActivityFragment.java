@@ -11,15 +11,22 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.InputFilter;
+import android.preference.SwitchPreference;
+import android.support.v7.app.NotificationCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,6 +35,8 @@ import android.widget.Toast;
 import com.parse.Parse;
 import com.parse.ParseUser;
 
+import java.util.prefs.Preferences;
+
 import static android.support.v4.app.ActivityCompat.finishAffinity;
 
 /**
@@ -35,7 +44,7 @@ import static android.support.v4.app.ActivityCompat.finishAffinity;
  */
 
 public class SettingsActivityFragment extends PreferenceFragment
-        implements SharedPreferences.OnSharedPreferenceChangeListener, View.OnClickListener {
+        implements Preference.OnPreferenceChangeListener, SharedPreferences.OnSharedPreferenceChangeListener, View.OnClickListener {
 
     private Context fragmentContext;
     private SignOutTask signOutTask;
@@ -76,10 +85,12 @@ public class SettingsActivityFragment extends PreferenceFragment
         try{
         // Set the summary of the Notification Sound preference to the tone's friendly name.
             String notKey = getString(R.string.prefs_notification_sound_key);
-        Uri ringtoneUri = Uri.parse(sp.getString(notKey, ""));
-        Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), ringtoneUri);
-        String name = ringtone.getTitle(getActivity());
+            Uri ringtoneUri = Uri.parse(sp.getString(notKey, ""));
+            Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), ringtoneUri);
+            String name = ringtone.getTitle(getActivity());
             if(name.trim().equals(""))name = "Blank Name";
+            Log.d("Testing", "Ringtone is" + ringtone);
+
 
         RingtonePreference ringtonePref = (RingtonePreference)
                 findPreference(notKey);
@@ -158,6 +169,7 @@ public class SettingsActivityFragment extends PreferenceFragment
             case R.id.logoutBtn:
                 confirmSignOutDialog.show();
                 break;
+
             default:
                 break;
         }
@@ -186,12 +198,39 @@ public class SettingsActivityFragment extends PreferenceFragment
         }
     }
 
+    /*public void onSubmitClicked(View v)
+    {
+        String enteredName = nameEditText.getText().toString();
+        if(TextUtils.isEmpty(pass) || pass.length() < [YOUR MIN LENGTH])
+        {
+            passwordEditText.setError("You must have x characters in your password");
+            return;
+        }
+
+        //continue processing
+
+    }*/
+
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        Log.d("Changed:", "+ onPreferenceChange(preference:" + preference + ", newValue:" + newValue + ")"); //Doesn't fire
+        Boolean rv = true;
+        String source = newValue.toString();
+            if(source.matches("")){
+                rv = false;
+            }
+        Log.d("Changed:", "- onPreferenceChange()");
+        return rv;
+    } //TODO Delete if this doesn't work, which it probably won't since Ben is an idiot
+
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         //Update a preference's summary as soon as a user changes it
         Preference pref = findPreference(key);
 
+
         if(key.equals(getString(R.string.prefs_notification_sound_key))){
             Uri ringtoneUri = Uri.parse(sharedPreferences.getString(key, ""));
+            Log.d("Testing", "Ringtone key is" + ringtoneUri);
+
             Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), ringtoneUri);
             String name = ringtone.getTitle(getActivity());
 
@@ -217,5 +256,19 @@ public class SettingsActivityFragment extends PreferenceFragment
         }else if(key.equals(getString(R.string.prefs_clear_pings_key))){
             //will not run
         }
+        /*
+        else if (pref instanceof SwitchPreference) {
+            Log.d("Testing", "Changed switch preference.");
+            Log.d("Testing", "Switch key is" + key);
+
+        }
+
+        else if (pref instanceof ListPreference) {
+            Log.d("Testing", "Changed list preference.");
+            Log.d("Testing", "List key is" + key);
+
+        }
+        */
     }
+
 }

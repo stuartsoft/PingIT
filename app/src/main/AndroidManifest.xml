@@ -61,21 +61,8 @@
             android:parentActivityName="edu.gcc.whiletrue.pingit.HomeActivity">
         </activity>
 
-
-        <!-- Required to run Sample project
-        <activity
-            android:name=".HomeActivity"
-            android:label="@string/app_name"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>-->
-
         <service android:name="com.parse.PushService" />
-        <receiver android:name="com.parse.ParsePushBroadcastReceiver"
+        <receiver android:name="edu.gcc.whiletrue.pingit.MyParsePushBroadcastReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />

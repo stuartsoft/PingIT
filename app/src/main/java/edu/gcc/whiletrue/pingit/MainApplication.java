@@ -1,6 +1,8 @@
 package edu.gcc.whiletrue.pingit;
 
 import android.app.Application;
+import android.net.Uri;
+import android.support.v7.app.NotificationCompat;
 
 import com.parse.Parse;
 import com.parse.ParseUser;
