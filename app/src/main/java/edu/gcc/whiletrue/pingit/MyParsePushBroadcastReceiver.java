@@ -2,6 +2,7 @@ package edu.gcc.whiletrue.pingit;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -49,6 +50,10 @@ public class MyParsePushBroadcastReceiver extends ParsePushBroadcastReceiver {
             builder.setContentText(msg); //Same as Title; omitting it just leaves it blank
             builder.setSmallIcon(R.raw.white_logo); //This should be changed to our icon obviously, can then remove this from raw folder
             builder.setColor(0xF44336); //ping.it red
+
+            Intent cIntent = new Intent(context, HomeActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, cIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.setContentIntent(pendingIntent);
 
             //Create soundUri and set sound:
             builder.setSound(Uri.parse(ringtonePreferenceString));
