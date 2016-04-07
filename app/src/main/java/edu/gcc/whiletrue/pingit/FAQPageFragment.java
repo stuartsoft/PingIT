@@ -192,37 +192,39 @@ public class FAQPageFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Integer errorCode) {
-            if (errorCode == 0) { //Populate the pings list if everything is clear
-                ArrayList<FAQ> faqData = new ArrayList<FAQ>();
+            if (getContext() != null) {
+                if (errorCode == 0) { //Populate the pings list if everything is clear
+                    ArrayList<FAQ> faqData = new ArrayList<FAQ>();
 
-                for (int i = 0; i < categoryList.size(); i++) {
-                            try {
-                                ArrayList<ArrayList<String>> questionArr = new ArrayList<ArrayList<String>>();
-                                for(int j = 0; j< questionsList.get(i).size(); j++){
-                                    questionArr.add(new ArrayList<String>());
-                                    questionArr.get(j).add(questionsList.get(i).get(j).getString("Text"));
-                                    questionArr.get(j).add(questionsList.get(i).get(j).getString("AnswerText"));
-                                }
+                    for (int i = 0; i < categoryList.size(); i++) {
+                        try {
+                            ArrayList<ArrayList<String>> questionArr = new ArrayList<ArrayList<String>>();
+                            for (int j = 0; j < questionsList.get(i).size(); j++) {
+                                questionArr.add(new ArrayList<String>());
+                                questionArr.get(j).add(questionsList.get(i).get(j).getString("Text"));
+                                questionArr.get(j).add(questionsList.get(i).get(j).getString("AnswerText"));
+                            }
 
-                        //Populate each Ping object
-                        //Make sure that the category isn't empty
-                        if(questionArr.size()>0)
-                            faqData.add(new FAQ(categoryList.get(i).getString("Text"), questionArr));
-                    }catch(Exception e){}
-                    //TODO figure out why this is throwing an error when the user has no pings
-                    //something to do with Date.getTime() being called on a null object reference
+                            //Populate each Ping object
+                            //Make sure that the category isn't empty
+                            if (questionArr.size() > 0)
+                                faqData.add(new FAQ(categoryList.get(i).getString("Text"), questionArr));
+                        } catch (Exception e) {
+                        }
+                        //TODO figure out why this is throwing an error when the user has no pings
+                        //something to do with Date.getTime() being called on a null object reference
+                    }
+
+                    //final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.view_row, R.id.header_text, array);
+                    final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) view.findViewById(R.id.expandableLayoutListView);
+                    faqArrayAdapter = new FAQArrayAdapter(getContext(), R.layout.view_row, R.id.header_text, R.id.internalRow, faqData);
+                    expandableLayoutListView.setAdapter(faqArrayAdapter);
+                } else {
+                    Log.e(getString(R.string.log_error),
+                            "onPostExecute: User has no network connection. Cannot load pings.");
+                    //TODO: Add a custom page here for when the user has no network connection
+                    //and allow them to refresh with a button
                 }
-
-                //final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.view_row, R.id.header_text, array);
-                final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) view.findViewById(R.id.expandableLayoutListView);
-                faqArrayAdapter = new FAQArrayAdapter(getContext(), R.layout.view_row, R.id.header_text, R.id.internalRow, faqData);
-                expandableLayoutListView.setAdapter(faqArrayAdapter);
-            }
-            else {
-                Log.e(getString(R.string.log_error),
-                        "onPostExecute: User has no network connection. Cannot load pings.");
-                //TODO: Add a custom page here for when the user has no network connection
-                //and allow them to refresh with a button
             }
         }
     }
