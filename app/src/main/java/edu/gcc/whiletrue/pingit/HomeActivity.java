@@ -113,8 +113,8 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
 
         if(((MainApplication)getApplication()).chatTarget!=null) {
             displayChat(((MainApplication)getApplication()).chatTarget);
+            mViewPager.setCurrentItem(((MainApplication) getApplication()).currentPage);
         }
-        mViewPager.setCurrentItem(((MainApplication)getApplication()).currentPage);
         Boolean pingExtra = getIntent().getBooleanExtra("pingsFragment",false);
 
         if(pingExtra) {
