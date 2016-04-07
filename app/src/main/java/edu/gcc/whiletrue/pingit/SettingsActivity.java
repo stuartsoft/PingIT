@@ -26,20 +26,14 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        user = ParseUser.getCurrentUser();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        user = ParseUser.getCurrentUser();
-
-        if (user == null){
-            Log.w(getString(R.string.log_warning), getString(R.string.userNotLoggedIn));
-            return;//user isn't logged in for some reason. Don't bother saving preferences
-        }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -66,4 +60,5 @@ public class SettingsActivity extends AppCompatActivity {
             user.saveInBackground();
         }
     }
+
 }
