@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
 import com.parse.ParseUser;
 import com.sendbird.android.MessageListQuery;
@@ -110,6 +111,10 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        if(((MainApplication)getApplication()).chatTarget!=null) {
+            displayChat(((MainApplication)getApplication()).chatTarget);
+        }
+        mViewPager.setCurrentItem(((MainApplication)getApplication()).currentPage);
 
     }
 
@@ -123,17 +128,18 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
     @Override
     public void displayPingsList(ArrayList<Ping> data) {
 
-        Fragment newPingsPage = PingsPageFragment.newInstance(data);
+        if(isForeground) {
+            Fragment newPingsPage = PingsPageFragment.newInstance(data);
 
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        RegisterFragment registerFrag = new RegisterFragment();
-        fragmentTransaction.remove(pingsFragment);
-        fragmentTransaction.commit();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            fragmentTransaction.remove(pingsFragment);
+            fragmentTransaction.commit();
 
-        pingsFragment = newPingsPage;
-        mSectionsPagerAdapter.notifyDataSetChanged();
-        Log.w(getString(R.string.log_warning), "displayPingsList: " );
+            pingsFragment = newPingsPage;
+            mSectionsPagerAdapter.notifyDataSetChanged();
+            Log.w(getString(R.string.log_warning), "displayPingsList: ");
+        }
     }
 
     private void closeChat(){
@@ -144,6 +150,7 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         fragmentTransaction.remove(chatFragment);
         fragmentTransaction.commit();
         mSendBirdMessagingFragment = null;
+        ((MainApplication)getApplication()).chatTarget=null;
 
         chatFragment = new StartChatFragment();
         mSectionsPagerAdapter.notifyDataSetChanged();
@@ -158,6 +165,37 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         if(mSendBirdMessagingFragment == null)
             mSendBirdMessagingFragment = SendBirdMessagingFragment.newInstance(mSendBirdMessagingAdapter);
 
+        addChatExitMenuOption();
+
+        //setContentView(R.layout.activity_sendbird_messaging);
+        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        //Fragment newChatPage = SendBirdMessagingFragment.newInstance(mSendBirdMessagingAdapter);
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.remove(chatFragment);
+        fragmentTransaction.commit();
+
+        chatFragment = mSendBirdMessagingFragment;
+        mSectionsPagerAdapter.notifyDataSetChanged();
+
+        String [] tuid = {targetUserID};
+        ((MainApplication)getApplication()).chatTarget=targetUserID;
+        SendBird.startMessaging(Arrays.asList(tuid));
+
+
+
+    }
+
+    @Override
+    public void loadPings() {
+        pingsFragment = PingsLoadingFragment.newInstance();
+        mSectionsPagerAdapter.notifyDataSetChanged();
+        Log.w(getString(R.string.log_warning), "loadPings: ");
+
+    }
+
+    private void addChatExitMenuOption(){
         //add cancel button to menu
         if (mMenu != null) {
             MenuItem item =
@@ -186,39 +224,15 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
                 }
             });
         }
-
-        //setContentView(R.layout.activity_sendbird_messaging);
-        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        //Fragment newChatPage = SendBirdMessagingFragment.newInstance(mSendBirdMessagingAdapter);
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.remove(chatFragment);
-        fragmentTransaction.commit();
-
-        chatFragment = mSendBirdMessagingFragment;
-        mSectionsPagerAdapter.notifyDataSetChanged();
-
-        String [] tuid = {targetUserID};
-        SendBird.startMessaging(Arrays.asList(tuid));
-
-
     }
-
-    @Override
-    public void loadPings() {
-        pingsFragment = PingsLoadingFragment.newInstance();
-        mSectionsPagerAdapter.notifyDataSetChanged();
-        Log.w(getString(R.string.log_warning), "loadPings: ");
-
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_home, menu);
         mMenu = menu;
+        if(((MainApplication)getApplication()).chatTarget!=null)
+            addChatExitMenuOption();
         return true;
     }
 
@@ -247,6 +261,12 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
+        }
+
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            super.setPrimaryItem(container, position, object);
+            ((MainApplication)getApplication()).currentPage = position;
         }
 
         @Override

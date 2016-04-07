@@ -13,6 +13,9 @@ import com.squareup.leakcanary.LeakCanary;
  */
 public class MainApplication extends Application{
 
+    public String chatTarget = null;
+    public int currentPage = 0;
+
     @Override public void onCreate(){
         super.onCreate();
         //Fabric.with(this, new Crashlytics());
