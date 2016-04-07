@@ -193,7 +193,7 @@ public class SettingsActivityFragment extends PreferenceFragment
             super.onPostExecute(integer);
 
             //remove persistant login
-            SecurePreferences preferences = new SecurePreferences(getContext(),getString(R.string.pref_login),SecurePreferences.generateDeviceUUID(getContext()),true);
+            SecurePreferences preferences = new SecurePreferences(fragmentContext,getString(R.string.pref_login),SecurePreferences.generateDeviceUUID(fragmentContext),true);
             preferences.clear();
 
             Intent intent = new Intent(fragmentContext, StartupActivity.class);
