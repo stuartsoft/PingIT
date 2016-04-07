@@ -178,8 +178,14 @@ public class SettingsActivityFragment extends PreferenceFragment
     private class SignOutTask extends AsyncTask<String, Void, Integer>{
         @Override
         protected Integer doInBackground(String... params) {
-            ParseUser.logOut();
-            return null;
+            try {
+                ParseUser.logOut();
+            }
+            catch(Exception e){
+                Log.e(getString(R.string.log_error), getString(R.string.userNotLoggedIn));
+                return -1;//error code
+            }
+            return 0;//log out success
         }
 
         @Override

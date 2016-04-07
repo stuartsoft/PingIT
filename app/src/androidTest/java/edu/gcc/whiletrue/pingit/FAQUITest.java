@@ -34,9 +34,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class FAQUITest {
 
-    String email = "unittest@gmail.com";
-    String pass = "justinrocks";
-
     @Rule//startup activity to test
     public ActivityTestRule<StartupActivity> mActivityRule = new ActivityTestRule<StartupActivity>(
             StartupActivity.class){
@@ -51,38 +48,10 @@ public class FAQUITest {
         }
     };
 
-    public void settingsAndLogout(){
-        //tap the Settings icon
-        //openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-        onView(withId(R.id.menu_home_settings)).perform(click());
-
-        //assert that we are on the Settings page
-        onView(withId(R.id.settingsFragmentContainer)).check(matches(isDisplayed()));
-
-        onView(withId(R.id.logoutBtn)).perform(click());
-        onView(withText(R.string.dialogYes)).perform(click());//click yes to logout
-    }
-
-    public void loginTestUser(){
-        //Enter credentials and sign in
-
-        onView(withId(R.id.loginEmailTxt))
-                .perform(typeText(email), closeSoftKeyboard());
-        onView(withId(R.id.loginPasswordTxt))
-                .perform(typeText(pass), closeSoftKeyboard());
-        onView(withId(R.id.loginBtn))
-                .perform(click());
-
-        //TODO: Assert that the HomeActivity has been launched to complete the test.
-        onView(withId(R.id.faq_container)).check(matches(isDisplayed()));
-        //Is this  method OK or should it not rely on the FAQ page being first?
-
-    }
-
     //Open the Settings menu from the FAQ page
     @Test
     public void test25(){
-        loginTestUser();
+        LoginUITest.loginTestUser();
         //tap FAQ tab
         onView(withText(R.string.faqSectionTitle)).perform(click());
         //assert that we are on the FAQ tab
@@ -95,6 +64,7 @@ public class FAQUITest {
         //assert that we are on the Settings page
         onView(withId(R.id.settingsFragmentContainer)).check(matches(isDisplayed()));
 
+        //press logout before next test
         onView(withId(R.id.logoutBtn)).perform(click());
         onView(withText(R.string.dialogYes)).perform(click());//click yes to logout
 
@@ -103,7 +73,7 @@ public class FAQUITest {
     //Switch to the Chat page from the FAQ page
     @Test
     public void test26() {
-        loginTestUser();
+        LoginUITest.loginTestUser();
 
         //tap FAQ tab
         onView(withText(R.string.faqSectionTitle)).perform(click());
@@ -115,14 +85,14 @@ public class FAQUITest {
         //assert that we are on the Pings tab
         onView(withId(R.id.fragment_chat_page)).check(matches(isDisplayed()));
 
-        settingsAndLogout();
+        LoginUITest.settingsAndLogout();
 
     }
 
     //Switch to the Pings page from the FAQ page
     @Test
     public void test27(){
-        loginTestUser();
+        LoginUITest.loginTestUser();
 
         //tap FAQ tab
         onView(withText(R.string.faqSectionTitle)).perform(click());
@@ -134,14 +104,14 @@ public class FAQUITest {
         //assert that we are on the Pings tab
         onView(withId(R.id.fragment_pings_page)).check(matches(isDisplayed()));
 
-        settingsAndLogout();
+        LoginUITest.settingsAndLogout();
 
     }
 
     //Test that pressing the software Back button brings us back to the FAQ, Chat, or Pings page
     @Test
     public void test54() {
-        loginTestUser();
+        LoginUITest.loginTestUser();
 
         //tap FAQ tab
         onView(withText(R.string.faqSectionTitle)).perform(click());
@@ -160,7 +130,7 @@ public class FAQUITest {
         //assert that we are on the FAQ tab
         onView(withId(R.id.faq_container)).check(matches(isDisplayed()));
 
-        settingsAndLogout();
+        LoginUITest.settingsAndLogout();
 
     }
 
@@ -168,7 +138,7 @@ public class FAQUITest {
     //brings us back to the previous tab on the home screen
     @Test
     public void test55(){
-        loginTestUser();
+        LoginUITest.loginTestUser();
 
         //tap FAQ tab
         onView(withText(R.string.faqSectionTitle)).perform(click());
@@ -186,7 +156,7 @@ public class FAQUITest {
         //assert that we are on the FAQ tab
         onView(withId(R.id.faq_container)).check(matches(isDisplayed()));
 
-        settingsAndLogout();
+        LoginUITest.settingsAndLogout();
 
     }
 }

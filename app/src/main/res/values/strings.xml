@@ -79,7 +79,7 @@
     <string name="str_login_title">Logging In...</string>
     <string name="str_login_msg">Logging in with saved credentials.</string>
     <string name="str_blank_name_msg">Name cannot be blank.</string>
-    <string name="userNotLoggedIn">User is not logged in! Can\'t save prefs.</string>
+    <string name="userNotLoggedIn">Parse user error!!! Is there no user currently logged in?</string>
 
 
 </resources>

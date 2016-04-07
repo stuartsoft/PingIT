@@ -68,12 +68,14 @@ public class RegisterUITest {
 
         //Delete the user so we can run this test again without fail.
         ParseUser user = ParseUser.getCurrentUser();
+
         try {
             user.delete();
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
+        LoginUITest.settingsAndLogout();
     }
 
     //Test that tapping the button at the bottom of the screen switches to the Login screen
