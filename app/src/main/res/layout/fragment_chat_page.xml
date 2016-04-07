@@ -25,4 +25,12 @@
         android:textAlignment="center"
         android:id="@+id/textView"
         android:layout_above="@+id/launchChatButt" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAlignment="center"
+        android:id="@+id/numOnlineAdmins"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

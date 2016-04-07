@@ -1,9 +1,11 @@
 package edu.gcc.whiletrue.pingit.chat;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +16,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +57,9 @@ public class SendBirdMessagingFragment extends Fragment {
     public ProgressBar mProgressBtnUpload;
     public SendBirdChatHandler mHandler;
 
+    ProgressDialog progress;
+    boolean messagesLoaded = false;
+
 
     public static interface SendBirdChatHandler {
         public void onChannelListClicked();
@@ -76,9 +83,16 @@ public class SendBirdMessagingFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.sendbird_fragment_messaging, container,false);
         initUIComponents(rootView);
+
+        if(!messagesLoaded && progress == null) {
+            progress = new ProgressDialog(getContext());
+            progress.setTitle("Loading Messages");
+            progress.setMessage("1 second please...");
+            progress.show();
+        }
+
         return rootView;
     }
-
 
     private void initUIComponents(View rootView) {
         //resize relative layout
@@ -306,6 +320,17 @@ public class SendBirdMessagingFragment extends Fragment {
         mAdapter = adapter;
         if(mListView != null) {
             mListView.setAdapter(adapter);
+            adapter.setProgressDialog(progress);
+            adapter.registerDataSetObserver(new DataSetObserver() {
+                @Override
+                public void onChanged() {
+                    super.onChanged();
+                }
+            });
         }
+    }
+    public void messagesLoaded(){
+        progress.dismiss();
+        messagesLoaded=true;
     }
 }

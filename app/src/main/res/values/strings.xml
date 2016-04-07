@@ -66,6 +66,8 @@
     <string name="ClickToRefresh">Click to Refresh</string>
     <string name="NoOnlineAdmins">No online admins.</string>
     <string name="fmtClickToChatWith">Click to chat with %s</string>
+    <string name="fmtNumOnlineAdmins">There are %s online admins.</string>
+    <string name="OneOnlineAdmin">There is 1 online admin.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -81,6 +83,7 @@
     <string name="str_blank_name_msg">Name cannot be blank.</string>
     <string name="userNotLoggedIn">Parse user error!!! Is there no user currently logged in?</string>
     <string name="errorParsingSharedPrefs">Error parsing from the shared prefs. Perhaps the settings were not initialized correctly?</string>
+    <string name="CloseChat">Close Chat</string>
 
 
 </resources>

@@ -1,6 +1,8 @@
 package edu.gcc.whiletrue.pingit;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -67,6 +69,7 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,7 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
 
         if(mSendBirdMessagingAdapter == null)
             mSendBirdMessagingAdapter = new SendBirdMessagingAdapter(this);
+
 
         if(mSendBirdMessagingFragment == null)
             mSendBirdMessagingFragment = SendBirdMessagingFragment.newInstance(mSendBirdMessagingAdapter);
@@ -131,7 +135,56 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         Log.w(getString(R.string.log_warning), "displayPingsList: " );
     }
 
+    private void closeChat(){
+        SendBird.disconnect();
+        //Fragment newChatPage = SendBirdMessagingFragment.newInstance(mSendBirdMessagingAdapter);
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.remove(chatFragment);
+        fragmentTransaction.commit();
+        mSendBirdMessagingFragment = null;
+
+        chatFragment = new StartChatFragment();
+        mSectionsPagerAdapter.notifyDataSetChanged();
+        if (mMenu != null) {
+            mMenu.removeItem(R.id.menu_chat_close);
+        }
+
+    }
+
     public void displayChat(String targetUserID){
+
+        if(mSendBirdMessagingFragment == null)
+            mSendBirdMessagingFragment = SendBirdMessagingFragment.newInstance(mSendBirdMessagingAdapter);
+
+        //add cancel button to menu
+        if (mMenu != null) {
+            MenuItem item =
+                    mMenu.add(Menu.NONE, R.id.menu_chat_close, 10, R.string.CloseChat);
+            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            item.setIcon(R.drawable.sendbird_btn_close);
+
+            item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    new AlertDialog.Builder(HomeActivity.this)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Closing Chat")
+                            .setMessage("Are you sure you want to disconnect from chat?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    closeChat();
+                                }
+
+                            })
+                            .setNegativeButton("No", null)
+                            .show();
+                    return true;
+                }
+            });
+        }
 
         //setContentView(R.layout.activity_sendbird_messaging);
         //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -164,6 +217,7 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_home, menu);
+        mMenu = menu;
         return true;
     }
 
@@ -361,6 +415,7 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
                         SendBird.markAsRead(messagingChannel.getUrl());
                         SendBird.join(messagingChannel.getUrl());
                         SendBird.connect(mSendBirdMessagingAdapter.getMaxMessageTimestamp());
+                        mSendBirdMessagingFragment.messagesLoaded();
                     }
 
                     @Override
