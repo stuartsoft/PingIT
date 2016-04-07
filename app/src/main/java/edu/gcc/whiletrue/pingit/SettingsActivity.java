@@ -29,13 +29,13 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        user = ParseUser.getCurrentUser();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        user = ParseUser.getCurrentUser();
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -46,11 +46,19 @@ public class SettingsActivity extends AppCompatActivity {
 
         if (switchStateBool) {//If the user chooses to resend, get their chosen value and send to Parse
             String listStateString = preferences.getString(listPrefKey, "");
-
-            StringTokenizer tokenizer = new StringTokenizer(listStateString);
-            String resendValueString = tokenizer.nextToken();
-            String resendMinutesOrHours = tokenizer.nextToken();
-            int resendValueInt = Integer.parseInt(resendValueString);
+            int resendValueInt = 0;
+            String resendMinutesOrHours = "minutes";
+            try {
+                StringTokenizer tokenizer = new StringTokenizer(listStateString);
+                String resendValueString = tokenizer.nextToken();
+                resendMinutesOrHours = tokenizer.nextToken();
+                resendValueInt = Integer.parseInt(resendValueString);
+            }catch(Exception e){
+                Log.e(getString(R.string.log_error), getString(R.string.errorParsingSharedPrefs));
+                //allow it to continue and store the default values
+                resendValueInt = 0;
+                resendMinutesOrHours = "minutes";
+            }
 
             if (resendMinutesOrHours.contains("hour")) resendValueInt *= 60;//Convert hours to mins
 
@@ -62,4 +70,5 @@ public class SettingsActivity extends AppCompatActivity {
             user.saveInBackground();
         }
     }
+
 }

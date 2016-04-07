@@ -46,7 +46,7 @@ import edu.gcc.whiletrue.pingit.chat.SendBirdMessagingAdapter;
 import edu.gcc.whiletrue.pingit.chat.SendBirdMessagingFragment;
 import edu.gcc.whiletrue.pingit.chat.StartChatFragment;
 
-public class HomeActivity extends AppCompatActivity implements PingsLoadingFragment.PingsPageInterface, PingsLoadingFragment.networkStatusCallback{
+public class HomeActivity extends AppCompatActivity implements PingsLoadingFragment.PingsPageInterface, PingsLoadingFragment.networkStatusCallback, PingsPageFragment.networkStatusCallback{
 
     public Fragment pingsFragment;
 
@@ -115,7 +115,11 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
             displayChat(((MainApplication)getApplication()).chatTarget);
         }
         mViewPager.setCurrentItem(((MainApplication)getApplication()).currentPage);
+        Boolean pingExtra = getIntent().getBooleanExtra("pingsFragment",false);
 
+        if(pingExtra) {
+            mViewPager.setCurrentItem(2);
+        }
     }
 
     @Override
@@ -140,6 +144,7 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
             mSectionsPagerAdapter.notifyDataSetChanged();
             Log.w(getString(R.string.log_warning), "displayPingsList: ");
         }
+
     }
 
     private void closeChat(){

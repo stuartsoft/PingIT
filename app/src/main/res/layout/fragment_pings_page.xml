@@ -5,14 +5,38 @@
     android:id="@+id/fragment_pings_page"
     tools:context="edu.gcc.whiletrue.pingit.PingsPageFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <ListView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/listview_pings"
-        android:dividerHeight="3dp"
-        android:divider="@android:color/white"
-        android:clickable="false" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/swipeRefreshLayout">
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/listview_pings"
+                android:dividerHeight="3dp"
+                android:divider="@android:color/white"
+                android:clickable="false" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/noPingsTxt"
+                    android:text="@string/noPings"
+                    android:gravity="center_horizontal"
+                    android:padding="20dp"/>
+            </ScrollView>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </FrameLayout>
