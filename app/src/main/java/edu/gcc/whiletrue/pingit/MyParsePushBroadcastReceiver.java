@@ -52,6 +52,7 @@ public class MyParsePushBroadcastReceiver extends ParsePushBroadcastReceiver {
             builder.setColor(0xF44336); //ping.it red
 
             Intent cIntent = new Intent(context, HomeActivity.class);
+            cIntent.putExtra("pingsFragment", "pingsFragment"); //String isn't really important, just needs to be not null
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, cIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             builder.setContentIntent(pendingIntent);
 

@@ -106,7 +106,11 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        String pingExtra = getIntent().getStringExtra("pingsFragment");
 
+        if(pingExtra != null) {
+            mViewPager.setCurrentItem(2);
+        }
     }
 
     @Override
