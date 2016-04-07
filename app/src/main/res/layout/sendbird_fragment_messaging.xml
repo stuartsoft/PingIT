@@ -20,13 +20,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
-        android:layout_marginBottom="60dp"
         android:orientation="horizontal"
         android:background="@drawable/sendbird_chat_input_bg"
         android:id="@+id/linearLayout"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentStart="true">
 
         <ImageButton
             android:id="@+id/btn_upload"

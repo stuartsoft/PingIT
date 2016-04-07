@@ -219,6 +219,7 @@ public class FAQPageFragment extends Fragment {
                     final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) view.findViewById(R.id.expandableLayoutListView);
                     faqArrayAdapter = new FAQArrayAdapter(getContext(), R.layout.view_row, R.id.header_text, R.id.internalRow, faqData);
                     expandableLayoutListView.setAdapter(faqArrayAdapter);
+
                 } else {
                     Log.e(getString(R.string.log_error),
                             "onPostExecute: User has no network connection. Cannot load pings.");

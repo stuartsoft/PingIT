@@ -19,6 +19,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     ParseUser user;
 
+    Bundle extras;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
