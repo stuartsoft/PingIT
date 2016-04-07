@@ -327,6 +327,8 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
 
     private void initSendBird() {
 
+        if(ParseUser.getCurrentUser()== null) return;
+        
         String appKey = sendBirdAppID;
         String username = ParseUser.getCurrentUser().getUsername();
         String nickname = (String) ParseUser.getCurrentUser().get("friendlyName");

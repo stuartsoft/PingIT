@@ -31,6 +31,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.parse.Parse;
 import com.parse.ParseUser;
@@ -77,19 +78,21 @@ public class SettingsActivityFragment extends PreferenceFragment
 
         // Set the summary of the Name preference to the user's friendly name.
         SharedPreferences sp = getPreferenceScreen().getSharedPreferences();
-
+        String fname = ParseUser.getCurrentUser().get("friendlyName").toString();
         String dispNameKey = getString(R.string.prefs_display_name_key);
         EditTextPreference editTextPref = (EditTextPreference) findPreference(dispNameKey);
-        editTextPref.setSummary(sp.getString(dispNameKey, ""));
+        editTextPref.setSummary(fname);
 
         try{
         // Set the summary of the Notification Sound preference to the tone's friendly name.
             String notKey = getString(R.string.prefs_notification_sound_key);
-            Uri ringtoneUri = Uri.parse(sp.getString(notKey, ""));
-            Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), ringtoneUri);
-            String name = ringtone.getTitle(getActivity());
+
+            Uri defaultRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(getActivity().getApplicationContext(), RingtoneManager.TYPE_RINGTONE);
+            Ringtone defaultRingtone = RingtoneManager.getRingtone(getActivity(), defaultRingtoneUri);
+
+            String name = defaultRingtone.getTitle(getActivity());
             if(name.trim().equals(""))name = "Blank Name";
-            Log.d("Testing", "Ringtone is" + ringtone);
+            Log.d("Testing", "Ringtone is" + defaultRingtone);
 
 
         RingtonePreference ringtonePref = (RingtonePreference)
@@ -158,6 +161,10 @@ public class SettingsActivityFragment extends PreferenceFragment
         });
         builder.setNegativeButton(R.string.dialogNo, null);
         confirmSignOutDialog = builder.create();
+
+        SwitchPreference notifResendSwitch = (SwitchPreference) findPreference(getString(R.string.prefs_notification_resend_toggle_key));
+        notifResendSwitch.setChecked(false);
+
 
         return view;
     }
