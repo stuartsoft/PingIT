@@ -84,6 +84,8 @@
     <string name="userNotLoggedIn">Parse user error!!! Is there no user currently logged in?</string>
     <string name="errorParsingSharedPrefs">Error parsing from the shared prefs. Perhaps the settings were not initialized correctly?</string>
     <string name="CloseChat">Close Chat</string>
+    <string name="PingsCleared">Pings Cleared</string>
+    <string name="UnableToClearPings">Unable to clear pings.</string>
 
 
 </resources>
