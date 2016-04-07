@@ -36,6 +36,11 @@ public class SettingsActivity extends AppCompatActivity {
 
         user = ParseUser.getCurrentUser();
 
+        if (user == null){
+            Log.w(getString(R.string.log_warning), getString(R.string.userNotLoggedIn));
+            return;//user isn't logged in for some reason. Don't bother saving preferences
+        }
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         String switchPrefKey = getString(R.string.prefs_notification_resend_toggle_key);
