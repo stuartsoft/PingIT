@@ -47,6 +47,39 @@ public class LoginUITest {
         }
     };
 
+    //publically available static method for tapping the settings page and logging out between tests
+    public static void settingsAndLogout(){
+        //tap the Settings icon
+        //openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+        onView(withId(R.id.menu_home_settings)).perform(click());
+
+        //assert that we are on the Settings page
+        onView(withId(R.id.settingsFragmentContainer)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.logoutBtn)).perform(click());
+        onView(withText(R.string.dialogYes)).perform(click());//click yes to logout
+    }
+
+    //publically available static method for logging in before tests that require
+    // a valid parse user to run
+    public static void loginTestUser(){
+        //Enter credentials and sign in
+        String email = "unittest@gmail.com";
+        String pass = "justinrocks";
+
+        onView(withId(R.id.loginEmailTxt))
+                .perform(typeText(email), closeSoftKeyboard());
+        onView(withId(R.id.loginPasswordTxt))
+                .perform(typeText(pass), closeSoftKeyboard());
+        onView(withId(R.id.loginBtn))
+                .perform(click());
+
+        //TODO: Assert that the HomeActivity has been launched to complete the test.
+        onView(withId(R.id.faq_container)).check(matches(isDisplayed()));
+        //Is this  method OK or should it not rely on the FAQ page being first?
+
+    }
+
     //successfully log in with a valid account
     @Test
     public void test11() {
@@ -62,6 +95,8 @@ public class LoginUITest {
         //TODO: Assert that the HomeActivity has been launched to complete the test.
         onView(withId(R.id.faq_container)).check(matches(isDisplayed()));
         //Is this  method OK or should it not rely on the FAQ page being first?
+
+        settingsAndLogout();
     }
 
     //Test that pressing the button at the bottom of the screen switches from Login to Register

@@ -74,12 +74,15 @@
     <string name="loadingPings">Requesting pings...</string>
     <string name="pingConnectionError">Could not connect to the Ping.IT server.\nPlease try again.</string>
     <string name="retryConnection">Retry</string>
+    <string name="noPings">You currently have no pings!</string>
     <string name="pref_login">loginPref</string>
     <string name="pref_login_username">username</string>
     <string name="pref_login_password">password</string>
     <string name="str_login_title">Logging In...</string>
     <string name="str_login_msg">Logging in with saved credentials.</string>
     <string name="str_blank_name_msg">Name cannot be blank.</string>
+    <string name="userNotLoggedIn">Parse user error!!! Is there no user currently logged in?</string>
+    <string name="errorParsingSharedPrefs">Error parsing from the shared prefs. Perhaps the settings were not initialized correctly?</string>
     <string name="CloseChat">Close Chat</string>
 
 

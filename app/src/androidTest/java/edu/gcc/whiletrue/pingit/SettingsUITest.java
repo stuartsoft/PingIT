@@ -1,9 +1,12 @@
 package edu.gcc.whiletrue.pingit;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -53,8 +56,17 @@ public class SettingsUITest {
     String clearPingsKey = getTargetContext().getString(R.string.prefs_clear_pings_key);
 
     @Rule//startup activity to test
-    public ActivityTestRule<SettingsActivity> mActivityRule = new ActivityTestRule<>(
-            SettingsActivity.class);
+    public ActivityTestRule<StartupActivity> mActivityRule = new ActivityTestRule<StartupActivity>(
+            StartupActivity.class){
+        @Override
+        protected Intent getActivityIntent() {
+            Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+            Intent result = new Intent(targetContext, StartupActivity.class);
+            //add extra to indicate to the intent to start on the login screen
+            result.putExtra("startFragment", 1);
+            return result;
+        }
+    };
 
     //Test that a user can open the Ringtone dialogue option in the Settings menu
     /*@Test
@@ -67,9 +79,21 @@ public class SettingsUITest {
         //Has to do with the Ringtone being a system window.
     }*/
 
+    private void openSettings(){
+        //tap the Settings icon
+        onView(withId(R.id.menu_home_settings)).perform(click());
+
+        //assert that we are on the Settings page
+        onView(withId(R.id.settingsFragmentContainer)).check(matches(isDisplayed()));
+    }
+
+
     //Ensure the switch moves from off to on when tapped. Switch starts off.
     @Test
     public void test42() {
+        LoginUITest.loginTestUser();
+        openSettings();
+
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getTargetContext());
 
         Boolean notificationResendOn = settings.getBoolean(prefsToggleKey, false);
@@ -89,11 +113,17 @@ public class SettingsUITest {
         //assert that the correct message is displayed in the row
         onView(withText(R.string.prefs_notification_resend_toggle_summaryon)).check(matches(isDisplayed()));
 
+        //press logout before next test
+        onView(withId(R.id.logoutBtn)).perform(click());
+        onView(withText(R.string.dialogYes)).perform(click());//click yes to logout
     }
 
     //Ensure the switch moves from on to off when tapped. Switch starts on.
     @Test
     public void test43() {
+        LoginUITest.loginTestUser();
+        openSettings();
+
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getTargetContext());
 
         Boolean notificationResendOn = settings.getBoolean(prefsToggleKey, false);
@@ -112,11 +142,18 @@ public class SettingsUITest {
         assertEquals(false, settings.getBoolean(prefsToggleKey, false));
         //assert that the correct message is displayed in the row
         onView(withText(R.string.prefs_notification_resend_toggle_summaryoff)).check(matches(isDisplayed()));
+
+        //press logout before next test
+        onView(withId(R.id.logoutBtn)).perform(click());
+        onView(withText(R.string.dialogYes)).perform(click());//click yes to logout
     }
 
     //Test that tapping Notification Resend Delay launches a dialog box
     @Test
     public void test44() {
+        LoginUITest.loginTestUser();
+        openSettings();
+
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getTargetContext());
 
         Boolean notificationResendOn = settings.getBoolean(prefsToggleKey, false);
@@ -127,11 +164,19 @@ public class SettingsUITest {
 
         //wait for dialog to appear, then dismiss it
         onView(withText(R.string.prefs_notification_resend_delay_title)).perform(ViewActions.pressBack());
+
+        //press logout before next test
+        onView(withId(R.id.logoutBtn)).perform(click());
+        onView(withText(R.string.dialogYes)).perform(click());//click yes to logout
+
     }
 
     //select an option from the list of notification resend delays
     @Test
     public void test45(){
+        LoginUITest.loginTestUser();
+        openSettings();
+
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getTargetContext());
 
         Boolean notificationResendOn = settings.getBoolean(prefsToggleKey, false);
@@ -149,19 +194,37 @@ public class SettingsUITest {
         //assert that the selected option is displayed
         onView(withText(selectedOption)).check(matches(isDisplayed()));
         //assert that the saved preferences value matches the UI selection
-        assertEquals(selectedOption,settings.getString(prefsDelayKey, ""));
+        assertEquals(selectedOption, settings.getString(prefsDelayKey, ""));
+
+        //press logout before next test
+        onView(withId(R.id.logoutBtn)).perform(click());
+        onView(withText(R.string.dialogYes)).perform(click());//click yes to logout
     }
+
 
     //just test that the dialog box appears to change the display name. Then cancel the dialog
     @Test
     public void test46(){
+        LoginUITest.loginTestUser();
+        openSettings();
+
         onData(withKey(displayNameKey)).perform(click());
         //type a name
         //onView(withText("Display Name")).perform(typeTextIntoFocusedView("Stuart Bowman"), closeSoftKeyboard());
 
         //wait for dialog to appear, then dismiss it
-        pressBack();
+        onView(withText("Display Name")).perform(closeSoftKeyboard());//close keyboard
+        pressBack();//dismiss dialog
+
+        //assert that we are on the Settings page
+        onView(withId(R.id.settingsFragmentContainer)).check(matches(isDisplayed()));
+
         //TODO: Ensure this is a thorough enough test. This also hangs quite a bit
+
+        //press logout before next test
+        onView(withId(R.id.logoutBtn)).perform(click());
+        onView(withText(R.string.dialogYes)).perform(click());//click yes to logout
+
     }
 
     /*
@@ -188,44 +251,81 @@ public class SettingsUITest {
     //Test that tapping Clear Pings brings up a dialog box
     @Test
     public void test48() {
+        LoginUITest.loginTestUser();
+        openSettings();
+
         onData(withKey(clearPingsKey)).perform(click());
         //wait for dialog to appear, then dismiss it
         onView(withText(R.string.prefs_clear_pings_dialogtitle)).perform(ViewActions.pressBack());
+
+        //press logout before next test
+        onView(withId(R.id.logoutBtn)).perform(click());
+        onView(withText(R.string.dialogYes)).perform(click());//click yes to logout
+
     }
 
     //Test that the user can cancel clearing his pings
     @Test
     public void test50() {
+        LoginUITest.loginTestUser();
+        openSettings();
+
         onData(withKey(clearPingsKey)).perform(click());
         //wait for dialog to appear, then cancel.
         onView(withText(R.string.dialogNo)).perform(click());
+
+        //press logout before next test
+        onView(withId(R.id.logoutBtn)).perform(click());
+        onView(withText(R.string.dialogYes)).perform(click());//click yes to logout
+
     }
 
     //tap logout button and make sure confirmation dialog appears
     @Test
     public void test51() {
+        LoginUITest.loginTestUser();
+        openSettings();
+
         onView(withId(R.id.logoutBtn)).perform(click());
         //wait for dialog to appear, then dismiss it
         onView(withText(R.string.confirmLogoutMsg)).perform(ViewActions.pressBack());
+
+        //press logout before next test
+        onView(withId(R.id.logoutBtn)).perform(click());
+        onView(withText(R.string.dialogYes)).perform(click());//click yes to logout
+
     }
 
     //Tap Log Out button, confirm logout, and make sure the user is returned to the Login screen
     @Test
     public void test52() {
+        LoginUITest.loginTestUser();
+        openSettings();
+
         onView(withId(R.id.logoutBtn)).perform(click());
         //wait for dialog to appear, then confirm logout
         onView(withText(R.string.dialogYes)).perform(click());
 
         onView(withId(R.id.fragment_login)).check(matches(isDisplayed()));
+
     }
 
     //Tap Log Out button, but cancel the action by tapping No
     @Test
     public void test53() {
+        LoginUITest.loginTestUser();
+        openSettings();
+
         onView(withId(R.id.logoutBtn)).perform(click());
         //wait for dialog to appear, then cancel logout action
         onView(withText(R.string.dialogNo)).perform(click());
 
         onView(withId(R.id.settingsFragmentContainer)).check(matches(isDisplayed()));
+
+        //press logout before next test
+        onView(withId(R.id.logoutBtn)).perform(click());
+        onView(withText(R.string.dialogYes)).perform(click());//click yes to logout
+
     }
+
 }

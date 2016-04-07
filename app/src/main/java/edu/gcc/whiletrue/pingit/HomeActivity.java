@@ -45,7 +45,7 @@ import edu.gcc.whiletrue.pingit.chat.SendBirdMessagingAdapter;
 import edu.gcc.whiletrue.pingit.chat.SendBirdMessagingFragment;
 import edu.gcc.whiletrue.pingit.chat.StartChatFragment;
 
-public class HomeActivity extends AppCompatActivity implements PingsLoadingFragment.PingsPageInterface, PingsLoadingFragment.networkStatusCallback{
+public class HomeActivity extends AppCompatActivity implements PingsLoadingFragment.PingsPageInterface, PingsLoadingFragment.networkStatusCallback, PingsPageFragment.networkStatusCallback{
 
     public Fragment pingsFragment;
 
@@ -131,7 +131,6 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        RegisterFragment registerFrag = new RegisterFragment();
         fragmentTransaction.remove(pingsFragment);
         fragmentTransaction.commit();
 
