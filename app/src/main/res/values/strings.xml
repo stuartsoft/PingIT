@@ -80,6 +80,7 @@
     <string name="str_login_msg">Logging in with saved credentials.</string>
     <string name="str_blank_name_msg">Name cannot be blank.</string>
     <string name="userNotLoggedIn">Parse user error!!! Is there no user currently logged in?</string>
+    <string name="errorParsingSharedPrefs">Error parsing from the shared prefs. Perhaps the settings were not initialized correctly?</string>
 
 
 </resources>
