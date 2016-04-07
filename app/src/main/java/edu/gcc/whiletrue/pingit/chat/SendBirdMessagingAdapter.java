@@ -5,6 +5,7 @@ package edu.gcc.whiletrue.pingit.chat;
  */
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -65,6 +66,8 @@ public class SendBirdMessagingAdapter extends BaseAdapter {
     private long mMaxMessageTimestamp = Long.MIN_VALUE;
     private long mMinMessageTimestamp = Long.MAX_VALUE;
 
+    private ProgressDialog progress;
+
     public SendBirdMessagingAdapter(Context context) {
         mContext = context;
         mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -72,6 +75,8 @@ public class SendBirdMessagingAdapter extends BaseAdapter {
         mReadStatus = new Hashtable<String, Long>();
         mTypeStatus = new Hashtable<String, Long>();
     }
+
+    public void setProgressDialog(ProgressDialog p){progress = p;}
 
     @Override
     public int getCount() {

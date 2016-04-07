@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -37,6 +38,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -71,8 +73,8 @@ public class StartChatFragment extends Fragment {
         return fragment;
     }
 
-    private Timer refreshTimer;
     private Button startChat;
+    private TextView numOnlineAdmins;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,61 +100,66 @@ public class StartChatFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        refreshTimer.cancel();
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        numOnlineAdmins = (TextView) view.findViewById(R.id.numOnlineAdmins);
         startChat = (Button) view.findViewById(R.id.launchChatButt);
-        startChat.setText(R.string.NoOnlineAdmins);
-        refreshTimer = new Timer();
-        refreshTimer.schedule(new TimerTask() {
+        startChat.setText(R.string.ClickToRefresh);
+        startChat.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                refreshOnlineAdmins();
+            public void onClick(View v) {
+                refreshButton(); //  willl change this to connect button if avalible
             }
-        }, 0, 1000);
+        });
+        refreshButton();
     }
 
-    private void refreshOnlineAdmins(){
-        if(getActivity() != null && startChat != null) {
-            getActivity().runOnUiThread(new Runnable() {
+    private void refreshButton(){
+        if(isAdded()) {
+            ParseQuery query = ParseQuery.getQuery("AdminTimes");
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.SECOND, -30);
+            query.whereGreaterThan("timeOfLastAction", calendar.getTime());
+            query.orderByDescending("timeOfLastAction");
+            query.findInBackground(new FindCallback<ParseObject>() {
                 @Override
-                public void run() {
-                    ParseQuery query = ParseQuery.getQuery("AdminTimes");
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.add(Calendar.SECOND, -30);
-                    query.whereGreaterThan("timeOfLastAction", calendar.getTime());
-                    query.orderByDescending("timeOfLastAction");
-                    query.findInBackground(new FindCallback<ParseObject>() {
-                        @Override
-                        public void done(List<ParseObject> objects, ParseException e) {
-                            if (objects == null || objects.isEmpty()) {
-                                startChat.setText(R.string.NoOnlineAdmins);
+                public void done(List<ParseObject> objects, ParseException e) {
+                    if(isAdded()) {
+                        if (objects == null || objects.isEmpty()) {
+                            startChat.setText(R.string.ClickToRefresh);
+                            numOnlineAdmins.setText(R.string.NoOnlineAdmins);
+                        } else {
+                            if (objects.size() == 1) {
+                                numOnlineAdmins.setText(R.string.OneOnlineAdmin);
                             } else {
-                                refreshTimer.cancel();
-                                final String firstAdminUserName = objects.get(0).get("userName").toString();
-                                String firstAdminFriendlyName = objects.get(0).get("friendlyName").toString();
-                                startChat.setEnabled(true);
-                                startChat.setText(String.format(getString(R.string.fmtClickToChatWith), firstAdminFriendlyName));
-                                startChat.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        try {
-                                            startMessaging(firstAdminUserName);
-                                        } catch (Exception e) {
-                                            Log.e("SendBird", e.getMessage());
-                                        }
-                                    }
-                                });
+                                numOnlineAdmins.setText(String.format(getString(R.string.fmtNumOnlineAdmins), objects.size()));
                             }
+                            Random rand = new Random();
+                            int connIndex = rand.nextInt(objects.size());
+                            final String firstAdminUserName = objects.get(connIndex).get("userName").toString();
+                            String firstAdminFriendlyName = objects.get(connIndex).get("friendlyName").toString();
+                            startChat.setEnabled(true);
+                            startChat.setText(String.format(getString(R.string.fmtClickToChatWith), firstAdminFriendlyName));
+                            startChat.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    try {
+                                        startMessaging(firstAdminUserName);
+                                    } catch (Exception e) {
+                                        Log.e("SendBird", e.getMessage());
+                                    }
+                                }
+                            });
                         }
-                    });
+                    }
                 }
             });
         }
     }
+
 
 
     private void startMessaging(String targetUserId) throws Exception{
