@@ -9,15 +9,12 @@ import android.database.DataSetObserver;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Debug;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +34,6 @@ import com.sendbird.android.SendBirdFileUploadEventHandler;
 import com.sendbird.android.model.FileInfo;
 import com.sendbird.android.model.MessageModel;
 
-import java.io.Console;
 import java.io.File;
 import java.util.List;
 

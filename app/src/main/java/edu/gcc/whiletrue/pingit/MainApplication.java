@@ -1,12 +1,9 @@
 package edu.gcc.whiletrue.pingit;
 
 import android.app.Application;
-import android.net.Uri;
-import android.support.v7.app.NotificationCompat;
 
 import com.parse.Parse;
 import com.parse.ParseUser;
-import com.squareup.leakcanary.LeakCanary;
 
 /**
  * Created by BOWMANRS1 on 1/23/2016.

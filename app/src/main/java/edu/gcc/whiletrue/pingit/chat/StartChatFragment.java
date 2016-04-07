@@ -1,10 +1,7 @@
 package edu.gcc.whiletrue.pingit.chat;
 
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,35 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.sendbird.android.MessageListQuery;
-import com.sendbird.android.SendBird;
-import com.sendbird.android.SendBirdEventHandler;
-import com.sendbird.android.SendBirdNotificationHandler;
-import com.sendbird.android.model.BroadcastMessage;
-import com.sendbird.android.model.Channel;
-import com.sendbird.android.model.FileLink;
-import com.sendbird.android.model.Mention;
-import com.sendbird.android.model.Message;
-import com.sendbird.android.model.MessageModel;
 import com.sendbird.android.model.MessagingChannel;
-import com.sendbird.android.model.ReadStatus;
-import com.sendbird.android.model.SystemMessage;
-import com.sendbird.android.model.TypeStatus;
 
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import edu.gcc.whiletrue.pingit.HomeActivity;
 import edu.gcc.whiletrue.pingit.R;
