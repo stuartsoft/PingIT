@@ -110,7 +110,11 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        Boolean pingExtra = getIntent().getBooleanExtra("pingsFragment",false);
 
+        if(pingExtra) {
+            mViewPager.setCurrentItem(2);
+        }
     }
 
     @Override
@@ -133,7 +137,7 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
 
         pingsFragment = newPingsPage;
         mSectionsPagerAdapter.notifyDataSetChanged();
-        Log.w(getString(R.string.log_warning), "displayPingsList: " );
+        Log.w(getString(R.string.log_warning), "displayPingsList: ");
     }
 
     private void closeChat(){
