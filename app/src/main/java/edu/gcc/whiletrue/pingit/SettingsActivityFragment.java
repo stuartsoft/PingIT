@@ -143,6 +143,7 @@ public class SettingsActivityFragment extends PreferenceFragment
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //show signout dialog with progress spinner while Parse executes in the background
+                ((MainApplication)getActivity().getApplication()).currentPage=0;
                 signOutDialog.show();
                 signOutTask = new SignOutTask();
                 signOutTask.execute();//attempt to signout in the background

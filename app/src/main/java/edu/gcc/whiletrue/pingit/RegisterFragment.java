@@ -225,7 +225,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             signUpDialog.dismiss();
 
             if (errorCode == 0){//Registration succeeded! Open home activity!
-                //record successful login
+                ((MainApplication)getActivity().getApplication()).currentPage=0;
                 //record successful login
                 SecurePreferences preferences = new SecurePreferences(getContext(),getString(R.string.pref_login),SecurePreferences.generateDeviceUUID(getContext()),true);
                 preferences.put(getString(R.string.pref_login_username),emailTxt.getText().toString());

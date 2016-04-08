@@ -192,6 +192,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
             if (errorCode == 0){//Login succeeded! Open home activity!
 
+                ((MainApplication)getActivity().getApplication()).currentPage=0;
+
                 //record successful login
                 SecurePreferences preferences = new SecurePreferences(getContext(),getString(R.string.pref_login),SecurePreferences.generateDeviceUUID(getContext()),true);
                 preferences.put(getString(R.string.pref_login_username),email);
