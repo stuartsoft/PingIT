@@ -264,6 +264,40 @@ public class SettingsUITest {
 
     }
 
+    //clear all pings and then check that they're actually displaying as cleared on pings page
+    @Test
+    public void test49(){
+        LoginUITest.loginTestUser();
+
+        //go to pings page
+        onView(withText(R.string.pingsSectionTitle)).perform(click());
+
+        openSettings();
+
+        onData(withKey(clearPingsKey)).perform(click());
+        //wait for dialog to appear, then cancel.
+        onView(withText(R.string.prefs_clear_pings_positive)).perform(click());
+
+        //check that toast comes up
+        //onView(withText(R.string.PingsCleared)).check(matches(isDisplayed()));
+
+        pressBack();//go back to homeActivity
+
+        //pings page should now be reloading or say it has no pings
+        try {
+            onView(withText(R.string.noPings)).check(matches(isDisplayed()));
+        }catch(Exception e){
+            //otherwise, try this
+            onView(withText(R.string.loadingPings)).check(matches(isDisplayed()));
+        }
+
+        openSettings();
+
+        //press logout before next test
+        onView(withId(R.id.logoutBtn)).perform(click());
+        onView(withText(R.string.dialogYes)).perform(click());//click yes to logout
+    }
+
     //Test that the user can cancel clearing his pings
     @Test
     public void test50() {

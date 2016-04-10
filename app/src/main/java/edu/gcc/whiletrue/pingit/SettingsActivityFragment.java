@@ -90,7 +90,7 @@ public class SettingsActivityFragment extends PreferenceFragment
             //TODO find better solution to handling a blank ringtone
         }
         catch(Exception e){
-            Toast.makeText(getActivity(), "Failed to set ringtone.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.prefs_ringtone_failed), Toast.LENGTH_SHORT).show();
         }
 
     }
