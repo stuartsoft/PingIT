@@ -83,7 +83,7 @@ public class SendBirdMessagingFragment extends Fragment {
         if(!messagesLoaded && progress == null) {
             progress = new ProgressDialog(getContext());
             progress.setTitle("Loading Messages");
-            progress.setMessage("1 second please...");
+            progress.setMessage("One moment, please...");
             progress.show();
         }
 
