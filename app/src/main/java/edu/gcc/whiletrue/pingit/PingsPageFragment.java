@@ -41,6 +41,7 @@ public class PingsPageFragment extends Fragment{
     private TextView noPingsTxt;
     private SwipeRefreshLayout swipeRefreshLayout;
     final int delay = 5000; //milliseconds
+    public CheckPingUpdates checkPingUpdates;//async task for refreshing pings
 
     public interface networkStatusCallback {
         public boolean checkNetworkStatus();
@@ -135,7 +136,7 @@ public class PingsPageFragment extends Fragment{
                 new SwipeRefreshLayout.OnRefreshListener(){
                     @Override
                     public void onRefresh() {
-                        CheckPingUpdates checkPingUpdates = new CheckPingUpdates(ParseUser.getCurrentUser(),
+                        checkPingUpdates = new CheckPingUpdates(ParseUser.getCurrentUser(),
                                 fragmentRootView, fragmentRootView.getContext());
                         checkPingUpdates.execute();
                     }
@@ -159,6 +160,8 @@ public class PingsPageFragment extends Fragment{
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (checkPingUpdates != null)
+            checkPingUpdates.cancel(true);//cancel any updates
     }
 
     private class CheckPingUpdates extends AsyncTask<String, Void, Integer> {
@@ -217,6 +220,5 @@ public class PingsPageFragment extends Fragment{
             }
         }
     }
-
 
 }

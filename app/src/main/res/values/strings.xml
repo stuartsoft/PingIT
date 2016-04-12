@@ -86,6 +86,7 @@
     <string name="CloseChat">Close Chat</string>
     <string name="PingsCleared">Pings Cleared</string>
     <string name="UnableToClearPings">Unable to clear pings.</string>
+    <string name="prefs_ringtone_failed">Failed to set ringtone.</string>
 
 
 </resources>

@@ -129,7 +129,6 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         return (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
     }
 
-    @Override
     public void displayPingsList(ArrayList<Ping> data) {
 
         if(isForeground) {
@@ -143,6 +142,23 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
             pingsFragment = newPingsPage;
             mSectionsPagerAdapter.notifyDataSetChanged();
             Log.w(getString(R.string.log_warning), "displayPingsList: ");
+        }
+
+    }
+
+    public void displayPingsLoading() {
+
+        if(isForeground) {
+            Fragment newPingsLoading = PingsLoadingFragment.newInstance();
+
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            fragmentTransaction.remove(pingsFragment);
+            fragmentTransaction.commit();
+
+            pingsFragment = newPingsLoading;
+            mSectionsPagerAdapter.notifyDataSetChanged();
+            Log.w(getString(R.string.log_warning), "displayPingsLoading: ");
         }
 
     }
@@ -522,6 +538,9 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
             }
         };
         mTimer.start();
+
+        //also tell the pings page to do a full reload incase pings have changed
+        displayPingsLoading();
     }
 
     @Override
