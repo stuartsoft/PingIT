@@ -1,6 +1,7 @@
 package edu.gcc.whiletrue.pingit;
 
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -76,18 +77,27 @@ public class SettingsActivityFragment extends PreferenceFragment
         // Set the summary of the Notification Sound preference to the tone's friendly name.
             String notKey = getString(R.string.prefs_notification_sound_key);
 
-            Uri defaultRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(getActivity().getApplicationContext(), RingtoneManager.TYPE_NOTIFICATION);
-            Ringtone defaultRingtone = RingtoneManager.getRingtone(getActivity(), defaultRingtoneUri);
+            String uriPath = sp.getString(notKey, "");
+            String name;
+            if(uriPath.length()==0) {
 
-            String name = defaultRingtone.getTitle(getActivity());
-            if(name.trim().equals(""))name = "Blank Name";
-            Log.d("Testing", "Ringtone is" + defaultRingtone);
+                Uri defaultRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(getActivity().getApplicationContext(), RingtoneManager.TYPE_NOTIFICATION);
+                Ringtone defaultRingtone = RingtoneManager.getRingtone(getActivity(), defaultRingtoneUri);
+
+                name = defaultRingtone.getTitle(getActivity());
+                if (name.trim().equals("")) name = "Blank Name";
+                Log.d("Testing", "Ringtone is" + defaultRingtone);
+            }
+            else{
+                Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), Uri.parse(uriPath));
+                name = ringtone.getTitle(getActivity());
+            }
 
 
-        RingtonePreference ringtonePref = (RingtonePreference)
-                findPreference(notKey);
-        ringtonePref.setSummary(name);
-            //TODO find better solution to handling a blank ringtone
+            RingtonePreference ringtonePref = (RingtonePreference)
+                    findPreference(notKey);
+            ringtonePref.setSummary(name);
+                //TODO find better solution to handling a blank ringtone
         }
         catch(Exception e){
             Toast.makeText(getActivity(), getString(R.string.prefs_ringtone_failed), Toast.LENGTH_SHORT).show();

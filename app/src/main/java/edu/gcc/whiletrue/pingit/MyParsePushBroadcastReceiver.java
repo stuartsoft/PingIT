@@ -46,7 +46,7 @@ public class MyParsePushBroadcastReceiver extends ParsePushBroadcastReceiver {
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-            builder.setContentTitle("Ping.It"); //This should probably be imported from Parse
+            builder.setContentTitle("Ping.IT"); //This should probably be imported from Parse
             builder.setContentText(msg); //Same as Title; omitting it just leaves it blank
             builder.setSmallIcon(R.raw.white_logo); //This should be changed to our icon obviously, can then remove this from raw folder
             builder.setColor(0xF44336); //ping.it red
