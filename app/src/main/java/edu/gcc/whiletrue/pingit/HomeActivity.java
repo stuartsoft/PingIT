@@ -71,6 +71,7 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
      */
     private ViewPager mViewPager;
     private Menu mMenu;
+    private String initalMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +113,7 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         tabLayout.setupWithViewPager(mViewPager);
 
         if(((MainApplication)getApplication()).chatTarget!=null) {
-            displayChat(((MainApplication)getApplication()).chatTarget);
+            displayChat(((MainApplication)getApplication()).chatTarget,"");
         }
         mViewPager.setCurrentItem(((MainApplication)getApplication()).currentPage);
         Boolean pingExtra = getIntent().getBooleanExtra("pingsFragment",false);
@@ -181,7 +182,11 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
 
     }
 
-    public void displayChat(String targetUserID){
+    public void displayChat(String targetUserID, String initMsg){
+
+        initalMessage = initMsg;
+        if(initMsg==null)
+            initalMessage = getString(R.string.hello);
 
         if(mSendBirdMessagingFragment == null)
             mSendBirdMessagingFragment = SendBirdMessagingFragment.newInstance(mSendBirdMessagingAdapter);
@@ -203,9 +208,6 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         String [] tuid = {targetUserID};
         ((MainApplication)getApplication()).chatTarget=targetUserID;
         SendBird.startMessaging(Arrays.asList(tuid));
-
-
-
     }
 
     @Override
@@ -368,6 +370,10 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         SendBird.setEventHandler(new SendBirdEventHandler() {
             @Override
             public void onConnect(Channel channel) {
+                if(initalMessage!=null && initalMessage.length()>0) {
+                    SendBird.send(initalMessage);
+                    initalMessage=null;
+                }
             }
 
             @Override

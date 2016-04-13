@@ -87,6 +87,11 @@
     <string name="PingsCleared">Pings Cleared</string>
     <string name="UnableToClearPings">Unable to clear pings.</string>
     <string name="prefs_ringtone_failed">Failed to set ringtone.</string>
+    <string name="startChat">Start Chat</string>
+    <string name="describeIssue">Please Describe Your Issue</string>
+    <string name="describeProblem">Please Describe Your Problem</string>
+    <string name="loadingMsgs">Loading Messages</string>
+    <string name="hello">Hello</string>
 
 
 </resources>
