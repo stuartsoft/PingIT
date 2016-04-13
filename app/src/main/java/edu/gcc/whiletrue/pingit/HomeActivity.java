@@ -107,6 +107,7 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
+        mViewPager.setOffscreenPageLimit(3);//keep all our tabs loaded all the time. Prevents unnecessary reloading
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);

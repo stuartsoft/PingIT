@@ -1,11 +1,29 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:id="@+id/faq_container"
     tools:context="edu.gcc.whiletrue.pingit.FAQPageFragment">
 
     <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/requestingFAQ"
+        android:id="@+id/requestingFAQtxt"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:padding = "20dp"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/FAQprogressBar"
+        android:layout_gravity="center_horizontal"
+        android:visibility="visible"
+        />
 
     <com.andexert.expandablelayout.library.ExpandableLayoutListView
         android:id="@+id/expandableLayoutListView"
@@ -13,4 +31,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-</RelativeLayout>
+</LinearLayout>

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.andexert.expandablelayout.library.ExpandableLayoutListView;
@@ -20,6 +21,8 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -33,6 +36,7 @@ public class FAQPageFragment extends Fragment {
 
     private FragmentManager fragmentManager;
     final ArrayList<FAQ> faqData = new ArrayList<FAQ>();
+    private View fragmentRootView;
 
 
     public class internalArrayAdapter extends BaseAdapter {
@@ -142,6 +146,7 @@ public class FAQPageFragment extends Fragment {
 
         //Run the background async task to get the user's pings
         getFAQs.execute();
+        fragmentRootView = rootView;
         return rootView;
     }
 
@@ -202,13 +207,25 @@ public class FAQPageFragment extends Fragment {
                     faqArrayAdapter = new FAQArrayAdapter(getContext(), R.layout.view_row, R.id.header_text, R.id.internalRow, faqData);
                     expandableLayoutListView.setAdapter(faqArrayAdapter);
 
+                    //hide loading spinner
+                    TextView requestingFAQtxt = (TextView)fragmentRootView.findViewById(R.id.requestingFAQtxt);
+                    ProgressBar FAQprogressbar = (ProgressBar) fragmentRootView.findViewById(R.id.FAQprogressBar);
+                    requestingFAQtxt.setVisibility(View.GONE);
+                    FAQprogressbar.setVisibility(View.GONE);
+
                 } else {
                     Log.e(getString(R.string.log_error),
                             "onPostExecute: User has no network connection. Cannot load pings.");
+                    TextView requestingFAQtxt = (TextView)fragmentRootView.findViewById(R.id.requestingFAQtxt);
+                    ProgressBar FAQprogressbar = (ProgressBar) fragmentRootView.findViewById(R.id.FAQprogressBar);
+                    FAQprogressbar.setVisibility(View.GONE);
+                    requestingFAQtxt.setText(getString(R.string.pingConnectionError));
+
                     //TODO: Add a custom page here for when the user has no network connection
                     //and allow them to refresh with a button
                 }
             }
+
         }
     }
 

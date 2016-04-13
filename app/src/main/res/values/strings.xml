@@ -72,7 +72,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="loadingPings">Requesting pings...</string>
-    <string name="pingConnectionError">Could not connect to the Ping.IT server.\nPlease try again.</string>
+    <string name="pingConnectionError">Could not connect to the Ping.IT server.\nPlease try again later.</string>
     <string name="retryConnection">Retry</string>
     <string name="noPings">You currently have no pings!</string>
     <string name="pref_login">loginPref</string>
@@ -92,6 +92,7 @@
     <string name="describeProblem">Please Describe Your Problem</string>
     <string name="loadingMsgs">Loading Messages</string>
     <string name="hello">Hello</string>
+    <string name="requestingFAQ">Requesting FAQ list...</string>
 
 
 </resources>
