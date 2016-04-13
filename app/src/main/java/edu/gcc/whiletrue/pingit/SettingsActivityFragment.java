@@ -76,7 +76,7 @@ public class SettingsActivityFragment extends PreferenceFragment
         // Set the summary of the Notification Sound preference to the tone's friendly name.
             String notKey = getString(R.string.prefs_notification_sound_key);
 
-            Uri defaultRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(getActivity().getApplicationContext(), RingtoneManager.TYPE_RINGTONE);
+            Uri defaultRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(getActivity().getApplicationContext(), RingtoneManager.TYPE_NOTIFICATION);
             Ringtone defaultRingtone = RingtoneManager.getRingtone(getActivity(), defaultRingtoneUri);
 
             String name = defaultRingtone.getTitle(getActivity());
