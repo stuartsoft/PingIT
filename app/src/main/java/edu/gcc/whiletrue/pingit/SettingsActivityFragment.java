@@ -67,7 +67,6 @@ public class SettingsActivityFragment extends PreferenceFragment
         String dispNameKey = getString(R.string.prefs_display_name_key);
         EditTextPreference editTextPref = (EditTextPreference) findPreference(dispNameKey);
         editTextPref.setSummary(fname);
-
         try{
         // Set the summary of the Notification Sound preference to the tone's friendly name.
             String notKey = getString(R.string.prefs_notification_sound_key);
@@ -86,7 +85,6 @@ public class SettingsActivityFragment extends PreferenceFragment
                 Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), Uri.parse(uriPath));
                 name = ringtone.getTitle(getActivity());
             }
-
 
             RingtonePreference ringtonePref = (RingtonePreference)
                     findPreference(notKey);
@@ -153,7 +151,6 @@ public class SettingsActivityFragment extends PreferenceFragment
         confirmSignOutDialog = builder.create();
 
         SwitchPreference notifResendSwitch = (SwitchPreference) findPreference(getString(R.string.prefs_notification_resend_toggle_key));
-        notifResendSwitch.setChecked(false);
 
         return view;
     }
