@@ -6,15 +6,14 @@
 
 Built from the ground up, this project aims to better connect students and helpdesk staff, providing a 1-on-1 chat service, equipment repair notifications, and FAQ database.
 
-<p align="center"><img title="" src="https://github.com/stuartsoft/PingIT/raw/master/sample.png" height="300"/>&nbsp;&nbsp;<img title="" src="https://github.com/stuartsoft/PingIT/raw/master/sample2.png" height="300"/></p>
+<p align="center"><img title="" src="https://github.com/stuartsoft/PingIT/raw/master/sample.png" height="350"/>&nbsp;&nbsp;<img title="" src="https://github.com/stuartsoft/PingIT/raw/master/demo.gif" height="350"/>&nbsp;&nbsp;<img title="" src="https://github.com/stuartsoft/PingIT/raw/master/sample2.png" height="350"/></p>
 
 ###Development Prerequisites
 * JDK 1.7+
 * Android Studio
   * API 21 or above
   * Android Support Library 23.1.1
-  * Android Support Repo rev 25
-  * Android SDK Tools 24.4.1
+  * Android Build Tools 23.0.2
 * Fabric Intellij Plugin
 
 ###Setup
@@ -66,13 +65,13 @@ Built from the ground up, this project aims to better connect students and helpd
       Execute: If all previous steps finished successfully
   Instrumented tests
       Custom script:
-          #Check connected devices
-          adb devices
-          #Unlock device
-          adb shell input keyevent 82
-          #run connected Android Tests
-          chmod +x ./gradlew
-          ./gradlew cAT
+        #Check connected devices
+        adb devices
+        #Wake devices
+        /home/stuart/.BuildServer/wakeDevices.sh
+        #run connected Android Tests
+        chmod +x ./gradlew
+        ./gradlew cAT
       Execute: If all previous steps finished successfully
   Mirror Build Status Badge
       Custom script: ~/.BuildServer/MirrorBuildStatusWrapper.sh
