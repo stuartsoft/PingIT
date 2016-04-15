@@ -8,9 +8,6 @@ import android.view.inputmethod.InputMethodManager;
 import java.security.MessageDigest;
 import java.text.DecimalFormat;
 
-/**
- * Created by nalta on 3/29/2016.
- */
 public class Helper {
     public static String generateDeviceUUID(Context context) {
         String serial = android.os.Build.SERIAL;

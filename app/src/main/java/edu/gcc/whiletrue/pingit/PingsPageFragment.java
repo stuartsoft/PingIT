@@ -24,13 +24,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PingsPageFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-
 public class PingsPageFragment extends Fragment{
 
     ArrayList<Ping> pingsList;
@@ -41,7 +34,7 @@ public class PingsPageFragment extends Fragment{
     private TextView noPingsTxt;
     private SwipeRefreshLayout swipeRefreshLayout;
     final int delay = 5000; //milliseconds
-    public CheckPingUpdates checkPingUpdates;//async task for refreshing pings
+    public CheckPingUpdates checkPingUpdates; //async task for refreshing pings
 
     public interface networkStatusCallback {
         public boolean checkNetworkStatus();
@@ -104,7 +97,6 @@ public class PingsPageFragment extends Fragment{
             pingsList = (ArrayList<Ping>)bundle.getSerializable("pinglist");
         else {
             pingsList = new ArrayList<Ping>();
-            //pingsList.add(new Ping());
         }
 
         try {

@@ -24,12 +24,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-
-
 public class PingsLoadingFragment extends Fragment {
 
 
@@ -159,8 +153,6 @@ public class PingsLoadingFragment extends Fragment {
                         pingData.add(new Ping(pingsList.get(i).getString("Title"),
                                 pingsList.get(i).getString("Message"), formattedDate));
                     }catch(Exception e){}
-                    //TODO figure out why this is throwing an error when the user has no pings
-                    //something to do with Date.getTime() being called on a null object reference
                 }
 
                 mCallback.displayPingsList(pingData);
@@ -168,8 +160,6 @@ public class PingsLoadingFragment extends Fragment {
             else {
                 Log.e(getString(R.string.log_error),
                         "onPostExecute: User has no network connection. Cannot load pings.");
-                //TODO: Add a custom page here for when the user has no network connection
-                //and allow them to refresh with a button
 
                 loadingDialogtxt.setText(getString(R.string.pingConnectionError));
                 progress.setVisibility(View.GONE);

@@ -1,7 +1,6 @@
 package edu.gcc.whiletrue.pingit;
 
 import android.app.AlertDialog;
-import android.app.Notification;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,12 +29,8 @@ import com.parse.ParseUser;
 
 import static android.support.v4.app.ActivityCompat.finishAffinity;
 
-/**
- * A placeholder fragment containing a simple view.
- */
-
 public class SettingsActivityFragment extends PreferenceFragment
-        implements Preference.OnPreferenceChangeListener, SharedPreferences.OnSharedPreferenceChangeListener, View.OnClickListener {
+        implements SharedPreferences.OnSharedPreferenceChangeListener, View.OnClickListener {
 
     private Context fragmentContext;
     private SignOutTask signOutTask;
@@ -86,7 +81,6 @@ public class SettingsActivityFragment extends PreferenceFragment
 
                 name = defaultRingtone.getTitle(getActivity());
                 if (name.trim().equals("")) name = "Blank Name";
-                Log.d("Testing", "Ringtone is" + defaultRingtone);
             }
             else{
                 Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), Uri.parse(uriPath));
@@ -97,7 +91,6 @@ public class SettingsActivityFragment extends PreferenceFragment
             RingtonePreference ringtonePref = (RingtonePreference)
                     findPreference(notKey);
             ringtonePref.setSummary(name);
-                //TODO find better solution to handling a blank ringtone
         }
         catch(Exception e){
             Toast.makeText(getActivity(), getString(R.string.prefs_ringtone_failed), Toast.LENGTH_SHORT).show();
@@ -119,9 +112,6 @@ public class SettingsActivityFragment extends PreferenceFragment
         String fname = ParseUser.getCurrentUser().get("friendlyName").toString();
         etp.setText(fname);
         defaultFName = fname;
-        //etp.getEditText().setFilters(new InputFilter[]{new InputFilterMinMax(1, 20)});
-
-
 
         //append the footerview below the settings, like the logout button
         FrameLayout footerView = (FrameLayout)inflater.inflate(R.layout.footer_settings, null);
@@ -164,7 +154,6 @@ public class SettingsActivityFragment extends PreferenceFragment
 
         SwitchPreference notifResendSwitch = (SwitchPreference) findPreference(getString(R.string.prefs_notification_resend_toggle_key));
         notifResendSwitch.setChecked(false);
-
 
         return view;
     }
@@ -211,30 +200,6 @@ public class SettingsActivityFragment extends PreferenceFragment
         }
     }
 
-    /*public void onSubmitClicked(View v)
-    {
-        String enteredName = nameEditText.getText().toString();
-        if(TextUtils.isEmpty(pass) || pass.length() < [YOUR MIN LENGTH])
-        {
-            passwordEditText.setError("You must have x characters in your password");
-            return;
-        }
-
-        //continue processing
-
-    }*/
-
-    public boolean onPreferenceChange(Preference preference, Object newValue) {
-        Log.d("Changed:", "+ onPreferenceChange(preference:" + preference + ", newValue:" + newValue + ")"); //Doesn't fire
-        Boolean rv = true;
-        String source = newValue.toString();
-            if(source.matches("")){
-                rv = false;
-            }
-        Log.d("Changed:", "- onPreferenceChange()");
-        return rv;
-    } //TODO Delete if this doesn't work, which it probably won't since Ben is an idiot
-
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         //Update a preference's summary as soon as a user changes it
         Preference pref = findPreference(key);
@@ -242,7 +207,6 @@ public class SettingsActivityFragment extends PreferenceFragment
 
         if(key.equals(getString(R.string.prefs_notification_sound_key))){
             Uri ringtoneUri = Uri.parse(sharedPreferences.getString(key, ""));
-            Log.d("Testing", "Ringtone key is" + ringtoneUri);
 
             Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), ringtoneUri);
             String name = ringtone.getTitle(getActivity());
@@ -269,19 +233,5 @@ public class SettingsActivityFragment extends PreferenceFragment
         }else if(key.equals(getString(R.string.prefs_clear_pings_key))){
             //will not run
         }
-        /*
-        else if (pref instanceof SwitchPreference) {
-            Log.d("Testing", "Changed switch preference.");
-            Log.d("Testing", "Switch key is" + key);
-
-        }
-
-        else if (pref instanceof ListPreference) {
-            Log.d("Testing", "Changed list preference.");
-            Log.d("Testing", "List key is" + key);
-
-        }
-        */
     }
-
 }

@@ -1,6 +1,5 @@
 package edu.gcc.whiletrue.pingit;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -22,22 +21,13 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FAQPageFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FAQPageFragment extends Fragment {
 
     private FragmentManager fragmentManager;
     final ArrayList<FAQ> faqData = new ArrayList<FAQ>();
     private View fragmentRootView;
-
 
     public class internalArrayAdapter extends BaseAdapter {
         Context myContext;
@@ -97,7 +87,6 @@ public class FAQPageFragment extends Fragment {
             textResource = textid;
             secondResource = internalReference;
             FAQs = objects;
-
         }
 
         @Override // Gets the data into a presentable form to be displayed.
@@ -170,7 +159,7 @@ public class FAQPageFragment extends Fragment {
                 categoryList = new ArrayList<ParseObject>(query.find());
                 for (ParseObject category: categoryList) {
                     ArrayList<ParseObject> questionQuery = new ArrayList<ParseObject>(category.getRelation("Questions").getQuery().find());
-                    ///Filler
+                    //Filler
                     questionsList.add(questionQuery);
                 }
             } catch (ParseException e) {return e.getCode();}//return exception code
@@ -198,11 +187,8 @@ public class FAQPageFragment extends Fragment {
                                 faqData.add(new FAQ(categoryList.get(i).getString("Text"), questionArr));
                         } catch (Exception e) {
                         }
-                        //TODO figure out why this is throwing an error when the user has no pings
-                        //something to do with Date.getTime() being called on a null object reference
                     }
 
-                    //final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.view_row, R.id.header_text, array);
                     final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) view.findViewById(R.id.expandableLayoutListView);
                     faqArrayAdapter = new FAQArrayAdapter(getContext(), R.layout.view_row, R.id.header_text, R.id.internalRow, faqData);
                     expandableLayoutListView.setAdapter(faqArrayAdapter);
@@ -220,13 +206,8 @@ public class FAQPageFragment extends Fragment {
                     ProgressBar FAQprogressbar = (ProgressBar) fragmentRootView.findViewById(R.id.FAQprogressBar);
                     FAQprogressbar.setVisibility(View.GONE);
                     requestingFAQtxt.setText(getString(R.string.pingConnectionError));
-
-                    //TODO: Add a custom page here for when the user has no network connection
-                    //and allow them to refresh with a button
                 }
             }
-
         }
     }
-
 }

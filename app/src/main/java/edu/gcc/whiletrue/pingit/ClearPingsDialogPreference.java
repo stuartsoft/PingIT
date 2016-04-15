@@ -11,10 +11,6 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
-/**
- * Created by stuart on 2/5/16.
- */
-
 //DialogPreference must be subclassed to use it in the preferences. That is why this file exists
 public class ClearPingsDialogPreference extends DialogPreference {
     public ClearPingsDialogPreference(Context context, AttributeSet attrs) {
@@ -30,7 +26,7 @@ public class ClearPingsDialogPreference extends DialogPreference {
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("Pings");
                 query.whereEqualTo("User", ParseUser.getCurrentUser());
                 List<ParseObject>pingsList = query.find();
-                //Toast.makeText(getContext(), pingsList.size() + " PINGS CLEARED", Toast.LENGTH_SHORT).show();
+
                 for(ParseObject p : pingsList) p.deleteInBackground();
                 Toast.makeText(getContext(), R.string.PingsCleared, Toast.LENGTH_SHORT).show();
             } catch (Exception e){

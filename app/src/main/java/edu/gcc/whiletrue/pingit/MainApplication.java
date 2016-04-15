@@ -5,9 +5,6 @@ import android.app.Application;
 import com.parse.Parse;
 import com.parse.ParseUser;
 
-/**
- * Created by BOWMANRS1 on 1/23/2016.
- */
 public class MainApplication extends Application{
 
     public String chatTarget = null;

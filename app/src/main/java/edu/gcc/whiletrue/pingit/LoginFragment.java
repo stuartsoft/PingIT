@@ -23,10 +23,6 @@ import com.parse.ParseUser;
 
 import java.util.Objects;
 
-
-/**
- * A placeholder fragment containing a simple view.
- */
 public class LoginFragment extends Fragment implements View.OnClickListener{
 
     private ViewGroup fragmentContainer;
@@ -69,8 +65,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         fragmentContainer = container;
 
@@ -80,7 +74,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             String pass = b.getString("password");
             if(uname != null && pass != null){
 
-                Log.d("PersLogin", "Logging In");
                 ProgressDialog.show(getContext(), getString(R.string.str_login_title), getString(R.string.str_login_msg));
                 new SignInTask(uname, pass, view,fragmentContainer.getContext()).execute();
             }

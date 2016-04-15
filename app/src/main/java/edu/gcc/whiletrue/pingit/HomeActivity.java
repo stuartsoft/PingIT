@@ -99,7 +99,6 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         if(faqFragment == null)
             faqFragment = FAQPageFragment.newInstance();
 
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -167,7 +166,7 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
 
     private void closeChat(){
         SendBird.disconnect();
-        //Fragment newChatPage = SendBirdMessagingFragment.newInstance(mSendBirdMessagingAdapter);
+
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.remove(chatFragment);
@@ -194,10 +193,6 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
 
         addChatExitMenuOption();
 
-        //setContentView(R.layout.activity_sendbird_messaging);
-        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        //Fragment newChatPage = SendBirdMessagingFragment.newInstance(mSendBirdMessagingAdapter);
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.remove(chatFragment);
@@ -503,7 +498,6 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
 
     private void updateMessagingChannel(MessagingChannel messagingChannel) {
         mMessagingChannel = messagingChannel;
-        //mTxtChannelUrl.setText(getDisplayMemberNames(messagingChannel.getMembers()));
 
         Hashtable<String, Long> readStatus = new Hashtable<String, Long>();
         for (MessagingChannel.Member member : messagingChannel.getMembers()) {

@@ -16,9 +16,6 @@ import com.parse.ParsePushBroadcastReceiver;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by STEGNERBT1 on 3/31/2016.
- */
 public class MyParsePushBroadcastReceiver extends ParsePushBroadcastReceiver {
 
     @Override
@@ -33,22 +30,20 @@ public class MyParsePushBroadcastReceiver extends ParsePushBroadcastReceiver {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         String ringtonePreferenceString =
-                preferences.getString("notification_sound_preference", "DEFAULT"); //Does this need to be handled in some way?
+                preferences.getString("notification_sound_preference", "DEFAULT");
 
         try {
             JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
             String msg = json.getString("alert");
-            //String title = json.getString("title");
-
 
             //Build a new notification
             NotificationManager notificationManager =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-            builder.setContentTitle("Ping.IT"); //This should probably be imported from Parse
-            builder.setContentText(msg); //Same as Title; omitting it just leaves it blank
-            builder.setSmallIcon(R.raw.white_logo); //This should be changed to our icon obviously, can then remove this from raw folder
+            builder.setContentTitle("Ping.IT");
+            builder.setContentText(msg);
+            builder.setSmallIcon(R.raw.white_logo);
             builder.setColor(0xF44336); //ping.it red
 
             Intent cIntent = new Intent(context, HomeActivity.class);
@@ -59,7 +54,7 @@ public class MyParsePushBroadcastReceiver extends ParsePushBroadcastReceiver {
             //Create soundUri and set sound:
             builder.setSound(Uri.parse(ringtonePreferenceString));
 
-            notificationManager.notify("PingIt", 0 , builder.build()); //I'm not sure what this actually does
+            notificationManager.notify("Ping.IT", 0 , builder.build());
 
         } catch (JSONException e) {
             Log.d("failedPush", "JSONException: " + e.getMessage());

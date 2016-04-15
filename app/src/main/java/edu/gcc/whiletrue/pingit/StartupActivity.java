@@ -37,18 +37,7 @@ public class StartupActivity extends AppCompatActivity implements
             else
                 onSwitchToRegister();
         }
-
-        //this intent call will skip the login activity for convenience
-        //TODO remove this before production
-        //Intent intent = new Intent(this, HomeActivity.class);
-        //startActivity(intent);
-        //finish();
-
-
     }
-
-
-
 
     //can return null
     private Bundle attemptPersistentLogin(){
