@@ -92,6 +92,8 @@
     <string name="loadingMsgs">Loading Messages</string>
     <string name="hello">Hello</string>
     <string name="requestingFAQ">Requesting FAQ list...</string>
+    <string name="prefs_feedback_summary">Provide feedback and useful criticism on Ping.IT</string>
+    <string name="prefs_feedback_title">Feedback</string>
 
 
 </resources>

@@ -37,5 +37,9 @@
         android:dialogMessage="@string/prefs_clear_pings_dialogmessage"
         android:positiveButtonText="@string/prefs_clear_pings_positive"
         android:negativeButtonText= "@string/dialogNo" />
+    <Preference android:title="@string/prefs_feedback_title" android:summary = "@string/prefs_feedback_summary">
+        <intent android:action="android.intent.action.VIEW"
+            android:data="https://docs.google.com/forms/d/1VNyKReS5TW93qwfgF2IFXQVYZ5rKXW6Pzy7e6uLVVIQ/viewform" />
+    </Preference>
 
 </PreferenceScreen>
