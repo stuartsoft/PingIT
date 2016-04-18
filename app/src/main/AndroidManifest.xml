@@ -26,7 +26,8 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:noHistory="true"
+            android:noHistory="false"
+            android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|adjustUnspecified">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -61,34 +62,8 @@
             android:parentActivityName="edu.gcc.whiletrue.pingit.HomeActivity">
         </activity>
 
-
-        <activity
-            android:name=".SendBirdChatActivity"
-            android:label="SendBird"
-            android:configChanges="orientation|screenSize"
-            >
-        </activity>
-        <activity
-            android:name=".SendBirdMessagingActivity"
-            android:label="SendBird"
-            android:configChanges="orientation|screenSize"
-            >
-        </activity>
-
-        <!-- Required to run Sample project
-        <activity
-            android:name=".HomeActivity"
-            android:label="@string/app_name"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>-->
-
         <service android:name="com.parse.PushService" />
-        <receiver android:name="com.parse.ParsePushBroadcastReceiver"
+        <receiver android:name="edu.gcc.whiletrue.pingit.MyParsePushBroadcastReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />

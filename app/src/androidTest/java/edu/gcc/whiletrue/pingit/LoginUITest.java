@@ -7,13 +7,11 @@ import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -21,10 +19,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-
-/**
- * Created by BOWMANRS1 on 2/12/2016.
- */
 
 @RunWith(AndroidJUnit4.class)
 public class LoginUITest {
@@ -47,6 +41,36 @@ public class LoginUITest {
         }
     };
 
+    //publically available static method for tapping the settings page and logging out between tests
+    public static void settingsAndLogout(){
+        //tap the Settings icon
+        //openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+        onView(withId(R.id.menu_home_settings)).perform(click());
+
+        //assert that we are on the Settings page
+        onView(withId(R.id.settingsFragmentContainer)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.logoutBtn)).perform(click());
+        onView(withText(R.string.dialogYes)).perform(click());//click yes to logout
+    }
+
+    //publicly available static method for logging in before tests that require
+    // a valid parse user to run
+    public static void loginTestUser(){
+        //Enter credentials and sign in
+        String email = "unittest@gmail.com";
+        String pass = "justinrocks";
+
+        onView(withId(R.id.loginEmailTxt))
+                .perform(typeText(email), closeSoftKeyboard());
+        onView(withId(R.id.loginPasswordTxt))
+                .perform(typeText(pass), closeSoftKeyboard());
+        onView(withId(R.id.loginBtn))
+                .perform(click());
+
+        onView(withId(R.id.faq_container)).check(matches(isDisplayed()));
+    }
+
     //successfully log in with a valid account
     @Test
     public void test11() {
@@ -59,9 +83,8 @@ public class LoginUITest {
         onView(withId(R.id.loginBtn))
             .perform(click());
 
-        //TODO: Assert that the HomeActivity has been launched to complete the test.
         onView(withId(R.id.faq_container)).check(matches(isDisplayed()));
-        //Is this  method OK or should it not rely on the FAQ page being first?
+        settingsAndLogout();
     }
 
     //Test that pressing the button at the bottom of the screen switches from Login to Register

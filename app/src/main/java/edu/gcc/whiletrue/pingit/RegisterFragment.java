@@ -45,6 +45,37 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         // Required empty public constructor
     }
 
+    public static boolean hasDigitsAndLetters(String pass)
+    {
+        return (hasDigits(pass) && hasLetters(pass));
+    }
+
+    public static boolean hasLetters(String pass)
+    {
+        for(int i=0; i<pass.length(); i++)
+        {
+            if(Character.isLetter(pass.charAt(i)))
+            {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    public static boolean hasDigits(String pass)
+    {
+        for(int i=0; i<pass.length(); i++)
+        {
+            if(Character.isDigit(pass.charAt(i)))
+            {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -122,8 +153,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                     dialogMsg = getString(R.string.emailNotValid);
                 else if (!Objects.equals(passTxt.getText().toString(), passConfirmTxt.getText().toString()))
                     dialogMsg = getString(R.string.passwordsDontMatch);
-                else if (passTxt.getText().toString().length()<6)
+                else if (passTxt.getText().toString().length()<8)
                     dialogMsg = getString(R.string.passwordTooShort);
+                else if (!hasDigitsAndLetters(passTxt.getText().toString()))
+                    dialogMsg = getString(R.string.passwordMissingCharacters);
+
 
                 //display dialog if there were any issues
                 if (dialogMsg != ""){
@@ -139,7 +173,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 user.setUsername(emailTxt.getText().toString().toLowerCase());
                 user.setEmail(emailTxt.getText().toString());
                 user.setPassword(passTxt.getText().toString());
-                user.put("friendlyName",nameTxt.getText().toString());
 
                 //dismiss keyboard
                 InputMethodManager imm = (InputMethodManager)getActivity()
@@ -192,6 +225,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             signUpDialog.dismiss();
 
             if (errorCode == 0){//Registration succeeded! Open home activity!
+                ((MainApplication)getActivity().getApplication()).currentPage=0;
+                //record successful login
+                SecurePreferences preferences = new SecurePreferences(getContext(),getString(R.string.pref_login),SecurePreferences.generateDeviceUUID(getContext()),true);
+                preferences.put(getString(R.string.pref_login_username),emailTxt.getText().toString());
+                preferences.put(getString(R.string.pref_login_password), passTxt.getText().toString());
+
                 Toast.makeText(fragmentContainer.getContext(), R.string.registerSuccessMsg, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), HomeActivity.class);
                 startActivity(intent);

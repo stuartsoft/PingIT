@@ -5,10 +5,10 @@ import android.app.Application;
 import com.parse.Parse;
 import com.parse.ParseUser;
 
-/**
- * Created by BOWMANRS1 on 1/23/2016.
- */
 public class MainApplication extends Application{
+
+    public String chatTarget = null;
+    public int currentPage = 0;
 
     @Override public void onCreate(){
         super.onCreate();

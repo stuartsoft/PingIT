@@ -1,9 +1,8 @@
 package edu.gcc.whiletrue.pingit;
 
-/**
- * Created by STEGNERBT1 on 1/30/2016.
- */
-public class Ping {
+import java.io.Serializable;
+
+public class Ping implements Serializable {
     private String title;
     private String message;
     private String date;
@@ -16,13 +15,13 @@ public class Ping {
     public final static String messageDefault = "Your computer is ready for pickup.";
     public final static String dateDefault = "01/01/70 at 12:00:00 AM";
 
-    public Ping() {//default constructor
+    public Ping() { //default constructor
         title = titleDefault;
         message = messageDefault;
         date = dateDefault;
     }
 
-    public Ping(String title, String message, String date) {//constructor for custom pings
+    public Ping(String title, String message, String date) { //constructor for custom pings
         this.title = title;
         this.message = message;
         this.date = date;

@@ -4,18 +4,15 @@ import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -34,8 +31,10 @@ public class RegisterUITest {
 
     String name = "John Doe";
     String email = "unittestX@gmail.com";
-    String pass = "justinrocks";
+    String pass = "justinrocks1";
     String shortPass = "poo";
+    String charPass = "eightchar";
+    String numPass = "12345678";
     String invalidEmail = "Leeroy Jenkins";
 
     @Rule//startup activity to test
@@ -46,9 +45,8 @@ public class RegisterUITest {
     @Test
     public void test01() {
         String disposableEmail = "asdf@gmail.com";
-        /*this is the email used only for testing registration, because it will be repeatidly
-        created and deleted, so it must be separate from the regular email
-         */
+        /* This is the email used only for testing registration, because it will be repeatedly
+        created and deleted, so it must be separate from the regular email */
 
         // Click fields, type info, and create an account
         onView(withId(R.id.registerNameTxt))
@@ -67,12 +65,14 @@ public class RegisterUITest {
 
         //Delete the user so we can run this test again without fail.
         ParseUser user = ParseUser.getCurrentUser();
+
         try {
             user.delete();
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
+        LoginUITest.settingsAndLogout();
     }
 
     //Test that tapping the button at the bottom of the screen switches to the Login screen
@@ -183,7 +183,7 @@ public class RegisterUITest {
         onView(withId(R.id.registerPasswordTxt))
                 .perform(typeText(pass), closeSoftKeyboard());
         onView(withId(R.id.registerConfirmPassword))
-                .perform(typeText(pass+"1"), closeSoftKeyboard());
+                .perform(typeText(pass + "1"), closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
 
@@ -207,5 +207,42 @@ public class RegisterUITest {
 
         //wait for dialog to appear, then dismiss it
         onView(withText(R.string.passwordTooShort)).perform(ViewActions.pressBack());
+    }
+
+
+    //Test for lack of letters in password
+    @Test
+    public void test10a() {
+        onView(withId(R.id.registerNameTxt))
+                .perform(typeText(name), closeSoftKeyboard());
+        onView(withId(R.id.registerEmailTxt))
+                .perform(typeText(email), closeSoftKeyboard());
+        onView(withId(R.id.registerPasswordTxt))
+                .perform(typeText(numPass), closeSoftKeyboard());
+        onView(withId(R.id.registerConfirmPassword))
+                .perform(typeText(numPass), closeSoftKeyboard());
+
+        onView(withId(R.id.registerBtn)).perform(click());
+
+        //wait for dialog to appear, then dismiss it
+        onView(withText(R.string.passwordMissingCharacters)).perform(ViewActions.pressBack());
+    }
+
+    //Test for lack of digits in password
+    @Test
+    public void test10b() {
+        onView(withId(R.id.registerNameTxt))
+                .perform(typeText(name), closeSoftKeyboard());
+        onView(withId(R.id.registerEmailTxt))
+                .perform(typeText(email), closeSoftKeyboard());
+        onView(withId(R.id.registerPasswordTxt))
+                .perform(typeText(charPass), closeSoftKeyboard());
+        onView(withId(R.id.registerConfirmPassword))
+                .perform(typeText(charPass), closeSoftKeyboard());
+
+        onView(withId(R.id.registerBtn)).perform(click());
+
+        //wait for dialog to appear, then dismiss it
+        onView(withText(R.string.passwordMissingCharacters)).perform(ViewActions.pressBack());
     }
 }

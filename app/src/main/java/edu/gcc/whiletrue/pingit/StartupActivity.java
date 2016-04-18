@@ -1,7 +1,6 @@
 package edu.gcc.whiletrue.pingit;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -26,18 +25,37 @@ public class StartupActivity extends AppCompatActivity implements
 
         fragmentManager = getSupportFragmentManager();
 
-        //Read extra indicating which fragment to show first. Default will show register first
-        startFragment = getIntent().getIntExtra("startFragment", 0);
-        if (startFragment == 1)
-            onSwitchToLogin();
-        else
-            onSwitchToRegister();
+        Bundle b = attemptPersistentLogin();
+        if(b!=null){
+            onSwitchToLogin(b);
+        }
+        else {
+            //Read extra indicating which fragment to show first. Default will show register first
+            startFragment = getIntent().getIntExtra("startFragment", 0);
+            if (startFragment == 1)
+                onSwitchToLogin();
+            else
+                onSwitchToRegister();
+        }
+    }
 
-        //this intent call will skip the login activity for convenience
-        //TODO remove this before production
-        //Intent intent = new Intent(this, HomeActivity.class);
-        //startActivity(intent);
-        //finish();
+    //can return null
+    private Bundle attemptPersistentLogin(){
+
+        Bundle bundle = null;
+        // This will get you an instance of your applications shared preferences.
+        SecurePreferences preferences = new SecurePreferences(this,getString(R.string.pref_login),SecurePreferences.generateDeviceUUID(this),true);
+
+        // Values
+        String userName = preferences.getString(getString(R.string.pref_login_username));
+        String password = preferences.getString(getString(R.string.pref_login_password));
+
+        if(userName != null && password != null){
+            bundle = new Bundle();
+            bundle.putString("username",userName);
+            bundle.putString("password", password);
+        }
+        return bundle;
     }
 
     //Returns true if the device has an internet connection. False otherwise.
@@ -72,6 +90,18 @@ public class StartupActivity extends AppCompatActivity implements
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
         LoginFragment loginfrag = new LoginFragment();
+        fragmentTransaction.replace(R.id.startup_fragment_container,loginfrag);
+        fragmentTransaction.commit();
+    }
+
+    public void onSwitchToLogin(Bundle bundle) {
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setTitle(R.string.startupTitleLogin);
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
+        LoginFragment loginfrag = new LoginFragment();
+        loginfrag.setArguments(bundle);
         fragmentTransaction.replace(R.id.startup_fragment_container,loginfrag);
         fragmentTransaction.commit();
     }

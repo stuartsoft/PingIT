@@ -14,6 +14,8 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.RingtonePreference;
+import android.preference.SwitchPreference;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +23,11 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseUser;
 
 import static android.support.v4.app.ActivityCompat.finishAffinity;
-
-/**
- * A placeholder fragment containing a simple view.
- */
 
 public class SettingsActivityFragment extends PreferenceFragment
         implements SharedPreferences.OnSharedPreferenceChangeListener, View.OnClickListener {
@@ -64,30 +63,53 @@ public class SettingsActivityFragment extends PreferenceFragment
 
         // Set the summary of the Name preference to the user's friendly name.
         SharedPreferences sp = getPreferenceScreen().getSharedPreferences();
-
-        EditTextPreference editTextPref = (EditTextPreference) findPreference("display_name");
-        editTextPref.setSummary(sp.getString("display_name", ""));
-
+        String fname = ParseUser.getCurrentUser().get("friendlyName").toString();
+        String dispNameKey = getString(R.string.prefs_display_name_key);
+        EditTextPreference editTextPref = (EditTextPreference) findPreference(dispNameKey);
+        editTextPref.setSummary(fname);
         try{
         // Set the summary of the Notification Sound preference to the tone's friendly name.
-        Uri ringtoneUri = Uri.parse(sp.getString("notification_sound_preference", ""));
-        Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), ringtoneUri);
-        String name = ringtone.getTitle(getActivity());
+            String notKey = getString(R.string.prefs_notification_sound_key);
 
-        RingtonePreference ringtonePref = (RingtonePreference)
-                findPreference("notification_sound_preference");
-        ringtonePref.setSummary(name);
-            //TODO find better solution to handling a blank ringtone
+            String uriPath = sp.getString(notKey, "");
+            String name;
+            if(uriPath.length()==0) {
+
+                Uri defaultRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(getActivity().getApplicationContext(), RingtoneManager.TYPE_NOTIFICATION);
+                Ringtone defaultRingtone = RingtoneManager.getRingtone(getActivity(), defaultRingtoneUri);
+
+                name = defaultRingtone.getTitle(getActivity());
+                if (name.trim().equals("")) name = "Blank Name";
+            }
+            else{
+                Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), Uri.parse(uriPath));
+                name = ringtone.getTitle(getActivity());
+            }
+
+            RingtonePreference ringtonePref = (RingtonePreference)
+                    findPreference(notKey);
+            ringtonePref.setSummary(name);
         }
-        catch(Exception e){}
+        catch(Exception e){
+            Toast.makeText(getActivity(), getString(R.string.prefs_ringtone_failed), Toast.LENGTH_SHORT).show();
+        }
 
     }
+
+    private String defaultFName;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         LinearLayout view = (LinearLayout)super.onCreateView(inflater, container, savedInstanceState);
 
         fragmentContext = inflater.getContext();
+
+        //set displayname to parse name
+
+        EditTextPreference etp = (EditTextPreference)findPreference(getString(R.string.prefs_display_name_key));
+        String fname = ParseUser.getCurrentUser().get("friendlyName").toString();
+        etp.setText(fname);
+        defaultFName = fname;
 
         //append the footerview below the settings, like the logout button
         FrameLayout footerView = (FrameLayout)inflater.inflate(R.layout.footer_settings, null);
@@ -119,6 +141,7 @@ public class SettingsActivityFragment extends PreferenceFragment
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //show signout dialog with progress spinner while Parse executes in the background
+                ((MainApplication)getActivity().getApplication()).currentPage=0;
                 signOutDialog.show();
                 signOutTask = new SignOutTask();
                 signOutTask.execute();//attempt to signout in the background
@@ -126,6 +149,8 @@ public class SettingsActivityFragment extends PreferenceFragment
         });
         builder.setNegativeButton(R.string.dialogNo, null);
         confirmSignOutDialog = builder.create();
+
+        SwitchPreference notifResendSwitch = (SwitchPreference) findPreference(getString(R.string.prefs_notification_resend_toggle_key));
 
         return view;
     }
@@ -137,6 +162,7 @@ public class SettingsActivityFragment extends PreferenceFragment
             case R.id.logoutBtn:
                 confirmSignOutDialog.show();
                 break;
+
             default:
                 break;
         }
@@ -145,13 +171,23 @@ public class SettingsActivityFragment extends PreferenceFragment
     private class SignOutTask extends AsyncTask<String, Void, Integer>{
         @Override
         protected Integer doInBackground(String... params) {
-            ParseUser.logOut();
-            return null;
+            try {
+                ParseUser.logOut();
+            }
+            catch(Exception e){
+                Log.e(getString(R.string.log_error), getString(R.string.userNotLoggedIn));
+                return -1;//error code
+            }
+            return 0;//log out success
         }
 
         @Override
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
+
+            //remove persistant login
+            SecurePreferences preferences = new SecurePreferences(fragmentContext,getString(R.string.pref_login),SecurePreferences.generateDeviceUUID(fragmentContext),true);
+            preferences.clear();
 
             Intent intent = new Intent(fragmentContext, StartupActivity.class);
             //add an extra to indicate to the startup activity to show the login screen first
@@ -165,18 +201,34 @@ public class SettingsActivityFragment extends PreferenceFragment
         //Update a preference's summary as soon as a user changes it
         Preference pref = findPreference(key);
 
-        if (pref instanceof EditTextPreference) {
-            EditTextPreference textPref = (EditTextPreference) pref;
-            pref.setSummary(textPref.getText());
-        }
 
-        else if (pref instanceof RingtonePreference) {
+        if(key.equals(getString(R.string.prefs_notification_sound_key))){
             Uri ringtoneUri = Uri.parse(sharedPreferences.getString(key, ""));
+
             Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), ringtoneUri);
             String name = ringtone.getTitle(getActivity());
 
             RingtonePreference ringtonePref = (RingtonePreference) findPreference(key);
             ringtonePref.setSummary(name);
+        }else if(key.equals(getString(R.string.prefs_notification_resend_toggle_key))){
+
+        }else if(key.equals(getString(R.string.prefs_notification_resend_delay_key))){
+
+        }else if(key.equals(getString(R.string.prefs_display_name_key))){
+            String newName = ((EditTextPreference) pref).getText().trim();
+            if(newName.equals("")){//override
+                ((EditTextPreference) pref).setText(defaultFName);
+                Toast.makeText(getActivity(), R.string.str_blank_name_msg, Toast.LENGTH_SHORT).show();
+            }
+            else {
+                defaultFName = newName;
+                pref.setSummary(newName);
+                ParseUser u = ParseUser.getCurrentUser();
+                u.put("friendlyName", newName);
+                u.saveInBackground();
+            }
+        }else if(key.equals(getString(R.string.prefs_clear_pings_key))){
+            //will not run
         }
     }
 }

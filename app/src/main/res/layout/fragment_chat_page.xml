@@ -1,17 +1,50 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
     android:id="@+id/fragment_chat_page"
-    tools:context="edu.gcc.whiletrue.pingit.ChatPageFragment">
+    tools:context=".chat.StartChatFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAlignment="center"
+        android:id="@+id/numOnlineAdmins"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/initialMessage"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="LAUNCH CHAT"
+        android:layout_height="wrap_content"
+        android:text="@string/startChat"
         android:id="@+id/launchChatButt"
-        android:layout_gravity="center_horizontal" />
-</LinearLayout>
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:layout_below="@+id/initialMessage"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/describeProblem"
+        android:id="@+id/plzDescProb"
+        android:layout_above="@+id/initialMessage"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

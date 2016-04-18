@@ -12,6 +12,6 @@
         android:textSize="16sp"
         android:textColor="@android:color/holo_blue_dark"
         android:text="ExpandableLayout Header!"
-        android:gravity="center"/>
+        android:gravity="left"/>
 
 </RelativeLayout>

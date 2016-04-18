@@ -1,12 +1,14 @@
 package edu.gcc.whiletrue.pingit;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +23,6 @@ import com.parse.ParseUser;
 
 import java.util.Objects;
 
-
-/**
- * A placeholder fragment containing a simple view.
- */
 public class LoginFragment extends Fragment implements View.OnClickListener{
 
     private ViewGroup fragmentContainer;
@@ -70,6 +68,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         fragmentContainer = container;
 
+        Bundle b = this.getArguments();
+        if(b != null){
+            String uname = b.getString("username");
+            String pass = b.getString("password");
+            if(uname != null && pass != null){
+
+                ProgressDialog.show(getContext(), getString(R.string.str_login_title), getString(R.string.str_login_msg));
+                new SignInTask(uname, pass, view,fragmentContainer.getContext()).execute();
+            }
+        }
+
         Button btnTemp = (Button) view.findViewById(R.id.loginBtn);
         btnTemp.setOnClickListener(this);
 
@@ -94,7 +103,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         return view;
     }
 
-    //handles all onClicke events for this fragment
+    //handles all onClick events for this fragment
     @Override
     public void onClick(View v) {
         final View view = v;//final reference to the view that called onClick
@@ -175,6 +184,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             signInDialog.dismiss();
 
             if (errorCode == 0){//Login succeeded! Open home activity!
+
+                ((MainApplication)getActivity().getApplication()).currentPage=0;
+
+                //record successful login
+                SecurePreferences preferences = new SecurePreferences(getContext(),getString(R.string.pref_login),SecurePreferences.generateDeviceUUID(getContext()),true);
+                preferences.put(getString(R.string.pref_login_username),email);
+                preferences.put(getString(R.string.pref_login_password), pass);
+
                 Toast.makeText(fragmentContainer.getContext(), R.string.loginSuccessMsg, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), HomeActivity.class);
                 startActivity(intent);

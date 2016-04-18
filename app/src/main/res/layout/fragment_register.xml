@@ -32,41 +32,49 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
+                android:singleLine="true"
                 android:ems="10"
                 android:id="@+id/registerNameTxt"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
-                android:hint="@string/registerNamePlaceholder" />
+                android:hint="@string/registerNamePlaceholder"
+                android:maxLength="30"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
+                android:singleLine="true"
                 android:ems="10"
                 android:id="@+id/registerEmailTxt"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
-                android:hint="@string/registerEmailPlaceholder" />
+                android:hint="@string/registerEmailPlaceholder"
+                android:maxLength="30"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
+                android:singleLine="true"
                 android:ems="10"
                 android:id="@+id/registerPasswordTxt"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
-                android:hint="@string/registerPasswordPlaceholder" />
+                android:hint="@string/registerPasswordPlaceholder"
+                android:maxLength="30"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
+                android:singleLine="true"
                 android:ems="10"
                 android:id="@+id/registerConfirmPassword"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
-                android:hint="@string/registerPasswordPlaceholderConfirm" />
+                android:hint="@string/registerPasswordPlaceholderConfirm"
+                android:maxLength="30"/>
 
             <LinearLayout
                 android:orientation="horizontal"

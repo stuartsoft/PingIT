@@ -7,10 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-/**
- * Created by BOWMANRS1 on 2/15/2016.
- */
-
 @RunWith(AndroidJUnit4.class)
 public class ParseInstTest {
 

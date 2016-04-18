@@ -7,10 +7,10 @@
     <TextView
         android:id="@+id/internal_header_text"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="55dp"
         android:padding="10dp"
         android:textColor="@android:color/black"
         android:text="ExpandableLayout Header!"
-        android:gravity="center"/>
+        android:gravity="left"/>
 
 </RelativeLayout>
