@@ -30,8 +30,8 @@ import static org.hamcrest.CoreMatchers.containsString;
 public class RegisterUITest {
 
     String name = "John Doe";
-    String email = "unittestX@gmail.com";
-    String pass = "justinrocks1";
+    String email = "unittestX@gcc.edu";
+    String pass = "justinrocks123";
     String shortPass = "poo";
     String charPass = "eightchar";
     String numPass = "12345678";
@@ -44,7 +44,7 @@ public class RegisterUITest {
     //Regular, successful sign up
     @Test
     public void test01() {
-        String disposableEmail = "asdf@gmail.com";
+        String disposableEmail = "asdf@gcc.edu";
         /* This is the email used only for testing registration, because it will be repeatedly
         created and deleted, so it must be separate from the regular email */
 
@@ -169,7 +169,7 @@ public class RegisterUITest {
         onView(withId(R.id.registerBtn)).perform(click());
 
         //wait for dialog to appear, then dismiss it
-        String expectedMsg = getTargetContext().getString(R.string.isNotAValidEmail);
+        String expectedMsg = getTargetContext().getString(R.string.emailNotValid);
         onView(withText(containsString(expectedMsg))).perform(ViewActions.pressBack());
     }
 

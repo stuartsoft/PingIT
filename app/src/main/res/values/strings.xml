@@ -30,8 +30,8 @@
     <string name="passwordsDontMatch">Please enter matching passwords.</string>
     <string name="nameNotValid">Please enter a valid name.</string>
     <string name="emailAlreadyInUse">" is already in use. Please enter a different email."</string>
-    <string name="isNotAValidEmail">" is not a valid email. Please enter a valid Grove City College email."</string>
-    <string name="emailNotValid">Please enter a valid Grove City College email.</string>
+    <string name="isNotAValidEmail">" is not a valid email. Please use your school email."</string>
+    <string name="emailNotValid">Please use your school email.</string>
     <string name="invalidCredentials">Email or password is incorrect. Please try again.</string>
     <string name="dialogConfirm">Okay</string>
     <string name="dialogYes">Yes</string>

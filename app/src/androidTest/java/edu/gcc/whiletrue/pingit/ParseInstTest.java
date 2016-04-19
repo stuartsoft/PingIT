@@ -11,8 +11,8 @@ import org.junit.runner.RunWith;
 public class ParseInstTest {
 
     String name = "John Doe";
-    String email = "unittest@gmail.com";
-    String pass = "justinrocks";
+    String email = "unittest@gcc.edu";
+    String pass = "justinrocks123";
 
     @Before
     public void onBefore(){
