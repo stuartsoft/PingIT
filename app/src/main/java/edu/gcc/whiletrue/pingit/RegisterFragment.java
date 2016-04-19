@@ -147,9 +147,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
                 //sanitize and validate registration credentials before sending to parse
 
+                String EmailStr = emailTxt.getText().toString();
+
                 if (Objects.equals(nameTxt.getText().toString(), ""))
                     dialogMsg = getString(R.string.nameNotValid);
-                else if (Objects.equals(emailTxt.getText().toString(),""))
+                else if (Objects.equals(EmailStr, "") ||
+                !EmailStr.substring(EmailStr.length() - 7).contains("gcc.edu"))
                     dialogMsg = getString(R.string.emailNotValid);
                 else if (!Objects.equals(passTxt.getText().toString(), passConfirmTxt.getText().toString()))
                     dialogMsg = getString(R.string.passwordsDontMatch);
