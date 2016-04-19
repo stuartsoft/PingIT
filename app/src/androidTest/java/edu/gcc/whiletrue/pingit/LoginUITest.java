@@ -23,9 +23,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class LoginUITest {
 
-    String email = "unittest@gmail.com";
-    String pass = "justinrocks";
-    String wrongEmail = "nobodyusesthisemail@stupid.com";
+    String email = "unittest@gcc.edu";
+    String pass = "justinrocks123";
+    String wrongEmail = "nobodyusesthisemail@gcc.edu";
     String wrongPass = "qwerty123";
 
     @Rule//startup activity to test
@@ -58,8 +58,8 @@ public class LoginUITest {
     // a valid parse user to run
     public static void loginTestUser(){
         //Enter credentials and sign in
-        String email = "unittest@gmail.com";
-        String pass = "justinrocks";
+        String email = "unittest@gcc.edu";
+        String pass = "justinrocks123";
 
         onView(withId(R.id.loginEmailTxt))
                 .perform(typeText(email), closeSoftKeyboard());
