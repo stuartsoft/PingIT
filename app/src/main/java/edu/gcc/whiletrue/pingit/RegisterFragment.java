@@ -151,7 +151,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
                 if (Objects.equals(nameTxt.getText().toString(), ""))
                     dialogMsg = getString(R.string.nameNotValid);
-                else if (Objects.equals(EmailStr, "") ||
+                else if (EmailStr.length() <=7  ||
                 !EmailStr.substring(EmailStr.length() - 7).contains("gcc.edu"))
                     dialogMsg = getString(R.string.emailNotValid);
                 else if (!Objects.equals(passTxt.getText().toString(), passConfirmTxt.getText().toString()))
