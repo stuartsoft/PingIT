@@ -237,6 +237,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(fragmentContainer.getContext(), R.string.registerSuccessMsg, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), HomeActivity.class);
                 startActivity(intent);
+                getActivity().finish();
             }else{
                 //Something went wrong, display a new dialog explaining what happened
 
