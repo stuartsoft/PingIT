@@ -182,7 +182,7 @@ public class SettingsUITest {
         //onView(withText("Display Name")).perform(typeTextIntoFocusedView("Stuart Bowman"), closeSoftKeyboard());
 
         //wait for dialog to appear, then dismiss it
-        onView(withText("Display Name")).perform(closeSoftKeyboard());//close keyboard
+        onView(withText("First Name")).perform(closeSoftKeyboard());//close keyboard
         pressBack();//dismiss dialog
 
         //assert that we are on the Settings page

@@ -18,9 +18,9 @@
 
     <string name="startupTitleLogin">Login to Ping.IT</string>
     <string name="startupTitleRegister">Register with Ping.IT</string>
-    <string name="registerNamePlaceholder">Chat Display Name</string>
-    <string name="registerEmailPlaceholder">Email (use college email)</string>
-    <string name="registerPasswordPlaceholder">Password (min 8 chars + num)</string>
+    <string name="registerNamePlaceholder">First Name</string>
+    <string name="registerEmailPlaceholder">College Email</string>
+    <string name="registerPasswordPlaceholder">Password</string>
     <string name="registerPasswordPlaceholderConfirm">Confirm Password</string>
     <string name="registerBtn">Register</string>
     <string name="registerSwitchToLoginBtn">Already have an account?</string>
@@ -54,7 +54,7 @@
     <string name="prefs_notification_resend_delay_key">notification_resend_delay</string>
     <string name="prefs_notification_resend_delay_title">Notification Resend Delay</string>
     <string name="prefs_display_name_key">display_name</string>
-    <string name="prefs_display_name_title">Chat Display Name</string>
+    <string name="prefs_display_name_title">First Name</string>
     <string name="prefs_display_name_summary">Should display current name</string>
     <string name="prefs_display_name_dialogmessage">Please enter a display name.</string>
     <string name="prefs_clear_pings_key">clear_pings</string>
