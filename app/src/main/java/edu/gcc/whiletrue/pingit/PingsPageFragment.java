@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.parse.ParseException;
@@ -32,6 +34,9 @@ public class PingsPageFragment extends Fragment{
     private View fragmentRootView;
     private ListView pingsListView;
     private TextView noPingsTxt;
+    private TextView loadingDialogtxt;
+    private ProgressBar progress;
+    private Button btnRetry;
     private SwipeRefreshLayout swipeRefreshLayout;
     final int delay = 5000; //milliseconds
     public CheckPingUpdates checkPingUpdates; //async task for refreshing pings
@@ -79,12 +84,8 @@ public class PingsPageFragment extends Fragment{
         // Required empty public constructor
     }
 
-    public static PingsPageFragment newInstance(ArrayList<Ping> data) {
-        Bundle b = new Bundle();
-        b.putSerializable("pinglist", data);
-
+    public static PingsPageFragment newInstance() {
         PingsPageFragment fragment = new PingsPageFragment();
-        fragment.setArguments(b);
         return fragment;
     }
 
@@ -113,24 +114,36 @@ public class PingsPageFragment extends Fragment{
         //Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_pings_page, container, false);
 
+        loadingDialogtxt = (TextView)rootView.findViewById(R.id.signInDialogText);
+        progress = (ProgressBar)rootView.findViewById(R.id.progressBar);
+        btnRetry = (Button)rootView.findViewById(R.id.btnRetry);
+        pingsListView = (ListView) rootView.findViewById(R.id.listview_pings);
+        noPingsTxt = (TextView) rootView.findViewById(R.id.noPingsTxt);
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
+        btnRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnRetry.setVisibility(View.INVISIBLE);
+                progress.setVisibility(View.VISIBLE);
+                initiatePingsRefresh();
+            }
+        });
+
+        fragmentRootView = rootView;
+
+        //start loading pings...
+        initiatePingsRefresh();
+
         //Put the new Pings into the list
         pingArrayAdapter = new PingArrayAdapter(getContext(),
                 R.layout.ping_list_template, pingsList);
-        pingsListView = (ListView) rootView.findViewById(R.id.listview_pings);
-        noPingsTxt = (TextView) rootView.findViewById(R.id.noPingsTxt);
         pingsListView.setAdapter(pingArrayAdapter);
-        fragmentRootView = rootView;
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
-
         hideShowList();
-
         swipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener(){
                     @Override
                     public void onRefresh() {
-                        checkPingUpdates = new CheckPingUpdates(ParseUser.getCurrentUser(),
-                                fragmentRootView, fragmentRootView.getContext());
-                        checkPingUpdates.execute();
+                        initiatePingsRefresh();
                     }
                 }
         );
@@ -211,6 +224,18 @@ public class PingsPageFragment extends Fragment{
                 Log.e(getString(R.string.log_error), "Could not fetch pings");
             }
         }
+    }
+
+    public void initiatePingsRefresh(){
+        if (checkPingUpdates != null)
+            checkPingUpdates.cancel(true);
+
+        if (fragmentRootView == null)
+            return;//don't run if the fragment view isn't available yet
+
+        checkPingUpdates = new CheckPingUpdates(ParseUser.getCurrentUser(),
+                fragmentRootView, fragmentRootView.getContext());
+        checkPingUpdates.execute();
     }
 
 }

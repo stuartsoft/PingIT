@@ -26,13 +26,43 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <TextView
+
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/noPingsTxt"
-                    android:text="@string/noPings"
-                    android:gravity="center_horizontal"
-                    android:padding="20dp"/>
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/noPingsTxt"
+                        android:text="@string/noPings"
+                        android:gravity="center_horizontal"
+                        android:padding="20dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/loadingPings"
+                        android:id="@+id/signInDialogText"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="10dp" />
+
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/progressBar"
+                        android:layout_gravity="center_horizontal"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/retryConnection"
+                        android:id="@+id/btnRetry"
+                        android:layout_gravity="center_horizontal"
+                        android:visibility="invisible" />
+                </LinearLayout>
+
             </ScrollView>
 
         </LinearLayout>
