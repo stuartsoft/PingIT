@@ -46,10 +46,9 @@ import edu.gcc.whiletrue.pingit.chat.SendBirdMessagingAdapter;
 import edu.gcc.whiletrue.pingit.chat.SendBirdMessagingFragment;
 import edu.gcc.whiletrue.pingit.chat.StartChatFragment;
 
-public class HomeActivity extends AppCompatActivity implements PingsLoadingFragment.PingsPageInterface, PingsLoadingFragment.networkStatusCallback, PingsPageFragment.networkStatusCallback{
+public class HomeActivity extends AppCompatActivity implements PingsPageFragment.networkStatusCallback{
 
     public Fragment pingsFragment;
-
     public Fragment chatFragment;
     private SendBirdMessagingAdapter mSendBirdMessagingAdapter;
     private SendBirdMessagingFragment mSendBirdMessagingFragment;
@@ -83,9 +82,6 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if (pingsFragment == null)
-            pingsFragment = PingsLoadingFragment.newInstance();
-
         if(chatFragment == null)
             chatFragment = StartChatFragment.newInstance();
 
@@ -98,6 +94,9 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
 
         if(faqFragment == null)
             faqFragment = FAQPageFragment.newInstance();
+
+        if (pingsFragment == null)
+            pingsFragment = PingsPageFragment.newInstance();
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -128,40 +127,6 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         ConnectivityManager cm = (ConnectivityManager)getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
-    }
-
-    public void displayPingsList(ArrayList<Ping> data) {
-
-        if(isForeground) {
-            Fragment newPingsPage = PingsPageFragment.newInstance(data);
-
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            fragmentTransaction.remove(pingsFragment);
-            fragmentTransaction.commit();
-
-            pingsFragment = newPingsPage;
-            mSectionsPagerAdapter.notifyDataSetChanged();
-            Log.w(getString(R.string.log_warning), "displayPingsList: ");
-        }
-
-    }
-
-    public void displayPingsLoading() {
-
-        if(isForeground) {
-            Fragment newPingsLoading = PingsLoadingFragment.newInstance();
-
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            fragmentTransaction.remove(pingsFragment);
-            fragmentTransaction.commit();
-
-            pingsFragment = newPingsLoading;
-            mSectionsPagerAdapter.notifyDataSetChanged();
-            Log.w(getString(R.string.log_warning), "displayPingsLoading: ");
-        }
-
     }
 
     private void closeChat(){
@@ -204,14 +169,6 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         String [] tuid = {targetUserID};
         ((MainApplication)getApplication()).chatTarget=targetUserID;
         SendBird.startMessaging(Arrays.asList(tuid));
-    }
-
-    @Override
-    public void loadPings() {
-        pingsFragment = PingsLoadingFragment.newInstance();
-        mSectionsPagerAdapter.notifyDataSetChanged();
-        Log.w(getString(R.string.log_warning), "loadPings: ");
-
     }
 
     private void addChatExitMenuOption(){
@@ -541,7 +498,8 @@ public class HomeActivity extends AppCompatActivity implements PingsLoadingFragm
         mTimer.start();
 
         //also tell the pings page to do a full reload incase pings have changed
-        displayPingsLoading();
+        if (pingsFragment != null)
+            ((PingsPageFragment)pingsFragment).initiatePingsRefresh();
     }
 
     @Override
