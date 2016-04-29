@@ -37,7 +37,8 @@
                         android:id="@+id/noPingsTxt"
                         android:text="@string/noPings"
                         android:gravity="center_horizontal"
-                        android:padding="20dp"/>
+                        android:padding="20dp"
+                        android:visibility="gone"/>
 
                     <TextView
                         android:layout_width="wrap_content"

@@ -152,6 +152,9 @@ public class PingsPageFragment extends Fragment{
     }
 
     private void hideShowList(){
+        loadingDialogtxt.setVisibility(View.GONE);
+        progress.setVisibility(View.GONE);
+
         if (pingArrayAdapter.myPings.size() == 0){
             noPingsTxt.setVisibility(View.VISIBLE);
             pingsListView.setVisibility(View.GONE);
@@ -159,6 +162,7 @@ public class PingsPageFragment extends Fragment{
         else{
             noPingsTxt.setVisibility(View.GONE);
             pingsListView.setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -179,6 +183,13 @@ public class PingsPageFragment extends Fragment{
             this.user = user;
             this.view = view;
             this.context = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            loadingDialogtxt.setVisibility(View.VISIBLE);
+            progress.setVisibility(View.VISIBLE);
+            noPingsTxt.setVisibility(View.GONE);
         }
 
         @Override
