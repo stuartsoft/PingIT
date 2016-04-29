@@ -215,7 +215,7 @@ public class PingsPageFragment extends Fragment{
                     try {
                         //Format the raw date into something more readable
                         SimpleDateFormat formatter =
-                                new SimpleDateFormat("EEE, MMM d, yyyy 'at' h:mm a");
+                                 new SimpleDateFormat("EEE, MMM d, yyyy 'at' h:mm a");
 
                         Date rawDate = pingsList.get(i).getDate("Date");
                         String formattedDate = formatter.format(rawDate);
