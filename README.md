@@ -2,11 +2,11 @@
 
 **A simple Android app to streamline helpdesk interactions**
 
-![Status](https://www.dropbox.com/s/vmmlgcykl2wvbim/pingitstatus.png?dl=1)
+[//]: # (![Status](https://www.dropbox.com/s/vmmlgcykl2wvbim/pingitstatus.png?dl=1))
 
 Built from the ground up, this project aims to better connect students and helpdesk staff, providing a 1-on-1 chat service, equipment repair notifications, and FAQ database.
 
-<p align="center"><img title="" src="https://github.com/stuartsoft/PingIT/raw/master/misc/sample.png" height="350"/>&nbsp;&nbsp;<img title="" src="https://github.com/stuartsoft/PingIT/raw/master/misc/demo.gif" height="350"/>&nbsp;&nbsp;<img title="" src="https://github.com/stuartsoft/PingIT/raw/master/misc/sample2.png" height="350"/></p>
+<p align="center"><img title="" src="https://github.com/stuartsoft/PingIT/raw/master/misc/sample.png" height="400"/>&nbsp;&nbsp;&nbsp;&nbsp;<img title="" src="https://github.com/stuartsoft/PingIT/raw/master/misc/demo.gif" height="400"/>&nbsp;&nbsp;&nbsp;&nbsp;<img title="" src="https://github.com/stuartsoft/PingIT/raw/master/misc/sample2.png" height="400"/></p>
 
 ###Development Prerequisites
 * JDK 1.7+
